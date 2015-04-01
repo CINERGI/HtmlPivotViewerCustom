@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:georss="http://www.georss.org/georss" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:geoportal="http://www.esri.com/geoportal">
+    <channel>
+        <title>Geoportal GeoRSS.</title>
+        <description>Most recently updated metadata documents.</description>
+        <link>http://search.criticalzone.org/czoportal</link>
+        <docs>http://www.rssboard.org/rss-specification</docs>
+        <category>GeoRss</category>
+        <generator>Geoportal</generator>
+        <managingEditor>portal_contact_email_address</managingEditor>
+        <webMaster>portal_contact_email_address</webMaster>
+        <atom:link rel="search" type="application/opensearchdescription+xml"
+            href="http://search.criticalzone.org/czoportal/openSearchDescription"
+            title="Geoportal Search"/>
+        <opensearch:totalResults>1092</opensearch:totalResults>
+        <opensearch:startIndex>1</opensearch:startIndex>
+        <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+        <atom:link
+            href="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+            rel="self" type="application/rss+xml"/>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B77076C0B-FE47-4BA6-8103-701BC3265F91%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B77076C0B-FE47-4BA6-8103-701BC3265F91%7D</guid>
+            <title>Meteorological Data from the B2 Desert Site.</title>
+            <pubDate>Tue, 20 Jan 2015 13:53:39 -0800</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+Standard meteorological data are being collected at the B2 Desert site using a Onset HOBO U30 weather station. The data is automatically being uploaded to a website using cellular phone transmission. A six watt solar panel provides power to continuously m...
+</div>
+<div class="links">
+<A HREF="http://www.czo.arizona.edu/data/pub/catalinas/MetDataB2/MetStation/HOBO_B2_MetData_metadata.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B77076C0B-FE47-4BA6-8103-701BC3265F91%7D&amp;url=http%3A%2F%2Fwww.czo.arizona.edu%2Fdata%2Fpub%2Fcatalinas%2FMetDataB2%2FMetStation%2FHOBO_B2_MetData_metadata.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B77076C0B-FE47-4BA6-8103-701BC3265F91%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B77076C0B-FE47-4BA6-8103-701BC3265F91%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B77076C0B-FE47-4BA6-8103-701BC3265F91%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>32.55995 -110.840531 32.55995 -110.739944 32.426162 -110.739944
+                32.426162 -110.840531 32.55995 -110.840531</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.arizona.edu/data/pub/catalinas/MetDataB2/MetStation/HOBO_B2_MetData_metadata.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B4122295B-7FAD-4823-A962-63DE77081340%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B4122295B-7FAD-4823-A962-63DE77081340%7D</guid>
+            <title>Streamflow data for Jemez River Basin.</title>
+            <pubDate>Fri, 05 Dec 2014 14:47:15 -0800</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+30 minute streamflow data measured and computed for flumes located around the Redondo Peak (Valles Caldera National Preserve). CITATION:  PUBLICATIONS: [1] Broxton P.D., Troch P.A., and Lyon S.W. (2009) On the role of aspect to quantify water transit time...
+</div>
+<div class="links">
+<A HREF="http://www.czo.arizona.edu/data/pub/valle/hydrodata/Flume_Streamflows.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B4122295B-7FAD-4823-A962-63DE77081340%7D&amp;url=http%3A%2F%2Fwww.czo.arizona.edu%2Fdata%2Fpub%2Fvalle%2Fhydrodata%2FFlume_Streamflows.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B4122295B-7FAD-4823-A962-63DE77081340%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B4122295B-7FAD-4823-A962-63DE77081340%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B4122295B-7FAD-4823-A962-63DE77081340%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>35.889161 -106.596101 35.889161 -106.449722 35.847847 -106.449722
+                35.847847 -106.596101 35.889161 -106.596101</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.arizona.edu/data/pub/valle/hydrodata/Flume_Streamflows.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B943BD757-4F94-47C0-A2B7-46FDB6392215%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B943BD757-4F94-47C0-A2B7-46FDB6392215%7D</guid>
+            <title>Shale Hills WMS Map Service</title>
+            <pubDate>Thu, 23 Oct 2014 10:55:09 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+WMS
+</div>
+<div class="links">
+<A HREF="http://maxim.ucsd.edu/arcgis/services/czo/SSHCZO/MapServer/WMSServer?request=GetCapabilities&amp;version=2.0.2&amp;service=WMS" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B943BD757-4F94-47C0-A2B7-46FDB6392215%7D&amp;url=http%3A%2F%2Fmaxim.ucsd.edu%2Farcgis%2Fservices%2Fczo%2FSSHCZO%2FMapServer%2FWMSServer%3Frequest%3DGetCapabilities%26version%3D2.0.2%26service%3DWMS&amp;resourceType=wms&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B943BD757-4F94-47C0-A2B7-46FDB6392215%257D" target="_blank">Preview</A>
+<A HREF="/czoportal/viewer/index.jsp?title=Shale+Hills+WMS+Map+Service&amp;resource=wms%3Ahttp%3A%2F%2Fmaxim.ucsd.edu%2Farcgis%2Fservices%2Fczo%2FSSHCZO%2FMapServer%2FWMSServer%3Frequest%3DGetCapabilities%26version%3D2.0.2%26service%3DWMS" target="_blank">Add To Map</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B943BD757-4F94-47C0-A2B7-46FDB6392215%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B943BD757-4F94-47C0-A2B7-46FDB6392215%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>liveData</category>
+            <georss:polygon>40.759485 -78.136942 40.759485 -77.740047 40.490396 -77.740047 40.490396
+                -78.136942 40.759485 -78.136942</georss:polygon>
+            <geoportal:resourceUrl resourceType="wms"
+                >http://maxim.ucsd.edu/arcgis/services/czo/SSHCZO/MapServer/WMSServer?request=GetCapabilities&amp;version=2.0.2&amp;service=WMS</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7BE5E7F127-34C8-4578-B184-952273BD7F3C%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7BE5E7F127-34C8-4578-B184-952273BD7F3C%7D</guid>
+            <title>SSH Site 15 Water Table Data - 2007</title>
+            <pubDate>Mon, 13 Oct 2014 05:43:44 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2007_SSHCZO_15_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7BE5E7F127-34C8-4578-B184-952273BD7F3C%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2007_SSHCZO_15_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257BE5E7F127-34C8-4578-B184-952273BD7F3C%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7BE5E7F127-34C8-4578-B184-952273BD7F3C%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7BE5E7F127-34C8-4578-B184-952273BD7F3C%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2007_SSHCZO_15_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B7F667725-938A-4EFE-8DD8-A638479E7960%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B7F667725-938A-4EFE-8DD8-A638479E7960%7D</guid>
+            <title>SSH Site 15a Water Table Data - 2011</title>
+            <pubDate>Mon, 13 Oct 2014 05:15:46 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2011_SSHCZO_15a_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B7F667725-938A-4EFE-8DD8-A638479E7960%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2011_SSHCZO_15a_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B7F667725-938A-4EFE-8DD8-A638479E7960%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B7F667725-938A-4EFE-8DD8-A638479E7960%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B7F667725-938A-4EFE-8DD8-A638479E7960%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2011_SSHCZO_15a_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B349C6661-EA31-4425-B39B-AFCC502708C4%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B349C6661-EA31-4425-B39B-AFCC502708C4%7D</guid>
+            <title>SSH Site 51 Water Table Data - 2007</title>
+            <pubDate>Mon, 13 Oct 2014 05:08:51 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2007_SSHCZO_51_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B349C6661-EA31-4425-B39B-AFCC502708C4%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2007_SSHCZO_51_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B349C6661-EA31-4425-B39B-AFCC502708C4%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B349C6661-EA31-4425-B39B-AFCC502708C4%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B349C6661-EA31-4425-B39B-AFCC502708C4%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2007_SSHCZO_51_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%7D</guid>
+            <title>SSH Site 53b Water Table Data - 2012</title>
+            <pubDate>Fri, 10 Oct 2014 13:26:12 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_53b_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2012_SSHCZO_53b_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B474814D7-2DDA-424D-B36C-DBA1F83E9E7B%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_53b_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%7D</guid>
+            <title>SSH Site 53a Water Table Data - 2012</title>
+            <pubDate>Fri, 10 Oct 2014 13:17:45 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_53a_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2012_SSHCZO_53a_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7BED9177A0-6AB3-41E6-B27F-E3C03BEB5142%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_53a_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%7D</guid>
+            <title>SSH Site 51 Water Table Data - 2012</title>
+            <pubDate>Fri, 10 Oct 2014 13:10:24 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_51_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2012_SSHCZO_51_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7BDE2F6B6F-5AA2-4C12-A9F6-C4FDA5903CC0%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_51_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+        <item>
+            <link>http://search.criticalzone.org/czoportal/rest/document?id=%7B4325E560-E179-4C44-BEA7-529EC75A6366%7D</link>
+            <guid isPermaLink="true"
+                >http://search.criticalzone.org/czoportal/rest/document?id=%7B4325E560-E179-4C44-BEA7-529EC75A6366%7D</guid>
+            <title>SSH Site 15 Water Table Data - 2012</title>
+            <pubDate>Fri, 10 Oct 2014 12:44:04 -0700</pubDate>
+            <source
+                url="http://search.criticalzone.org/czoportal/rest/find/document?searchText=keywords:%hydrology"
+                >Geoportal GeoRSS.</source>
+            <description><![CDATA[
+<div class="snippet">
+<div class="abstract" style="overflow: auto;" >
+The Real-Time Soil Moisture Monitoring Network provides integrated observation of water, energy and temperature in the soils of the Shale Hills Susquehanna Critical Zone Observatory watershed.  Water table is measured at between 1 and 4 locations at 10 si...
+</div>
+<div class="links">
+<A HREF="http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_15_WaterTable.hdr" target="_blank">Open</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/livedata-preview.page?uuid=%7B4325E560-E179-4C44-BEA7-529EC75A6366%7D&amp;url=http%3A%2F%2Fwww.czo.psu.edu%2Fdownloads%2Fsdsc%2Fhydroped%2Fwatertable%2F2012_SSHCZO_15_WaterTable.hdr&amp;info=http%3A%2F%2Flocalhost%3A8080%2Fczoportal%2Frest%2Fdocument%3Ff%3Dhtml%26showRelativeUrl%3Dtrue%26id%3D%257B4325E560-E179-4C44-BEA7-529EC75A6366%257D" target="_blank">Preview</A>
+<A HREF="http://search.criticalzone.org/czoportal/catalog/search/resource/details.page?uuid=%7B4325E560-E179-4C44-BEA7-529EC75A6366%7D" target="_blank">Details</A>
+<A HREF="http://search.criticalzone.org/czoportal/rest/document?id=%7B4325E560-E179-4C44-BEA7-529EC75A6366%7D" target="_blank">Metadata</A>
+</div>
+</div>
+]]></description>
+            <category>downloadableData</category>
+            <georss:polygon>40.6658305 -77.90734 40.6658305 -77.90315 40.6637476 -77.90315
+                40.6637476 -77.90734 40.6658305 -77.90734</georss:polygon>
+            <geoportal:resourceUrl>http://www.czo.psu.edu/downloads/sdsc/hydroped/watertable/2012_SSHCZO_15_WaterTable.hdr</geoportal:resourceUrl>
+        </item>
+    </channel>
+</rss>
