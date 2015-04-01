@@ -8,11 +8,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		maxim|Any CPU = maxim|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.maxim|Any CPU.ActiveCfg = water|Any CPU
+		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.maxim|Any CPU.Build.0 = water|Any CPU
 		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C1D51A-05D0-48C3-97C1-2FB568BC9D0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

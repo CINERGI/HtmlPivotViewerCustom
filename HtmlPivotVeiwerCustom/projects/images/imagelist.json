@@ -1,9 +1,23 @@
 {
 	"ImageFiles": [
 		"arabba.jpg",
-		"bardonecchia.jpg",
-		"globe.jpg",
-		"larosiere.jpg",
-		"laplagne.jpg"
+"bardonecchia.jpg",
+"Book.png",
+"comunity.jpg",
+"database.jpg",
+"dataservice.jpg",
+"globe.jpg",
+"icon_catalog.jpg",
+"identifier.jpg",
+"infomrationModel.jpg",
+"laplagne.jpg",
+"larosiere.jpg",
+"package-x-generic.png",
+"Repository.JPG",
+"software.png",
+"tool-icon.jpg",
+"vizualization.png",
+"vocabulary.jpg",
+"webclient.jpg"
 	]
 }

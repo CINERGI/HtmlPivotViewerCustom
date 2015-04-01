@@ -30,7 +30,8 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         collection.CollectionName = project;
         //collection.ImageBase = project + "/" + project + ".dzc";
         var cl = window.location;
-        collection.ImageBase = cl.protocol + "//" + cl.host +  '/projects/images';
+        var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/")+1);
+        collection.ImageBase = cl.protocol + "//" + cl.host +  basepath + 'projects/images';
             // "http://localhost:62026/projects/images";
         collection.BrandImage = "";
 
@@ -119,7 +120,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         //Items
         for (var i = 1; i < this.data.length; i++) {
             var row = this.data[i];
-            var item = new PivotViewer.Models.Item(row[img_column], String(i), "", row[name_column]);
+            var item = new PivotViewer.Models.Item(row[img_column].trim(), String(i), "", row[name_column]);
             this.collection.Items.push(item);
         }
         $.publish("/PivotViewer/Models/Collection/Loaded", null);
