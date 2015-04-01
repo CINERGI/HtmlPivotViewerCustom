@@ -29,7 +29,9 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         var project = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("."));
         collection.CollectionName = project;
         //collection.ImageBase = project + "/" + project + ".dzc";
-       collection.ImageBase = "http://localhost:62026/projects/images";
+        var cl = window.location;
+        collection.ImageBase = cl.protocol + "//" + cl.host +  '/projects/images';
+            // "http://localhost:62026/projects/images";
         collection.BrandImage = "";
 
         var that = this;
