@@ -30,6 +30,7 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
         this._ratio = 1;
         this.MaxRatio = 1;
         this._loadedCount = 0;
+        this._loadedPublishCalled = false;
 
         this._zooming = false;
         var that = this;
@@ -57,13 +58,18 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
                             that._items[i].Height = this.height;
                             that._loadedCount++;
                         }
-                        if (that._loadedCount == that._items.length)
+                        // not sure why this is in a loop. Causing multiple views
+                        if (that._loadedCount == that._items.length && !that._loadedPublishCalled) {
                             $.publish("/PivotViewer/ImageController/Collection/Loaded", null);
+                            that._loadedPublishCalled = true;
+                        }
                     }
+ 
                 }
                 img.src = that._baseUrl + "/" + images.ImageFiles[i];
                 that._items.push(new PivotViewer.Views.SimpleImageItem(images.ImageFiles[i], that._baseUrl, img.width, img.height, img));
             }
+            //$.publish("/PivotViewer/ImageController/Collection/Loaded", null);
         })
         .fail (function (jqxhr, textStatus, errorThrown) {
             //Make sure throbber is removed else everyone thinks the app is still running

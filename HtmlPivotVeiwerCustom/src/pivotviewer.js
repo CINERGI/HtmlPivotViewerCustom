@@ -1097,10 +1097,12 @@ var LoadSem = new Semaphore(1);
                 facetSelect.eq(category.visIndex).show();
                 sortSelect.append("<option value='" + CleanName(category.Name) + "' label='" + category.Name + "'>" + category.Name + "</option>");
             }
-            FilterFacets($(facetSelect[selCategory.visIndex]));
-            $('.pv-filterpanel-accordion').accordion('option', 'active', selCategory.visIndex);
-            $('.pv-filterpanel-accordion').accordion('refresh');
-            sortSelect.val($($(".pv-toolbarpanel-sort option")[0]).val());
+            if (selCategory.visIndex > -1) { // -1 not visible; 
+                FilterFacets($(facetSelect[selCategory.visIndex]));
+                $('.pv-filterpanel-accordion').accordion('option', 'active', selCategory.visIndex);
+                $('.pv-filterpanel-accordion').accordion('refresh');
+                sortSelect.val($($(".pv-toolbarpanel-sort option")[0]).val());
+            }
             release();
         });
     });
