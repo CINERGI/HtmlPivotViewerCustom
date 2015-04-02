@@ -25,6 +25,7 @@
     <Content Include="favicon.ico" />
     <Content Include="hli.html" />
     <Content Include="Cingergi_test.html" />
+    <Content Include="HLI_sheet.html" />
     <Content Include="images\BucketView.png" />
     <Content Include="images\BucketViewSelected.png" />
     <Content Include="images\CountGradient.png" />
