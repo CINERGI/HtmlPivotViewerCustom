@@ -19,7 +19,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
-    <Content Include="c4p.html" />
+    <Content Include="c4p_cxml.html" />
+    <Content Include="repositories.html" />
+    <Content Include="esmf.html" />
+    <Content Include="ecogeo.html" />
+    <Content Include="sen.html" />
     <Content Include="cI_pivot.html" />
     <Content Include="CI_sheet.html" />
     <Content Include="favicon.ico" />
@@ -713,7 +717,7 @@
     <Content Include="projects\Workshop_Collection_files\images\infomrationModel_files\5\0_0.png" />
     <Content Include="projects\Workshop_Collection_files\images\infomrationModel_files\6\0_0.png" />
     <Content Include="projects\Workshop_Collection_files\images\infomrationModel_files\7\0_0.png" />
-    <Content Include="sen.html" />
+    <Content Include="sen_cxml.html" />
     <Content Include="src\authoring.js" />
     <Content Include="src\collectionloader.js" />
     <Content Include="src\collectionloader.min.js" />
