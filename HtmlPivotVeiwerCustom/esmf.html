@@ -66,7 +66,7 @@
 </head>
 <body>
     <script type="text/javascript">
-        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/feeds/download/spreadsheets/Export?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&exportFormat=csv';
+        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/spreadsheet/pub?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&single=true&gid=0&output=csv';
 
     var cl = window.location;
     var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
@@ -79,6 +79,7 @@
         $(document).ready(function () {
             $('#pivotviewer').PivotViewer({
                 Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
+                Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/res ESMF Components and Modeling Systems.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",
                 GeocodeService: "Nominatim",

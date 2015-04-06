@@ -66,7 +66,7 @@
 </head>
 <body>
     <script type="text/javascript">
-        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/feeds/download/spreadsheets/Export?key=1QQJaW15AfHwelthpgVFvEYbHCKIYsZtA0NfVK4Bx9vI&exportFormat=csv&gid=464725857';
+        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/spreadsheet/pub?key=1QQJaW15AfHwelthpgVFvEYbHCKIYsZtA0NfVK4Bx9vI&single=true&gid=464725857&output=csv';
 
     var cl = window.location;
     var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
@@ -78,7 +78,8 @@
         var debug = false;
         $(document).ready(function () {
             $('#pivotviewer').PivotViewer({
-                Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
+               // Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
+                Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/SEN CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",
                 GeocodeService: "Nominatim",
