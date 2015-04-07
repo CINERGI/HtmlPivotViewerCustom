@@ -688,7 +688,6 @@
     <Content Include="lib\wicket\wicket-leaflet.min.js" />
     <Content Include="lib\wicket\wicket.min.js" />
     <Content Include="HLI_2.html" />
-    <Content Include="mc.html" />
     <Content Include="projects\images\arabba.jpg" />
     <Content Include="projects\images\bardonecchia.jpg" />
     <Content Include="projects\images\Book.png" />
