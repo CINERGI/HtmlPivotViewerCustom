@@ -42,12 +42,12 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
     },
     Setup: function (baseUrl) {
         //get base URL
-        this._baseUrl = baseUrl;
+        //  this._baseUrl = baseUrl;
         var that = this;
 
         // get list of image files
-        $.getJSON(baseUrl + "/imagelist.json")
-        .done (function (images) {
+        $.getJSON(that._baseUrl + "/imagelist.json")
+        .done(function (images) {
             // for each item in the collection get the image filename
             for (var i = 0; i < images.ImageFiles.length; i++) {
                 var img = new Image();
@@ -58,20 +58,20 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
                             that._items[i].Height = this.height;
                             that._loadedCount++;
                         }
-                        
+
                         if (that._loadedCount == that._items.length && !that._loadedPublishCalled) {
                             $.publish("/PivotViewer/ImageController/Collection/Loaded", null);
                             that._loadedPublishCalled = true;
                         }
                     }
- 
+
                 }
                 img.src = that._baseUrl + "/" + images.ImageFiles[i];
                 that._items.push(new PivotViewer.Views.SimpleImageItem(images.ImageFiles[i], that._baseUrl, img.width, img.height, img));
             }
- 
+
         })
-        .fail (function (jqxhr, textStatus, errorThrown) {
+        .fail(function (jqxhr, textStatus, errorThrown) {
             //Make sure throbber is removed else everyone thinks the app is still running
             $('.pv-loading').remove();
 
@@ -82,47 +82,52 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
             msg += 'Details    : ' + jqXHR.responseText + '<br>';
             msg += '<br>Pivot Viewer cannot continue until this problem is resolved<br>';
             $('.pv-wrapper').append("<div id=\"pv-imageloading-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-            setTimeout(function(){window.open("#pv-imageloading-error","_self")},1000)
+            setTimeout(function () { window.open("#pv-imageloading-error", "_self") }, 1000)
         });
     },
 
     // Simple images just ignore the level - same image is used whatever the zoom
     GetImages: function (id, width, height) {
         // Only return image if size is big enough 
-      if (width > 8 && height > 8) {
-        for (var i = 0;  this._items.length; i++){
-          if (this._items[i].ImageId == id) {
-            return this._items[i].Images; 
-          }
+        if (id == null) {
+            return null
         }
-      }
-      return null;
+        if (width > 8 && height > 8) {
+
+            for (var i = 0; this._items.length; i++) {
+                if (this._items[i].ImageId == id) {
+                    return this._items[i].Images;
+                }
+            }
+            return this._items[0].Images;// none, return the first one
+        }
+        return null; // too small
     },
-    GetWidthForImage: function( id, height ) {
+    GetWidthForImage: function (id, height) {
         for (var i = 0; i < this._items.length; i++) {
             if (this._items[i].ImageId == id) {
-               return Math.floor(height / (this._items[i].Height/this._items[i].Width));
+                return Math.floor(height / (this._items[i].Height / this._items[i].Width));
             }
         }
     },
-    GetWidth: function( id ) {
+    GetWidth: function (id) {
         for (var i = 0; i < this._items.length; i++) {
             if (this._items[i].ImageId == id) {
-               return this._items[i].Width;
+                return this._items[i].Width;
             }
         }
     },
-    GetHeight: function( id ) {
+    GetHeight: function (id) {
         for (var i = 0; i < this._items.length; i++) {
             if (this._items[i].ImageId == id) {
-               return this._items[i].Height;
+                return this._items[i].Height;
             }
         }
     },
     GetRatio: function (id) {
         for (var i = 0; i < this._items.length; i++) {
             if (this._items[i].ImageId == id) {
-               return this._items[i].Height/this._items[i].Width;
+                return this._items[i].Height / this._items[i].Width;
             }
         }
     }

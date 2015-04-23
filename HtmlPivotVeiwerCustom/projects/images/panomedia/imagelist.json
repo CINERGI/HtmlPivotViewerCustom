@@ -1,0 +1,51 @@
+{
+	"ImageFiles": [
+        "globe.png",
+        "globe.jpg",
+        "application.png",
+"broken_link.png",
+"catalog.png",
+"collaboration_tools_email.png",
+"collaboration_tools_repository.png",
+"Collection_catalog_portal_webpage.png",
+        "community.png",
+        "database.jpg",
+"Dataset.png",
+"facility.png",
+        "feed.png",
+"Image _collection.png",
+        "informationModel.jpg",
+        "Journal.png",
+"meeting.png",
+"Moving_Image_Collection.png",
+"organization.png",
+"portal.png",
+"project.png",
+"retired.png",
+"social_feed.png",
+"software.png",
+        "software_application.png",
+         "vizualization.png",
+        "web_app.png",
+        "web_page.png",
+        "Book.png",
+"comunity.jpg",
+
+"dataservice.jpg",
+
+"icon_catalog.jpg",
+"identifier.jpg",
+"infomrationModel.jpg",
+
+"package-x-generic.png",
+"Repository.JPG",
+
+"tool-icon.jpg",
+
+"vocabulary.jpg",
+        "webclient.jpg",
+        "climate_model.png",
+        "water_model.png",
+        "gis.png"
+	]
+}

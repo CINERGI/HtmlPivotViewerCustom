@@ -46,7 +46,7 @@ PivotViewer.Views.TextImageController = PivotViewer.Views.IImageController.subCl
         var that = this;
 
         // get list of image files
-        $.getJSON(baseUrl + "/imagelist.json")
+        $.getJSON(baseUrl + "/imagelist_pano.json")
             .done(function (images) {
                 // for each item in the collection get the image filename
                 for (var i = 0; i < images.ImageFiles.length; i++) {

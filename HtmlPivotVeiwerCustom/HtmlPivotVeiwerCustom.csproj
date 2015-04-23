@@ -21,6 +21,7 @@
     <Content Include="app.css" />
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
+    <Content Include="ecogeo_text.html" />
     <Content Include="projects\c4p_Collection_files\hfww03s4.5vu.xml" />
     <Content Include="projects\c4p_Collection_files\images\database.xml" />
     <Content Include="projects\c4p_Collection_files\images\database_files\0\0_0.png" />
@@ -194,6 +195,48 @@
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_3.png" />
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_4.png" />
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_5.png" />
+    <Content Include="projects\images\panomedia\application.png" />
+    <Content Include="projects\images\panomedia\Book.png" />
+    <Content Include="projects\images\panomedia\broken_link.png" />
+    <Content Include="projects\images\panomedia\catalog.png" />
+    <Content Include="projects\images\panomedia\climate_model.png" />
+    <Content Include="projects\images\panomedia\collaboration_tools_email.png" />
+    <Content Include="projects\images\panomedia\collaboration_tools_repository.png" />
+    <Content Include="projects\images\panomedia\Collection_catalog_portal_webpage.png" />
+    <Content Include="projects\images\panomedia\community.png" />
+    <Content Include="projects\images\panomedia\comunity.jpg" />
+    <Content Include="projects\images\panomedia\database.jpg" />
+    <Content Include="projects\images\panomedia\dataservice.jpg" />
+    <Content Include="projects\images\panomedia\Dataset.png" />
+    <Content Include="projects\images\panomedia\facility.png" />
+    <Content Include="projects\images\panomedia\feed.png" />
+    <Content Include="projects\images\panomedia\gis.png" />
+    <Content Include="projects\images\panomedia\globe.jpg" />
+    <Content Include="projects\images\panomedia\globe.png" />
+    <Content Include="projects\images\panomedia\icon_catalog.jpg" />
+    <Content Include="projects\images\panomedia\identifier.jpg" />
+    <Content Include="projects\images\panomedia\Image _collection.png" />
+    <Content Include="projects\images\panomedia\infomrationModel.jpg" />
+    <Content Include="projects\images\panomedia\informationModel.jpg" />
+    <Content Include="projects\images\panomedia\Journal.png" />
+    <Content Include="projects\images\panomedia\meeting.png" />
+    <Content Include="projects\images\panomedia\Moving_Image_Collection.png" />
+    <Content Include="projects\images\panomedia\organization.png" />
+    <Content Include="projects\images\panomedia\package-x-generic.png" />
+    <Content Include="projects\images\panomedia\portal.png" />
+    <Content Include="projects\images\panomedia\project.png" />
+    <Content Include="projects\images\panomedia\Repository.JPG" />
+    <Content Include="projects\images\panomedia\retired.png" />
+    <Content Include="projects\images\panomedia\social_feed.png" />
+    <Content Include="projects\images\panomedia\software.png" />
+    <Content Include="projects\images\panomedia\software_application.png" />
+    <Content Include="projects\images\panomedia\tool-icon.jpg" />
+    <Content Include="projects\images\panomedia\vizualization.png" />
+    <Content Include="projects\images\panomedia\vocabulary.jpg" />
+    <Content Include="projects\images\panomedia\water_model.png" />
+    <Content Include="projects\images\panomedia\webclient.jpg" />
+    <Content Include="projects\images\panomedia\web_app.png" />
+    <Content Include="projects\images\panomedia\web_page.png" />
     <Content Include="projects\sen_Collection_files\images\Book.xml" />
     <Content Include="projects\sen_Collection_files\images\Book_files\0\0_0.png" />
     <Content Include="projects\sen_Collection_files\images\Book_files\1\0_0.png" />
@@ -714,6 +757,7 @@
     <Content Include="src\csvloader_nodz.js" />
     <Content Include="src\csvloader.js" />
     <Content Include="src\csvloader.min.js" />
+    <Content Include="src\csvloader_textimage.js" />
     <Content Include="src\jsonloader.js" />
     <Content Include="src\localcsvloader.js" />
     <Content Include="src\models.js" />
@@ -750,6 +794,8 @@
     <Content Include="src\views\simpleimage.js" />
     <Content Include="src\views\tableview.js" />
     <Content Include="src\views\tableview.min.js" />
+    <Content Include="src\views\CinergiImages.js" />
+    <Content Include="src\views\TextImage.js" />
     <Content Include="src\views\tilebasedview.js" />
     <Content Include="src\views\tilebasedview.min.js" />
     <Content Include="src\views\tilecontroller.js" />
@@ -804,6 +850,8 @@
     <Content Include="projects\googlesheets\c4p from excel - PaleoResource 07-21-2014.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="projects\images\panomedia\imagelist.json" />
+    <Content Include="projects\images\panomedia\LICENSE" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
