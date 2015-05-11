@@ -106,8 +106,8 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
                 that.selectedMarker.setZIndex(0);
                 that.selectedMarker = null;
                 that.selectedBucket = -1;
-                $('.pv-toolbarpanel-maplegend').empty();
-                $('.pv-mapview-legend').fadeIn();
+                $('.pv-toolbarpanel-info').empty();
+                $('.pv-altinfopanel').fadeIn();
 
             }
             else {
@@ -121,13 +121,13 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
                 that.selectedMarker = marker;
                 that.selectedBucket = bucket;
                 that.map.panTo(location.loc);
-                $('.pv-toolbarpanel-maplegend').empty();
+                $('.pv-toolbarpanel-info').empty();
                 var toolbarContent = "<img style='height:15px;width:auto' src='" + that.icons[bucket] + "'></img>";
                 if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
                     toolbarContent += that.buckets[bucket].startRange;
                 else toolbarContent += that.buckets[bucket].startRange + " to " + that.buckets[bucket].endRange;
-                $('.pv-toolbarpanel-maplegend').append(toolbarContent);
-                $('.pv-mapview-legend').hide();
+                $('.pv-toolbarpanel-info').append(toolbarContent);
+                $('.pv-altinfopanel').hide();
             }
         };
 
@@ -136,7 +136,7 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
             if (!this.buckets[this._bucket].ids[location.tile.facetItem.Id]) this._bucket++;
             marker.setIcon(this.icons[this._bucket]);
             google.maps.event.addListener(marker, "click", (function (location) {
-                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile, bkt: this._bucket }]);}
+                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile}]);}
             })(location));
             return marker;
         }
@@ -171,6 +171,7 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
         this.Activate();
     },
     SetOptions: function (options) {
+        $('.pv-viewpanel').append("<div class='pv-mapview-canvas' id='pv-map-canvas'></div>");
         if (options.GoogleAPIKey) {
             this.APIKey = options.GoogleAPIKey;
             this.mapService = "Google";
@@ -245,8 +246,8 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
                     that.selectedMarker.setZIndexOffset(0);
                     that.selectedMarker = null;    
                     that.selectedBucket = -1;
-                    $('.pv-toolbarpanel-maplegend').empty();
-                    $('.pv-mapview-legend').fadeIn();
+                    $('.pv-toolbarpanel-info').empty();
+                    $('.pv-altinfopanel').fadeIn();
                 }
                 else {
                     marker.setIcon(new that.iconsSelected[bucket]);
@@ -259,13 +260,13 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
                     that.selectedMarker = marker;
                     that.selectedBucket = bucket;
                     that.map.panTo(location.loc);
-                    $('.pv-toolbarpanel-maplegend').empty();
+                    $('.pv-toolbarpanel-info').empty();
                     var toolbarContent = "<img style='height:15px;width:auto' src='" + marker._icon.src + "'></img>";
                     if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
                         toolbarContent += that.buckets[bucket].startRange;
                     else toolbarContent += that.buckets[bucket].startRange + " to " + that.buckets[bucket].endRange;
-                    $('.pv-toolbarpanel-maplegend').append(toolbarContent);
-                    $('.pv-mapview-legend').hide();
+                    $('.pv-toolbarpanel-info').append(toolbarContent);
+                    $('.pv-altinfopanel').hide();
                     
                 }
             }
@@ -276,7 +277,7 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
                 if (!this.buckets[this._bucket].ids[location.tile.facetItem.Id]) this._bucket++;
                 marker.setIcon(new this.icons[this._bucket]);
                 marker.on('click', (function (location) {
-                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile, bkt: this._bucket }]);}
+                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile}]);}
                 })(location));
                 return marker;
             }
@@ -325,10 +326,10 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
             document.body.appendChild(script);
             return;
         }
-
         this._super();
-        $('.pv-toolbarpanel-maplegend').fadeIn();
-        $('.pv-mapview-legend').fadeIn();
+        $('.pv-toolbarpanel-info').fadeIn();
+        $('.pv-altinfopanel').fadeIn();
+        $('.pv-toolbarpanel-zoomcontrols').hide();
         $('.pv-toolbarpanel-zoomcontrols').css('border-width', '0');
         $('#MAIN_BODY').css('overflow', 'auto');
         $('.pv-mapview-canvas').fadeIn();
@@ -338,30 +339,14 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
     },
     Deactivate: function () {
         this._super();
-        $('.pv-mapview-legend').fadeOut();
-        $('.pv-toolbarpanel-maplegend').fadeOut();
+        $('.pv-altinfopanel').fadeOut();
+        $('.pv-toolbarpanel-info').fadeOut();
         $('.pv-mapview-canvas').fadeOut();
         $('.pv-toolbarpanel-sort').fadeOut();
     },
     GetBucketNumber: function (location) {
-        for (var i = 0; i < this.buckets.length; i++) {
-            if (this.buckets[i].ids[location.tile.facetItem.Id]) return i;
-        }
-        return -1;
-        /*if (this.sortFacet == null) return 0;
-        var max = this.buckets.length - 1, facet = location.tile.facetItem.FacetByName[this.sortFacet];
-        if (facet == undefined) return max;
-        var min = 0;
-
-        var value = facet.FacetValues[0].Value;
-        while (min <= max) {
-            var guess = Math.floor((min + max) / 2);
-            var lb = this.buckets[guess].startRange, ub = this.buckets[guess].endRange;
-            if (lb <= value && ub >= value) return guess;
-            else if (ub < value) min = guess + 1;
-            else max = guess - 1;
-        }
-        return 0;*/
+        var bkt = this.buckets.ids[location.tile.facetItem.Id];
+        return bkt != undefined ? bkt : -1;
     },
     Bucketize: function (tiles, filterList, orderBy) {
         category = PivotCollection.GetFacetCategoryByName(orderBy);
@@ -429,8 +414,8 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
         this.inScopeLocList = [];        
 
         //Clear legend info in toolbar
-        $('.pv-toolbarpanel-maplegend').empty();
-        if (this.selected == null) $('.pv-mapview-legend').fadeIn();
+        $('.pv-toolbarpanel-info').empty();
+        if (this.selected == null) $('.pv-altinfopanel').fadeIn();
 
         //Check for geometry facet
         //This should contain a geometry definition im WKT that applies to the whole collection
@@ -897,9 +882,9 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
     },
     CreateLegend: function() {
         // Get width of the info panel (width of icon image = 30 )
-        var width = $('.pv-mapview-legend').width() - 32;
-        $('.pv-mapview-legend').empty();
-        $('.pv-mapview-legend').append("<div class='pv-legend-heading' style='height:28px' title='" + this.sortFacet + "'>" + this.sortFacet + "</div>");
+        var width = $('.pv-altinfopanel').width() - 32;
+        $('.pv-altinfopanel').empty();
+        $('.pv-altinfopanel').append("<div class='pv-legend-heading' style='height:28px' title='" + this.sortFacet + "'>" + this.sortFacet + "</div>");
         var tableContent = "<table id='pv-legend-data' style='color:#484848;'>";
         for (var i = 0; i < this.buckets.length; i++) {
             var iconFile = this.mapService == "Google" ? this.icons[i] : (new this.icons[i]).options.iconUrl;
@@ -909,6 +894,6 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
             else tableContent += "<td><div style='overflow:hidden;white-space:nowrap;width:" + width + "px;text-overflow:ellipsis'>" + this.buckets[i].startLabel + " to " + this.buckets[i].endLabel + "</div></td></tr>"; 
         }
         tableContent +="</table>";
-        $('.pv-mapview-legend').append(tableContent);
+        $('.pv-altinfopanel').append(tableContent);
     }
 });

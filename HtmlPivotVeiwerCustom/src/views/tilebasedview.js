@@ -21,13 +21,13 @@ PivotViewer.Views.TileBasedView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-toolbarpanel-zoomcontrols').css('border-width', '1px');
         $('#MAIN_BODY').css('overflow', 'auto');
         $('.pv-toolbarpanel-sort').fadeIn();
-        $('.pv-viewarea-canvas').fadeIn();
+        $('.pv-canvas').fadeIn();
     },
     Deactivate: function () {
         this._super();
         $('.pv-toolbarpanel-zoomslider').fadeOut();
         $('.pv-toolbarpanel-sort').fadeOut();
-        $('.pv-viewarea-canvas').fadeOut();
+        $('.pv-canvas').fadeOut();
     },
     OffsetTiles: function (offsetX, offsetY) {
 		for (var i = 0; i < this.filter.length; i++) {
@@ -42,9 +42,20 @@ PivotViewer.Views.TileBasedView = PivotViewer.Views.IPivotViewerView.subClass({
 		var c = -1 * (canvasHeight * canvasWidth);
 		var tileMaxWidth = ((-1 * b) + Math.sqrt(b * b - (4 * a * c))) / (2 * a);
 		var tileHeight = Math.floor(tileMaxWidth * tileMaxRatio);
-		var canvasRows = Math.ceil(canvasHeight / tileHeight);
+		var canvasRows = Math.floor(canvasHeight / tileHeight);
 		var canvasColumns = canvasWidth > tileMaxWidth ? Math.floor(canvasWidth / tileMaxWidth) : 1; //RNP
-        var paddingX = canvasWidth - (canvasColumns * tileMaxWidth);
-		return { Rows: canvasRows, Columns: canvasColumns, TileMaxWidth: tileMaxWidth, TileHeight: tileHeight, PaddingX : paddingX };
+		var paddingX = canvasWidth - (canvasColumns * tileMaxWidth), paddingY = canvasHeight - (canvasRows * tileHeight);
+		if (tileHeight < 3) tileHeight = 3;
+		return { Rows: canvasRows, Columns: canvasColumns, TileMaxWidth: tileMaxWidth, TileHeight: tileHeight, PaddingX : paddingX, PaddingY: paddingY };
+	},
+	GetTileDimensions: function (canvasWidth, canvasHeight, tileMaxRatio, tileCount, rowscols) {
+	    var gap = 0.9;
+	    var a = tileMaxRatio * (tileCount - gap * gap);
+	    var b = (canvasHeight + (canvasWidth * tileMaxRatio)) * gap;
+	    var c = -1 * (canvasHeight * canvasWidth);
+	    var tileMaxWidth = ((-1 * b) + Math.sqrt(b * b - (4 * a * c))) / (2 * a);
+	    var tileHeight = Math.floor(tileMaxWidth * tileMaxRatio);
+	    var paddingX = canvasWidth - (rowscols.Columns * tileMaxWidth), paddingY = canvasHeight - (rowscols.Rows * tileHeight);
+	    return { Rows: rowscols.Rows, Columns: rowscols.Columns, TileMaxWidth: tileMaxWidth, TileHeight: tileHeight, PaddingX: paddingX, PaddingY: paddingY };
 	}
 });

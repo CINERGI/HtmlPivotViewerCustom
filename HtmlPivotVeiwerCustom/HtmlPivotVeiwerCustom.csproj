@@ -22,6 +22,8 @@
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
     <Content Include="ecogeo_text.html" />
+    <Content Include="lib\lawnchair.min.js" />
+    <Content Include="lib\URI.js" />
     <Content Include="projects\c4p_Collection_files\hfww03s4.5vu.xml" />
     <Content Include="projects\c4p_Collection_files\images\database.xml" />
     <Content Include="projects\c4p_Collection_files\images\database_files\0\0_0.png" />
@@ -765,7 +767,6 @@
     <Content Include="src\namespaces.js" />
     <Content Include="src\namespaces.min.js" />
     <Content Include="src\pivotviewer.js" />
-    <Content Include="src\pivotviewer.min.js" />
     <Content Include="src\pubsub.js" />
     <Content Include="src\pubsub.min.js" />
     <Content Include="src\cingeri-spreadsheetloader.js" />
@@ -774,13 +775,13 @@
     <Content Include="src\utils.min.js" />
     <Content Include="src\views\bucketview.js" />
     <Content Include="src\views\bucketview.min.js" />
+    <Content Include="src\views\crosstabview.js" />
     <Content Include="src\views\deepzoom.js" />
     <Content Include="src\views\deepzoom.min.js" />
     <Content Include="src\views\graphview.js" />
     <Content Include="src\views\gridview.js" />
     <Content Include="src\views\gridview.min.js" />
     <Content Include="src\views\iimagecontroller.js" />
-    <Content Include="src\views\iimagecontroller.min.js" />
     <Content Include="src\views\ipivotviewerview.js" />
     <Content Include="src\views\ipivotviewerview.min.js" />
     <Content Include="src\views\LoadImageSetHelper.js" />
@@ -790,7 +791,6 @@
     <Content Include="src\views\models.js" />
     <Content Include="src\views\models.min.js" />
     <Content Include="src\views\pivotviewer.js" />
-    <Content Include="src\views\pivotviewer.min.js" />
     <Content Include="src\views\simpleimage.js" />
     <Content Include="src\views\tableview.js" />
     <Content Include="src\views\tableview.min.js" />
@@ -799,7 +799,6 @@
     <Content Include="src\views\tilebasedview.js" />
     <Content Include="src\views\tilebasedview.min.js" />
     <Content Include="src\views\tilecontroller.js" />
-    <Content Include="src\views\tilecontroller.min.js" />
     <Content Include="src\views\timeview.js" />
     <Content Include="src\views\timeview.min.js" />
     <Content Include="style\pivotviewer.css" />

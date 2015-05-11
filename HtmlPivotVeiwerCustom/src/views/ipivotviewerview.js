@@ -43,5 +43,6 @@ PivotViewer.Views.IPivotViewerView = Object.subClass({
 	GetViewName: function () { return ''; },
 	Activate: function () { this.isActive = true; },
 	Deactivate: function () { this.isActive = false; },
-	SetSelected: function (item) { this.selected = item;}
+	SetSelected: function (item) { this.selected = item; },
+	CenterOnTile: function (item) { return;}
 });

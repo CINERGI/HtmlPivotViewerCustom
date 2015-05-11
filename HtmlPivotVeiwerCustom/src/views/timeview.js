@@ -15,7 +15,6 @@
 PivotViewer.Views.TimeView = PivotViewer.Views.IPivotViewerView.subClass({
     init: function () {
         this._super();
-        this.timeline;
         this.selectedFacet = 0;
         this.default_showBubble = Timeline.OriginalEventPainter.prototype._showBubble;
         this.timeFacets = [];

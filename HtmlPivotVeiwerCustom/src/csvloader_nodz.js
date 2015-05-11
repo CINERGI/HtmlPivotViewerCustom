@@ -130,8 +130,14 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var item = this.collection.Items[i], raw = this.data[i + 1][category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
-            if (category.Type == PivotViewer.Models.FacetType.String)
-                f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+            if (category.Type == PivotViewer.Models.FacetType.String) {
+                //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+                var split = raw.split(',');
+                for (var sp = 0 ; sp < split.length; sp++) {
+                    f.AddFacetValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
+                }
+
+            }
             else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)
@@ -145,8 +151,14 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var category = this.collection.FacetCategories[i], raw = row[i];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
-            if (category.Type == PivotViewer.Models.FacetType.String)
-                f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+            if (category.Type == PivotViewer.Models.FacetType.String) {
+                //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+                var split = raw.split(',');
+                for (var sp = 0 ; sp < split.length; sp++) {
+                    f.AddFacetValue(new PivotViewer.Models.FacetValue(split[sp].trim() ));
+                }
+                
+            }
             else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)

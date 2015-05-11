@@ -197,7 +197,8 @@ http://stackoverflow.com/questions/979256/sorting-an-array-of-javascript-objects
 var tile_sort_by = function (field, reverse, filterValues) {
     var key, type = PivotCollection.GetFacetCategoryByName(field);
     var filterSet = [];
-    for(var i = 0; i < filterValues.length; i++) filterSet[filterValues[i]] = true;
+    if (filterValues != undefined)
+        for (var i = 0; i < filterValues.length; i++) filterSet[filterValues[i]] = true;
     if(type.Type == PivotViewer.Models.FacetType.Number || type.Type == PivotViewer.Models.FacetType.Ordinal) {
         key = function (a) {
             var facet = a.facetItem.FacetByName[field];
@@ -223,7 +224,7 @@ var tile_sort_by = function (field, reverse, filterValues) {
             return values[0].Value.toUpperCase();
         }
     }
-    var reverse = [-1, 1][+!!reverse];
+    reverse = reverse == undefined ? -1 : [-1, 1][+!!reverse];
 
     return function (a, b) {
           return a = key(a), b = key(b), reverse * ((b > a) - (a > b));
@@ -260,10 +261,9 @@ GetMeridian = function(date) {
     else return "AM";
 }
 
-GetBuckets = function (filterList, facet, valueFunction, labelFunction, greaterFunction) {
+GetBuckets = function (filterList, facet, valueFunction, labelFunction) {
     if (valueFunction == undefined) valueFunction = function (value) { return value.Value; }
     if (labelFunction == undefined) labelFunction = function (value) { return value.Label.toString();}
-    //if (greaterFunction == undefined) greaterFunction = function (value1, value2) { return valueFunction(value1) > valueFunction(value2); }
 
     var bkts = [], value1 = filterList[0].facetItem.FacetByName[facet].FacetValues[0], value = valueFunction(value1), label = labelFunction(value1);
     var bkt = { startRange: value1.Value, endRange: value1.Value, tiles: [filterList[0]], values: [value], ids: [], startLabel: label, endLabel: label };
@@ -272,48 +272,59 @@ GetBuckets = function (filterList, facet, valueFunction, labelFunction, greaterF
 
     var i = 1, j = 0;
     for (; i < filterList.length; i++) {
-        if (filterList[i].facetItem.FacetByName[facet] == undefined) break;
-        var value2 = filterList[i].facetItem.FacetByName[facet].FacetValues[0];
+        var tile = filterList[i], item = tile.facetItem;
+        if (item.FacetByName[facet] == undefined) break;
+        var value2 = item.FacetByName[facet].FacetValues[0];
         if(valueFunction(value2) > value) {
             value1 = value2;
             var label = labelFunction(value2), value = valueFunction(value2);
-            var bkt = { startRange: value2.Value, endRange: value2.Value, tiles: [filterList[i]], values: [value], ids: [], startLabel: label, endLabel: label }
-            bkt.ids[filterList[i].facetItem.Id] = true;
-            bkts.push(bkt);
-            j++;
+            bkts[++j] = { startRange: value2.Value, endRange: value2.Value, tiles: [tile], values: [value], ids: [], startLabel: label, endLabel: label };
+            bkts[j].ids[item.Id] = true;
         }
         else {
-            bkts[j].tiles.push(filterList[i]);
-            bkts[j].ids[filterList[i].facetItem.Id] = true;
+            bkts[j].tiles.push(tile);
+            bkts[j].ids[item.Id] = true;
             bkts[j].endRange = value2.Value;
         }
     }
 
     //Condense buckets
     if (bkts.length > 10) {
-        var size = Math.ceil(bkts.length / 10);
-        var newBkts = [];
+        var size = Math.ceil(bkts.length / 10), newBkts = [];
+        newBkts.ids = [];
         for (var c = 0, b = 0; c < bkts.length; c++) {
-            var d = c % size;
-            if (d == 0) newBkts[b] = bkts[c];
+            var d = c % size, newBkt, bkt = bkts[c];
+            if (d == 0) { newBkts[b] = bkt; newBkt = newBkts[b]; }
             else {
-                newBkts[b].endRange = bkts[c].endRange;
-                newBkts[b].endLabel = bkts[c].endLabel;
-                Array.prototype.push.apply(newBkts[b].tiles, bkts[c].tiles);
-                Array.prototype.push.apply(newBkts[b].values, bkts[c].values);
-                for (var key in bkts[c].ids) newBkts[b].ids[key] = true;
+                newBkt = newBkts[b];
+                newBkt.endRange = bkt.endRange;
+                newBkt.endLabel = bkt.endLabel;
+                Array.prototype.push.apply(newBkt.tiles, bkt.tiles);
+                Array.prototype.push.apply(newBkt.values, bkt.values);
+            }
+            for (var key in bkt.ids) {
+                newBkt.ids[key] = true;
+                newBkts.ids[key] = b;
             }
             if (d + 1 == size) b++;
         }
         bkts = newBkts;
     }
+    else {
+        bkts.ids = [];
+        for (var j = 0; j < bkts.length; j++) {
+            for (var key in bkts[j].ids) bkts.ids[key] = j;
+        }
+    }
 
     if (i != filterList.length) {
         var bucket = { startRange: "(no info)", endRange: "(no info)", tiles: [], values: [], ids: [], startLabel: "(no info)", endLabel: "(no info)" };
         bkts.push(bucket);
+        var b = bkts.length - 1;
         for (; i < filterList.length; i++) {
             bucket.tiles.push(filterList[i]);
             bucket.ids[filterList[i].facetItem.Id] = true;
+            bkts.ids[filterList[i].facetItem.Id] = b;
         }
     }
     return bkts;

@@ -37,6 +37,7 @@ PivotViewer.Models.Collection = Object.subClass({
             x.visIndex = x.IsFilterVisible ? _visIndex++ : -1;
             this.__proto__.push.apply(that.FacetCategories, [x]);
             that.FacetCategoriesByName[x.Name] = x;
+            that.FacetCategoriesByName[x.Name.toLowerCase()] = x;
         }
         this.Items.push = function (x) {
             this.__proto__.push.apply(that.Items, [x]);
