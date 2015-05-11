@@ -94,7 +94,7 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
         }
         if (width > 8 && height > 8) {
 
-            for (var i = 0; this._items.length; i++) {
+            for (var i = 0; i < this._items.length; i++) {
                 if (this._items[i].ImageId == id) {
                     return this._items[i].Images;
                 }
