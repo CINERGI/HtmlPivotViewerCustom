@@ -1565,7 +1565,8 @@ var settings = { showMissing: false, visibleCategories: undefined };
         if (selectedItem != null) {
             var alternate = true;
             $('.pv-infopanel-heading').empty();
-            $('.pv-infopanel-heading').append("<a href=\"" + selectedItem.facetItem.Href + "\" target=\"_blank\">" + selectedItem.facetItem.Name + "</a></div>");
+            $('.pv-infopanel-heading').append("<a href=\"" + selectedItem.facetItem.Href + "\" target=\"_blank\">"
+                + selectedItem.facetItem.Name + "</a></div>");
             var infopanelDetails = $('.pv-infopanel-details');
             infopanelDetails.empty();
             if (selectedItem.Description != undefined && selectedItem.Description.length > 0) {
@@ -1595,9 +1596,9 @@ var settings = { showMissing: false, visibleCategories: undefined };
             var facets = Loader.GetRow(selectedItem.facetItem.Id);
             for (var i = 0, k = 0; i < facets.length; i++) {
                 var category = PivotCollection.GetFacetCategoryByName(facets[i].Name);
-                while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
-                if (k == settings.visibleCategories.length) break;
-                else if (settings.visibleCategories[k] > category.index) continue;
+                //while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
+              //  if (k == settings.visibleCategories.length) break;
+               // else if (settings.visibleCategories[k] > category.index) continue;
 
                 var IsMetaDataVisible = false. IsFilterVisible = false;
                 if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}

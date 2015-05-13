@@ -763,7 +763,6 @@
     <Content Include="src\jsonloader.js" />
     <Content Include="src\localcsvloader.js" />
     <Content Include="src\models.js" />
-    <Content Include="src\models.min.js" />
     <Content Include="src\namespaces.js" />
     <Content Include="src\namespaces.min.js" />
     <Content Include="src\pivotviewer.js" />
@@ -788,9 +787,6 @@
     <Content Include="src\views\LoadImageSetHelper.min.js" />
     <Content Include="src\views\mapview2.js" />
     <Content Include="src\views\mapview2.min.js" />
-    <Content Include="src\views\models.js" />
-    <Content Include="src\views\models.min.js" />
-    <Content Include="src\views\pivotviewer.js" />
     <Content Include="src\views\simpleimage.js" />
     <Content Include="src\views\tableview.js" />
     <Content Include="src\views\tableview.min.js" />
@@ -825,6 +821,7 @@
     </Content>
     <Content Include="defaults.json" />
     <None Include="maxim.pubxml" />
+    <None Include="pivots %282%29.pubxml" />
     <None Include="pivots.pubxml" />
     <Content Include="timeline.json" />
     <Content Include="projects\images\imagelist.json" />
