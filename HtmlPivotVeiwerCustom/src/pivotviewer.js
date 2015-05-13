@@ -1113,7 +1113,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
         _views.push(new PivotViewer.Views.GridView());
         _views.push(new PivotViewer.Views.BucketView());
         _views.push(new PivotViewer.Views.CrosstabView());
-        _views.push(new PivotViewer.Views.GraphView());
+        //_views.push(new PivotViewer.Views.GraphView()); // not yet ready
         _views.push(new PivotViewer.Views.TableView());
         var mapView = new PivotViewer.Views.MapView2();
         mapView.SetOptions(_options);
@@ -1600,9 +1600,13 @@ var settings = { showMissing: false, visibleCategories: undefined };
               //  if (k == settings.visibleCategories.length) break;
                // else if (settings.visibleCategories[k] > category.index) continue;
 
+                // it would be nice if this worked, but this causes clicks to return to the root of the server.
+                // var IsMetaDataVisible = category.IsMetaDataVisible, IsFilterVisible = category.IsFilterVisible; 
+                // so enabling the click and ignoring it in the "/PivotViewer/Views/Item/Filtered" event works.
                 var IsMetaDataVisible = false. IsFilterVisible = false;
-                if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}
-                if (IsMetaDataVisible) {
+                 if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}
+
+                if (IsMetaDataVisible){ //IsMetaDataVisible) {
                     detailDOM[detailDOMIndex] = "<div class='pv-infopanel-detail " + (alternate ? "detail-dark" : "detail-light") + "'><div class='pv-infopanel-detail-item detail-item-title' pv-detail-item-title='" + category.Name + "'>" + category.Name + "</div>";
                     for (var j = 0; j < facets[i].FacetValues.length; j++) {
                         var value = facets[i].FacetValues[j];
@@ -1648,6 +1652,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
             var facetFilter = facetFilters[i];
 
             var category = PivotCollection.GetFacetCategoryByName(facetFilter.Facet);
+            if (!category.IsFilterVisible) continue;   // it is hidden in the filter panel
             if (!category.uiInit) InitUIFacet(category);
             LoadSem.acquire(function (release) {
                 if (category.Type == PivotViewer.Models.FacetType.String) {
