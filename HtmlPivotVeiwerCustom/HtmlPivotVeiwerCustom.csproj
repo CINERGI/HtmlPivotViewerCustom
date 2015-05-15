@@ -22,7 +22,6 @@
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
     <Content Include="ecogeo_text.html" />
-    <Content Include="index.js" />
     <Content Include="lib\lawnchair.min.js" />
     <Content Include="lib\URI.js" />
     <Content Include="projects\c4p_Collection_files\hfww03s4.5vu.xml" />
