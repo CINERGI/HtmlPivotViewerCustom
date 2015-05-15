@@ -1006,7 +1006,8 @@ var settings = { showMissing: false, visibleCategories: undefined };
 
         //main panel
         _self.append("<div class='pv-mainpanel'></div>");
-        var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        //var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30 - $('#top').height() - $('#bottom').height();
         $('.pv-mainpanel').css('height', mainPanelHeight + 'px');
         $('.pv-mainpanel').append("<div class='pv-filterpanel'></div>");
         $('.pv-mainpanel').append("<div class='pv-viewpanel'><canvas class='pv-canvas' width='" + _self.width() + "' height='" + mainPanelHeight + "px'></canvas></div>");

@@ -33,10 +33,9 @@ PivotViewer.Models.Loaders.LocalCSVLoader = PivotViewer.Models.Loaders.CSVLoader
                 $('.pv-loading').remove();
 
                 //Display a message so the user knows something is wrong
-                var msg = '';
-                msg = msg + 'There are no items in the CSV Collection<br><br>';
+                var msg = 'There are no items in the CSV Collection<br><br>';
                 $('.pv-wrapper').append("<div id=\"pv-empty-collection-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-                var t = setTimeout(function () { window.open("#pv-empty-collection-error", "_self");}, 1000);
+                setTimeout(function () { window.open("#pv-empty-collection-error", "_self");}, 1000);
                 return;
             }
 
@@ -46,10 +45,8 @@ PivotViewer.Models.Loaders.LocalCSVLoader = PivotViewer.Models.Loaders.CSVLoader
                 collection.ImageBase = that.project + "/" + that.project + ".dzc";
                 collection.BrandImage = "";
 
-                that._load(collection, that.data);
-
                 window.open("#pv-modal-dialog-close", "_self");
-                $.publish("/PivotViewer/Models/Collection/Loaded", null);
+                that.LoadData(collection, that.data);
             });
             authoring_cards(that);
         };

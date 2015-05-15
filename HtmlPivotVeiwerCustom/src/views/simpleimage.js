@@ -101,7 +101,12 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
             }
             return this._items[0].Images;// none, return the first one
         }
-        return null; // too small
+        return function (facetItem, context, x, y, width, height) {
+            context.beginPath();
+            context.fillStyle = "Black";
+            context.fillRect(x, y, width, height);
+        };
+        //return null; // too small
     },
     GetWidthForImage: function (id, height) {
         for (var i = 0; i < this._items.length; i++) {
