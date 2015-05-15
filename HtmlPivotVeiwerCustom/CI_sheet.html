@@ -82,12 +82,33 @@
         var cl = window.location;
         var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
         var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
-    </script>
+       </script>
+
+
     <div id="top"><div id="heading">Component Infrastructure  (from Google Sheet)</div></div>
    
     <div id="topleft">
         <button type="button" class="rc-button" id="buttonBack" style="display: inline-block;">help</button>
     </div>
+
+    <div id="help">
+        <div id="help-banner">
+            <div id="help-banner-text">
+                HELP
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonHelp">help</button>
+        <div id="help-body">
+            <!--<a href="http://www.esri.com">
+             <img src="content/images/esri-transparent.png" height="100">
+         </a>-->
+            <p>
+                Some Instructions Here
+                        </p>
+            <img src="http://earthcube.org/sites/default/files/logo_earthcube.png" />
+        </div>
+    </div>
+
     <div id="about">
         <div id="about-banner">
             <div id="about-banner-text">
@@ -131,6 +152,20 @@
                     }
 
                 });
+
+                var hb = "close";
+                var hp = "help";
+                $("#buttonHelp").html(hp);
+                $("#buttonHelp").click(function () {
+                    switch (
+                        $("#buttonHelp").html()) {
+                        case hp: $("#help").animate({ marginTop: "0px" }, 300, "swing",
+                          function () { $("#buttonHelp").html(b) }); break;
+                        case hb: $("#help").animate({ marginTop: "-540px" }, 300, "swing", function () { $("#buttonHelp").html(hp) })
+                    }
+
+                });
+
                 $('#pivotviewer').PivotViewer({
               //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
                 //         Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
@@ -141,7 +176,11 @@
                 ViewerState: "$view$=1",
                 ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
             });
-            
+                $('#splashscreen').css('opacity', '0.5');
+                $("#splashscreen").show();
+            $('.enter_link').click(function () {
+                    $(this).parent().fadeOut(500);
+                });
         });
     </script>
 </body>

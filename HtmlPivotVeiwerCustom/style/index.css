@@ -123,7 +123,7 @@
 #about {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     height: 600px;
     width: 300px;
     background: #2d6ca2;
@@ -134,7 +134,7 @@
 #about-banner {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     height: 60px;
     width: 100%;
     background: #ff6a00;
@@ -148,7 +148,7 @@
 
 #buttonAbout {
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 0;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -181,3 +181,48 @@ a:hover {
 a:active {
     text-decoration: underline;
 }
+
+#help {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 600px;
+    width: 300px;
+    background: #2d6ca2;
+    z-index: 60;
+    margin-top: -540px;
+}
+
+#help-banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 60px;
+    width: 100%;
+    background: #ff6a00;
+}
+
+#help-banner-text {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+#buttonHelp {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+#help-body {
+    margin-top: 70px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+    #about-body p {
+        margin-top: 0;
+    }
