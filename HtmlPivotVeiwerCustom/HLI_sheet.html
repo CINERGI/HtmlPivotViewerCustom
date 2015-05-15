@@ -4,9 +4,10 @@
     <meta charset=utf-8>
 
     <meta charset=utf-8>
-    <title>Example Community Inventory from Speadsheet</title>
+    <title>High Level Inventory from Speadsheet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
+    <link href="style/index.css" rel="stylesheet" type="text/css" />
+     <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
     <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
     <script>
         Timeline_ajax_url = "lib/simile-timeline/timeline_ajax/simile-ajax-api.js";
@@ -52,7 +53,7 @@
     <script src="src/views/ipivotviewerview.js" type="text/javascript"></script>
     <script src="src/views/tilebasedview.js" type="text/javascript"></script>
     <script src="src/views/bucketview.js" type="text/javascript"></script>
-    <script src="src/views/gridview.min.js" type="text/javascript"></script>
+    <script src="src/views/gridview.js" type="text/javascript"></script>
     <script src="src/views/graphview.js" type="text/javascript"></script>
     <script src="src/views/crosstabview.js" type="text/javascript"></script>
     <script src="src/views/iimagecontroller.js" type="text/javascript"></script>
@@ -80,21 +81,105 @@
         var cl = window.location;
         var imagecache = cl.protocol + "//" + cl.host + '/projects/images/panomedia';
     </script>
-    <h1>High Level Inventory from Speadsheet</h1>
-    <div id="pivotviewer"></div>
+
+    <div id="top"><div id="heading">High Level Inventory from Speadsheet</div></div>
+
+    <div id="topleft">
+        <button type="button" class="rc-button" id="buttonBack" style="display: inline-block;">help</button>
+    </div>
+
+    <div id="help">
+        <div id="help-banner">
+            <div id="help-banner-text">
+                HELP
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonHelp">help</button>
+        <div id="help-body">
+            <!--<a href="http://www.esri.com">
+                <img src="content/images/esri-transparent.png" height="100">
+            </a>-->
+            <p>
+                Some Instructions Here
+            </p>
+            <img src="http://earthcube.org/sites/default/files/logo_earthcube.png" />
+        </div>
+    </div>
+
+    <div id="about">
+        <div id="about-banner">
+            <div id="about-banner-text">
+                About This App
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonAbout">about</button>
+        <div id="about-body">
+            <!--<a href="http://www.esri.com">
+                 <img src="content/images/esri-transparent.png" height="100">
+             </a>-->
+            <p>
+                This app was designed and developed by Spatial Information System Lab <a href="http://spatial.sdsc.edu/">
+                    at <a href="http://www.sdsc.edu/">
+                        San Diego Supercomputer Center
+                    </a>
+
+                    for the NSF Earthcube <a href="http://earthcube.org/group/cinergi"> Community Inventory of EarthCube Resources for Geosciences Interoperability </a> project.
+            </p>
+
+        </div>
+    </div>
+    <div id="page">
+        <div id="pivotSelect"></div>
+        <div id="pivotviewer"></div>
+    </div>
     <script type="text/javascript">
         var debug = false;
-        $(document).ready(function () {
-            $('#pivotviewer').PivotViewer({
-               // Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
-                Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/hli_pivot - Components.csv'),
-                GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
-                MapService: "Google",
-                GeocodeService: "Nominatim",
-                ViewerState: "$view$=1",
-                ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
+        $(document).ready(
+            function () {
+                var b = "close";
+                var p = "about";
+                $("#buttonAbout").html(p);
+                $("#buttonAbout").click(function () {
+                    switch (
+                        $("#buttonAbout").html()) {
+                        case p: $("#about").animate({ marginTop: "0px" }, 300, "swing",
+                          function () { $("#buttonAbout").html(b) }); break;
+                        case b: $("#about").animate({ marginTop: "-540px" }, 300, "swing", function () { $("#buttonAbout").html(p) })
+                    }
+
+                });
+
+                var hb = "close";
+                var hp = "help";
+                $("#buttonHelp").html(hp);
+                $("#buttonHelp").click(function () {
+                    switch (
+                        $("#buttonHelp").html()) {
+                        case hp: $("#help").animate({ marginTop: "0px" }, 300, "swing",
+                          function () { $("#buttonHelp").html(b) }); break;
+                        case hb: $("#help").animate({ marginTop: "-540px" }, 300, "swing", function () { $("#buttonHelp").html(hp) })
+                    }
+
+                });
+
+                $('#pivotviewer').PivotViewer({
+                    //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
+                    //         Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
+                    Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/hli_pivot - Components.csv'),
+                    GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
+                    MapService: "Google",
+                    GeocodeService: "Nominatim",
+                    ViewerState: "$view$=1",
+                    ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
+                });
+                $('#splashscreen').css('opacity', '0.5');
+                $("#splashscreen").show();
+                $('.enter_link').click(function () {
+                    $(this).parent().fadeOut(500);
+                });
             });
-        });
     </script>
+
+   
 </body>
 </html>
