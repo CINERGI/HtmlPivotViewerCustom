@@ -4,6 +4,7 @@
     <title>ECOGEO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
+    <link href="style/index.css" rel="stylesheet" type="text/css" />
     <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
     <script>
         Timeline_ajax_url = "lib/simile-timeline/timeline_ajax/simile-ajax-api.js";
@@ -66,7 +67,7 @@
     <script src="lib/csvToArray.v2.1.js" type="application/javascript"></script>
 
     <script src="src/cingeri-spreadsheetloader.js" type="application/javascript"></script>
-
+    <script src="SelectablePivots.js" type="application/javascript"></script>
 </head>
 <body>
     <script type="text/javascript">
@@ -76,11 +77,62 @@
     var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
     var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
     </script>
-    <h1>ECO GEO Resources  (from Google Sheet)</h1>
-    <div id="pivotviewer"></div>
+   
+    <div id="top"><div id="heading">ECO GEO Resources</div></div>
+
+    <div id="topleft">
+        <button type="button" class="rc-button" id="buttonBack" style="display: inline-block;">help</button>
+    </div>
+
+    <div id="help">
+        <div id="help-banner">
+            <div id="help-banner-text">
+                HELP
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonHelp">help</button>
+        <div id="help-body">
+            <!--<a href="http://www.esri.com">
+                <img src="content/images/esri-transparent.png" height="100">
+            </a>-->
+            <p>
+                Some Instructions Here
+            </p>
+            <img src="http://earthcube.org/sites/default/files/logo_earthcube.png" />
+        </div>
+    </div>
+
+    <div id="about">
+        <div id="about-banner">
+            <div id="about-banner-text">
+                About This App
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonAbout">about</button>
+        <div id="about-body">
+            <!--<a href="http://www.esri.com">
+                 <img src="content/images/esri-transparent.png" height="100">
+             </a>-->
+            <p>
+                This app was designed and developed by Spatial Information System Lab <a href="http://spatial.sdsc.edu/">
+                    at <a href="http://www.sdsc.edu/">
+                        San Diego Supercomputer Center
+                    </a>
+
+                    for the NSF Earthcube <a href="http://earthcube.org/group/cinergi"> Community Inventory of EarthCube Resources for Geosciences Interoperability </a> project.
+            </p>
+
+        </div>
+    </div>
+    <div id="page">
+        <div id="pivotSelect"></div>
+        <div id="pivotviewer"></div>
+    </div>
     <script type="text/javascript">
         var debug = false;
         $(document).ready(function () {
+            help();
+            about();
             $('#pivotviewer').PivotViewer({
                // Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
                 Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/ECOGEO CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv'),
