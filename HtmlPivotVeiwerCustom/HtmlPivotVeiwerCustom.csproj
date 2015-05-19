@@ -24,6 +24,7 @@
     <Content Include="ecogeo_text.html" />
     <Content Include="lib\lawnchair.min.js" />
     <Content Include="lib\URI.js" />
+    <None Include="pivotLists.json" />
     <Content Include="projects\c4p_Collection_files\hfww03s4.5vu.xml" />
     <Content Include="projects\c4p_Collection_files\images\database.xml" />
     <Content Include="projects\c4p_Collection_files\images\database_files\0\0_0.png" />
@@ -552,6 +553,7 @@
     <Content Include="repositories.html" />
     <Content Include="esmf.html" />
     <Content Include="ecogeo.html" />
+    <Content Include="SelectablePivots.js" />
     <Content Include="sen.html" />
     <Content Include="cI_pivot.html" />
     <Content Include="CI_sheet.html" />
@@ -760,6 +762,7 @@
     <Content Include="src\csvloader.js" />
     <Content Include="src\csvloader.min.js" />
     <Content Include="src\csvloader_textimage.js" />
+    <Content Include="src\csvsliceloader.js" />
     <Content Include="src\jsonloader.js" />
     <Content Include="src\localcsvloader.js" />
     <Content Include="src\models.js" />

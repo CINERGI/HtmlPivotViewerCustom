@@ -26,7 +26,7 @@
     position: absolute;
     top: 0;
     left: 5px;
-    width: auto;
+    width: 60px;
     height: 60px;
 }
 
@@ -34,6 +34,9 @@
     margin-top: 5px;
     text-align: center;
     font-size: 36px;
+    right: 50px;
+    left: 50px;
+    
 }
 
 #bottom {
@@ -125,10 +128,12 @@
     top: 0;
     left: 0;
     height: 600px;
-    width: 300px;
+    //width: 300px;
+    width: 70px;
     background: #2d6ca2;
     z-index: 60;
     margin-top: -540px;
+    //visibility:hidden;
 }
 
 #about-banner {
@@ -159,6 +164,7 @@
     margin-left: 10px;
     margin-right: 10px;
     font-size: 16px;
+    display: none;
 }
 
     #about-body p {
@@ -187,7 +193,8 @@ a:active {
     top: 0;
     right: 0;
     height: 600px;
-    width: 300px;
+    //width: 300px;
+    width: 70px;
     background: #2d6ca2;
     z-index: 60;
     margin-top: -540px;
@@ -221,6 +228,7 @@ a:active {
     margin-left: 10px;
     margin-right: 10px;
     font-size: 16px;
+    display: none;
 }
 
     #about-body p {

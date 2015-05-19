@@ -70,6 +70,7 @@
     <script src="lib/csvToArray.v2.1.js" type="application/javascript"></script>
 
     <script src="src/cingeri-spreadsheetloader.js" type="application/javascript"></script>
+    <script src="SelectablePivots.js" type="application/javascript"></script>
 </head>
 <body>
 
@@ -136,31 +137,8 @@
         var debug = false;
         $(document).ready(
             function () {
-                var b = "close";
-                var p = "about";
-                $("#buttonAbout").html(p);
-                $("#buttonAbout").click(function () {
-                    switch (
-                        $("#buttonAbout").html()) {
-                        case p: $("#about").animate({ marginTop: "0px" }, 300, "swing",
-                          function () { $("#buttonAbout").html(b) }); break;
-                        case b: $("#about").animate({ marginTop: "-540px" }, 300, "swing", function () { $("#buttonAbout").html(p) })
-                    }
-
-                });
-
-                var hb = "close";
-                var hp = "help";
-                $("#buttonHelp").html(hp);
-                $("#buttonHelp").click(function () {
-                    switch (
-                        $("#buttonHelp").html()) {
-                        case hp: $("#help").animate({ marginTop: "0px" }, 300, "swing",
-                          function () { $("#buttonHelp").html(b) }); break;
-                        case hb: $("#help").animate({ marginTop: "-540px" }, 300, "swing", function () { $("#buttonHelp").html(hp) })
-                    }
-
-                });
+                help();
+                about();
 
                 $('#pivotviewer').PivotViewer({
                     //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
