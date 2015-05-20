@@ -20,9 +20,9 @@ $("#buttonHelp").html(hp);
 $("#buttonHelp").click(function () {
     switch (
         $("#buttonHelp").html()) {
-        case hp: $("#help").animate({ marginTop: "0px", width: "+=250" }, 300, "swing",
+        case hp: $("#help").animate({ marginTop: "0px", width: "+=250", overflow: "scroll" }, 300, "swing",
           function () { $("#buttonHelp").html(hb); $("#help-body").show() }); break;
-        case hb: $("#help").animate({ marginTop: "-540px", width: "+=-250" }, 300, "swing", function () { $("#buttonHelp").html(hp); $("#help-body").hide() })
+        case hb: $("#help").animate({ marginTop: "-540px", width: "+=-250" , overflow: "auto" }, 300, "swing", function () { $("#buttonHelp").html(hp); $("#help-body").hide() })
     }
 
 });

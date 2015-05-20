@@ -75,7 +75,7 @@
 <body>
 
     <script type="text/javascript">
-        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/feeds/download/spreadsheets/Export?key=12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM&exportFormat=csv&gid=1313886870';
+        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/feeds/download/spreadsheets/Export?key=1jlybj09_nJ-jb7Shb-U9Xm0NYooSI0qEJTxfm4CEi3E&exportFormat=csv&gid=2041766188';
         //'https://docs.google.com/spreadsheets/d/12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM/export?format=csv&gid=1313886870';
         //   'https://docs.google.com/spreadsheets/d/12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM/pubhtml?gid=1313886870&single=true';
         // 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
@@ -142,8 +142,8 @@
 
                 $('#pivotviewer').PivotViewer({
                     //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
-                    //         Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
-                    Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/hli_pivot - Components.csv'),
+                    Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1AZ48wUbN5xKXmctlCi7kQYDnTa8CtKQ2CYhCO-45OFo&gid=1581112451"),
+                    //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/hli_pivot - Components.csv'),
                     GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                     MapService: "Google",
                     GeocodeService: "Nominatim",

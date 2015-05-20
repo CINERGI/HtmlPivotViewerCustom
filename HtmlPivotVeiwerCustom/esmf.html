@@ -76,14 +76,14 @@
     var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
     var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
     </script>
-    <h1>ESMF Components and Modeling Systems  (from Google Sheet)</h1>
+    <h1>ESMF Components and Modeling Systems</h1>
     <div id="pivotviewer"></div>
     <script type="text/javascript">
         var debug = false;
         $(document).ready(function () {
             $('#pivotviewer').PivotViewer({
-                Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
-                Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/res ESMF Components and Modeling Systems.csv'),
+                Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&gid=0"),
+                //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/res ESMF Components and Modeling Systems.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",
                 GeocodeService: "Nominatim",

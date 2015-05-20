@@ -198,6 +198,7 @@ a:active {
     background: #2d6ca2;
     z-index: 60;
     margin-top: -540px;
+    overflow:auto;
 }
 
 #help-banner {

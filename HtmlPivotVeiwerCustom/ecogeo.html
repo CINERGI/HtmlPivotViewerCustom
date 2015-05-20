@@ -134,8 +134,8 @@
             help();
             about();
             $('#pivotviewer').PivotViewer({
-               // Loader: new PivotViewer.Models.Loaders.CSVLoader(public_spreadsheet_url),
-                Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/ECOGEO CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv'),
+                Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1jlybj09_nJ-jb7Shb-U9Xm0NYooSI0qEJTxfm4CEi3E&gid=2041766188"),
+                //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/ECOGEO CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",
                 GeocodeService: "Nominatim",
