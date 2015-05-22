@@ -200,6 +200,14 @@
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_3.png" />
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_4.png" />
     <Content Include="projects\c4p_Collection_files\j5cmgz4h.xx0_files\7\9_5.png" />
+    <Content Include="projects\images\domains\agriculture.png" />
+    <Content Include="projects\images\domains\astronomy.png" />
+    <Content Include="projects\images\domains\biology.jpg" />
+    <Content Include="projects\images\domains\cloud.jpg" />
+    <Content Include="projects\images\domains\globe.jpg" />
+    <Content Include="projects\images\domains\ocean.jpg" />
+    <Content Include="projects\images\domains\polar.jpg" />
+    <Content Include="projects\images\domains\soil.png" />
     <Content Include="projects\images\panomedia\application.png" />
     <Content Include="projects\images\panomedia\Book.png" />
     <Content Include="projects\images\panomedia\broken_link.png" />
@@ -846,6 +854,7 @@
     <Content Include="projects\images\panomedia\imagelist.json" />
     <Content Include="projects\images\panomedia\LICENSE" />
     <Content Include="sheetsProxy.ashx" />
+    <Content Include="projects\images\domains\imagelist.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
