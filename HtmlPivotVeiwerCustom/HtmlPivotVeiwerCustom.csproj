@@ -22,6 +22,7 @@
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
     <Content Include="ecogeo_text.html" />
+    <Content Include="HLI_sheet.html" />
     <Content Include="images\pivot_help.png" />
     <Content Include="lib\lawnchair.min.js" />
     <Content Include="lib\URI.js" />
@@ -561,7 +562,6 @@
     <Content Include="favicon.ico" />
     <Content Include="hli.html" />
     <Content Include="Cingergi_test.html" />
-    <Content Include="HLI_sheet.html" />
     <Content Include="images\BucketView.png" />
     <Content Include="images\BucketViewSelected.png" />
     <Content Include="images\CountGradient.png" />

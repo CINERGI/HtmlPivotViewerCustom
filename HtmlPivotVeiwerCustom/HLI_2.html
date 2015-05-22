@@ -1,93 +1,210 @@
 ﻿<!DOCTYPE html>
-<html lang=en>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset=utf-8>
-    <head>
-        <meta charset=utf-8>
-        <title>Google Spreadsheet Ddemo</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
-        <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
-        <script>
-            Timeline_ajax_url = "lib/simile-timeline/timeline_ajax/simile-ajax-api.js";
-            Timeline_urlPrefix = 'lib/simile-timeline/timeline_js/';
-            Timeline_parameters = 'bundle=true';
-        </script>
-        <script src="lib/simile-timeline/timeline_js/timeline-api.js"
-                type="text/javascript">
-        </script>
-        <script>SimileAjax.History.enabled = false;</script>
 
-        <!--[if lt IE 9]>
-            <script src="lib/jquery/jquery-1.11.2.min.js" type="text/javascript"></script>
-        <![endif]-->
-        <!--[if gte IE 9]><!-->
-        <script src="lib/jquery/jquery-2.1.3.min.js"></script>
-        <script src="lib/jquery/jquery-2.1.3.min.js"></script>
-        <!--<![endif]-->
+    <meta charset=utf-8>
+    <title>CINERGI High Level Inventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   
+     <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
+    <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
+    <script>
+        Timeline_ajax_url = "lib/simile-timeline/timeline_ajax/simile-ajax-api.js";
+        Timeline_urlPrefix = 'lib/simile-timeline/timeline_js/';
+        Timeline_parameters = 'bundle=true';
+    </script>
+    <script src="lib/simile-timeline/timeline_js/timeline-api.js"
+            type="text/javascript">
+    </script>
+    <script>SimileAjax.History.enabled = false;</script>
 
-        <script src="lib/jquery-ui/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+        <script src="lib/jquery/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="lib/jquery/jquery-2.1.3.min.js"></script>
+    <!--<![endif]-->
 
-        <script src='https://www.google.com/jsapi'></script>
+    <script src="lib/jquery-ui/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
 
-        <script src="lib/modernizr/modernizr.custom.93916.js" type="text/javascript"></script>
-        <script src="lib/easing/easing.min.js" type="text/javascript"></script>
-        <script src="lib/jquery.mousewheel/jquery.mousewheel.min.js" type="text/javascript"></script>
-        <script src="lib/colResizable/colResizable-1.3.min.js" type="text/javascript"></script>
-        <script src="lib/URI.js" type="text/javascript"></script>
-        <script src="lib/purl-master/purl.min.js" type="text/javascript"></script>
-        <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
-        <script src="lib/wicket/wicket.min.js" type="text/javascript"></script>
-        <script src="lib/lawnchair.min.js" type="text/javascript"></script>
+    <script src='https://www.google.com/jsapi'></script>
 
-        <script src="lib/semaphore.min.js"></script>
-        <script src="lib/jquery.cookie.min.js"></script>
+    <script src="lib/modernizr/modernizr.custom.93916.js" type="text/javascript"></script>
+    <script src="lib/easing/easing.min.js" type="text/javascript"></script>
+    <script src="lib/jquery.mousewheel/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="lib/colResizable/colResizable-1.3.min.js" type="text/javascript"></script>
+    <script src="lib/URI.js" type="text/javascript"></script>
+    <script src="lib/purl-master/purl.min.js" type="text/javascript"></script>
+    <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
+    <script src="lib/wicket/wicket.min.js" type="text/javascript"></script>
+    <script src="lib/lawnchair.min.js" type="text/javascript"></script>
 
-        <script src="src/namespaces.min.js" type="text/javascript"></script>
-        <script src="src/pubsub.js" type="text/javascript"></script>
-        <script src="src/utils.js" type="text/javascript"></script>
-        <script src="src/models.js" type="text/javascript"></script>
-        <script src="src/collectionloader.js" type="text/javascript"></script>
-        <script src="src/csvloader_nodz.js" type="text/javascript"></script>
-        <script src="src/localcsvloader.js" type="text/javascript"></script>
-        <script src="src/views/ipivotviewerview.js" type="text/javascript"></script>
-        <script src="src/views/tilebasedview.js" type="text/javascript"></script>
-        <script src="src/views/bucketview.js" type="text/javascript"></script>
-        <script src="src/views/gridview.min.js" type="text/javascript"></script>
-        <script src="src/views/graphview.js" type="text/javascript"></script>
-        <script src="src/views/crosstabview.js" type="text/javascript"></script>
-        <script src="src/views/iimagecontroller.js" type="text/javascript"></script>
-        <script src="src/views/LoadImageSetHelper.js" type="text/javascript"></script>
-        <script src="src/views/tableview.js" type="text/javascript"></script>
-        <script src="src/views/tilecontroller.js" type="text/javascript"></script>
-        <script src="src/views/deepzoom.js" type="text/javascript"></script>
-        <script src="src/views/mapview2.js" type="text/javascript"></script>
-        <script src="src/views/timeview.js" type="text/javascript"></script>
-        <script src="src/views/simpleimage.js" type="text/javascript"></script>
-        <script src="src/pivotviewer.js" type="text/javascript"></script>
+    <script src="lib/semaphore.min.js"></script>
+    <script src="lib/jquery.cookie.min.js"></script>
 
-        <script src="lib/tabletop/tabletop.js" type="application/javascript"></script>
-        <script src="lib/csvToArray.v2.1.js" type="application/javascript"></script>
+    <script src="src/namespaces.min.js" type="text/javascript"></script>
+    <script src="src/pubsub.js" type="text/javascript"></script>
+    <script src="src/utils.js" type="text/javascript"></script>
+    <script src="src/models.js" type="text/javascript"></script>
+    <script src="src/collectionloader.js" type="text/javascript"></script>
+    <script src="src/csvloader_nodz.js" type="text/javascript"></script>
+    <script src="src/localcsvloader.js" type="text/javascript"></script>
+    <script src="src/views/ipivotviewerview.js" type="text/javascript"></script>
+    <script src="src/views/tilebasedview.js" type="text/javascript"></script>
+    <script src="src/views/bucketview.js" type="text/javascript"></script>
+    <script src="src/views/gridview.js" type="text/javascript"></script>
+    <script src="src/views/graphview.js" type="text/javascript"></script>
+    <script src="src/views/crosstabview.js" type="text/javascript"></script>
+    <script src="src/views/iimagecontroller.js" type="text/javascript"></script>
+    <script src="src/views/LoadImageSetHelper.js" type="text/javascript"></script>
+    <script src="src/views/tableview.js" type="text/javascript"></script>
+    <script src="src/views/tilecontroller.js" type="text/javascript"></script>
+    <script src="src/views/deepzoom.js" type="text/javascript"></script>
+    <script src="src/views/mapview2.js" type="text/javascript"></script>
+    <script src="src/views/timeview.js" type="text/javascript"></script>
+    <script src="src/views/simpleimage.js" type="text/javascript"></script>
+    <script src="src/pivotviewer.js" type="text/javascript"></script>
 
-        <script src="src/cingeri-spreadsheetloader.js" type="application/javascript"></script>
-    </head>
-    <body>
-        <script type="text/javascript">
-            var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM/pubhtml?gid=1313886870&single=true';
-            // 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+    <script src="lib/tabletop/tabletop.js" type="application/javascript"></script>
+    <script src="lib/csvToArray.v2.1.js" type="application/javascript"></script>
 
-        </script>
-        <h1>High Level Inventory from Speadsheet</h1>
-    <div id="pivotviewer" style="height: 600px;"></div>
+    <script src="src/cingeri-spreadsheetloader.js" type="application/javascript"></script>
+    <link href="style/index.css" rel="stylesheet" type="text/css" />
+    <script src="SelectablePivots.js" type="application/javascript"></script>
+</head>
+<body>
 
-        <script type="text/javascript">
-            var debug = true;
-            $(document).ready(function () {
+    <script type="text/javascript">
+        var public_spreadsheet_url = 'https://cinergiproxy.herokuapp.com/feeds/download/spreadsheets/Export?key=1jlybj09_nJ-jb7Shb-U9Xm0NYooSI0qEJTxfm4CEi3E&exportFormat=csv&gid=2041766188';
+        //'https://docs.google.com/spreadsheets/d/12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM/export?format=csv&gid=1313886870';
+        //   'https://docs.google.com/spreadsheets/d/12Jpab0Bo2bOdRwQvcORFyq5sLxzavA_Njs4VJUKByVM/pubhtml?gid=1313886870&single=true';
+        // 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+        var cl = window.location;
+        var imagecache = cl.protocol + "//" + cl.host + '/projects/images/panomedia';
+    </script>
+
+    <div id="top"><div id="heading">CINERGI High Level Inventory</div></div>
+
+
+    <div id="topleft">
+        <button type="button" class="rc-button" id="buttonBack" style="display: inline-block;">help</button>
+    </div>
+
+    <div id="help">
+        <div id="help-banner">
+            <div id="help-banner-text">
+                HELP
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonHelp">help</button>
+        <div id="help-body">
+            <!--<a href="http://www.esri.com">
+                <img src="content/images/esri-transparent.png" height="100">
+            </a>-->
+            <img src="images/pivot_help.png" height="200">
+
+            <div>1: select categories to show the items you want</div>
+            <div>2: expand other variables and make additional selections</div>
+            <div>
+                3: this is how many items are displayed
+            </div>
+            <div>
+                4: click an item to see its description on the right
+            </div>
+            <div>
+                5: zoom in to items
+            </div>
+            <div>
+                6: select a variable to organize items in a bar graph
+            </div>
+            <div>
+                7: grid view of items
+            </div>
+            <div>
+                8: bar graph view of items (use this together with 1 and 2 to explore distribution of items in different subsets)
+            </div>
+            <div>
+                9: bivariate graph view (also try other icons)
+            </div>
+            <div>
+                10: setting: specify which variables to display
+            </div>
+            <div>
+                Questions about the app: ec_apps@sdsc.edu
+
+            </div>
+
+            <img src="http://earthcube.org/sites/default/files/logo_earthcube.png" />
+
+        </div>
+    </div>
+    <div id="about">
+        <div id="about-banner">
+            <div id="about-banner-text">
+                About This App
+            </div>
+        </div>
+        <button type="button" class="rc-button" id="buttonAbout">about</button>
+        <div id="about-body">
+            <!--<a href="http://www.esri.com">
+                 <img src="content/images/esri-transparent.png" height="100">
+             </a>-->
+            <p>
+                This app was designed and developed by Spatial Information System Lab <a href="http://spatial.sdsc.edu/">
+                    at <a href="http://www.sdsc.edu/">
+                        San Diego Supercomputer Center
+                    </a>
+
+                    for the NSF Earthcube <a href="http://earthcube.org/group/cinergi"> Community Inventory of EarthCube Resources for Geosciences Interoperability </a> project.
+            </p>
+            <p>
+                The ECOGEO Resource Catalog is a collaboration between the ECOGEO Research Coordination Network project and the CINERGI (Community Inventory of EarthCube Resources for Geoscience Interoperability) projects.
+                It is a community-curated registry of information resources used in geo-microbiology, genomics and related fields
+
+            </p>
+            <p>
+                Questions about the content of the catalog:
+
+                Instructions for updating the catalog:
+
+            </p>
+            <p>
+                Funding under the NSF EarthCube program is gratefully acknowledged:
+                ECOGEO:
+                CINERGI: NSF ICER-1343816
+            </p>
+        </div>
+    </div>
+    <div id="page">
+        <div id="pivotSelect"></div>
+        <div id="pivotviewer"></div>
+    </div>
+    <script type="text/javascript">
+        var debug = false;
+        $(document).ready(
+            function () {
+                help();
+                about();
+
                 $('#pivotviewer').PivotViewer({
-                    Loader: new PivotViewer.Models.Loaders.SpreadsheetLoader(public_spreadsheet_url),
-                    ImageController: new PivotViewer.Views.SimpleImageController(),
+                    //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
+                    Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1KQ0lLse2we73PAGk5STcssbANIb6XEiHTtR0voHob5o&gid=1919540330"),
+                    //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/hli_pivot - Components.csv'),
+                    GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
+                    MapService: "Google",
+                    GeocodeService: "Nominatim",
+                    ViewerState: "$view$=1",
+                    ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
+                });
+                $('#splashscreen').css('opacity', '0.5');
+                $("#splashscreen").show();
+                $('.enter_link').click(function () {
+                    $(this).parent().fadeOut(500);
                 });
             });
-        </script>
-    </body>
+    </script>
+
+   
+</body>
 </html>

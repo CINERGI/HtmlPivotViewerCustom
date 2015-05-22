@@ -4,9 +4,9 @@
     <meta charset=utf-8>
 
     <meta charset=utf-8>
-    <title>High Level Inventory from Speadsheet</title>
+    <title>CINERGI High Level Inventory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link href="style/index.css" rel="stylesheet" type="text/css" />
+   
      <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
     <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
     <script>
@@ -70,6 +70,7 @@
     <script src="lib/csvToArray.v2.1.js" type="application/javascript"></script>
 
     <script src="src/cingeri-spreadsheetloader.js" type="application/javascript"></script>
+    <link href="style/index.css" rel="stylesheet" type="text/css" />
     <script src="SelectablePivots.js" type="application/javascript"></script>
 </head>
 <body>
@@ -83,7 +84,8 @@
         var imagecache = cl.protocol + "//" + cl.host + '/projects/images/panomedia';
     </script>
 
-    <div id="top"><div id="heading">High Level Inventory from Speadsheet</div></div>
+    <div id="top"><div id="heading">CINERGI High Level Inventory</div></div>
+
 
     <div id="topleft">
         <button type="button" class="rc-button" id="buttonBack" style="display: inline-block;">help</button>
@@ -100,13 +102,43 @@
             <!--<a href="http://www.esri.com">
                 <img src="content/images/esri-transparent.png" height="100">
             </a>-->
-            <p>
-                Some Instructions Here
-            </p>
+            <img src="images/pivot_help.png" height="200">
+
+            <div>1: select categories to show the items you want</div>
+            <div>2: expand other variables and make additional selections</div>
+            <div>
+                3: this is how many items are displayed
+            </div>
+            <div>
+                4: click an item to see its description on the right
+            </div>
+            <div>
+                5: zoom in to items
+            </div>
+            <div>
+                6: select a variable to organize items in a bar graph
+            </div>
+            <div>
+                7: grid view of items
+            </div>
+            <div>
+                8: bar graph view of items (use this together with 1 and 2 to explore distribution of items in different subsets)
+            </div>
+            <div>
+                9: bivariate graph view (also try other icons)
+            </div>
+            <div>
+                10: setting: specify which variables to display
+            </div>
+            <div>
+                Questions about the app: ec_apps@sdsc.edu
+
+            </div>
+
             <img src="http://earthcube.org/sites/default/files/logo_earthcube.png" />
+
         </div>
     </div>
-
     <div id="about">
         <div id="about-banner">
             <div id="about-banner-text">
@@ -126,7 +158,22 @@
 
                     for the NSF Earthcube <a href="http://earthcube.org/group/cinergi"> Community Inventory of EarthCube Resources for Geosciences Interoperability </a> project.
             </p>
+            <p>
+                The ECOGEO Resource Catalog is a collaboration between the ECOGEO Research Coordination Network project and the CINERGI (Community Inventory of EarthCube Resources for Geoscience Interoperability) projects.
+                It is a community-curated registry of information resources used in geo-microbiology, genomics and related fields
 
+            </p>
+            <p>
+                Questions about the content of the catalog:
+
+                Instructions for updating the catalog:
+
+            </p>
+            <p>
+                Funding under the NSF EarthCube program is gratefully acknowledged:
+                ECOGEO:
+                CINERGI: NSF ICER-1343816
+            </p>
         </div>
     </div>
     <div id="page">
