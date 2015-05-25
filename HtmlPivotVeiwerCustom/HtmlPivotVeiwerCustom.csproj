@@ -22,6 +22,7 @@
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
     <Content Include="ecogeo_text.html" />
+    <Content Include="HLI_2.html" />
     <Content Include="HLI_sheet.html" />
     <Content Include="images\pivot_help.png" />
     <Content Include="lib\lawnchair.min.js" />
@@ -743,7 +744,6 @@
     <Content Include="lib\wicket\wicket-gmap3.min.js" />
     <Content Include="lib\wicket\wicket-leaflet.min.js" />
     <Content Include="lib\wicket\wicket.min.js" />
-    <Content Include="HLI_2.html" />
     <Content Include="projects\images\arabba.jpg" />
     <Content Include="projects\images\bardonecchia.jpg" />
     <Content Include="projects\images\Book.png" />
