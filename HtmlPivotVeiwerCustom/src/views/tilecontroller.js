@@ -1,8 +1,6 @@
 //
 //  HTML5 PivotViewer
 //
-//  Collection loader interface - used so that different types of data sources can be used
-//
 //  Original Code:
 //    Copyright (C) 2011 LobsterPot Solutions - http://www.lobsterpot.com.au/
 //    enquiries@lobsterpot.com.au
@@ -22,8 +20,6 @@ PivotViewer.Views.TileController = Object.subClass({
     init: function (ImageController) {
         this._tiles = [];
         this._tilesById = [];
-        this._helpers = [];
-        this._helperText = "";
         this._easing = new Easing.Easer({ type: "circular", side: "both" });
         this._imageController = ImageController;
 
@@ -60,9 +56,6 @@ PivotViewer.Views.TileController = Object.subClass({
 
         if (this._tiles.length > 0 && this._tiles[0].context != null) {
             context = this._tiles[0].context;
-
-            //TODO Seen this error, investigate this for performance: http://stackoverflow.com/questions/7787219/javascript-ios5-javascript-execution-exceeded-timeout
-
             var isZooming = false;
             //Set tile properties
             for (var i = 0; i < this._tiles.length; i++) {
@@ -115,7 +108,7 @@ PivotViewer.Views.TileController = Object.subClass({
                         this._tiles[i].width = this._tiles[i].destinationwidth;
                         this._tiles[i].height = this._tiles[i].destinationheight;
                         // if now and end are numbers when we get here then the animation 
-			            // has finished
+                        // has finished
                     }
  
                     //check if the destination will be in the visible area
@@ -171,16 +164,7 @@ PivotViewer.Views.TileController = Object.subClass({
     SetQuarticEasingOut: function () {
         this._easing = new Easing.Easer({ type: "quartic", side: "out" });
     },
-    GetMaxTileRatio: function () {
-    //    return this._imageController.Height / this._imageController.MaxWidth;
-        return this._imageController.MaxRatio;
-    },
-    DrawHelpers: function (helpers) {
-        this._helpers = helpers;
-    },
-    DrawHelperText: function (text) {
-        this._helperText = text;
-    }
+    GetMaxTileRatio: function () {return this._imageController.MaxRatio;}
 });
 
 ///
@@ -192,7 +176,6 @@ PivotViewer.Views.Tile = Object.subClass({
         if (!(this instanceof PivotViewer.Views.Tile)) {
             return new PivotViewer.Views.Tile(TileController);
         }
-        this._controller = TileController;
         this._imageLoaded = false;
         this._selected = false;
         this._images = null;
@@ -207,7 +190,7 @@ PivotViewer.Views.Tile = Object.subClass({
     Draw: function (loc) {
         //Is the tile destination in visible area?
         if (this.destinationVisible) {
-            this._images = this._controller.GetImages(this.facetItem.Img, this.width, this.height);
+            this._images = TileController._imageController.GetImages(this.facetItem.Img, this.width, this.height);
         }
 
         if (this._images != null) {
@@ -218,18 +201,18 @@ PivotViewer.Views.Tile = Object.subClass({
 
             else if (this._images.length > 0 && this._images[0] instanceof Image) {
                 //if the collection contains an image
-                var completeImageHeight = this._controller.GetHeight(this.facetItem.Img);
+                var completeImageHeight = TileController._imageController.GetHeight(this.facetItem.Img);
                 var displayHeight = this.height - Math.ceil(this.height < 128 ? this.height / 16 : 8);
-                var displayWidth = Math.ceil(this._controller.GetWidthForImage(this.facetItem.Img, displayHeight));
+                var displayWidth = Math.ceil(TileController._imageController.GetWidthForImage(this.facetItem.Img, displayHeight));
                 //Narrower images need to be centered 
                 blankWidth = (this.width - 8) - displayWidth;
 
                 // Handle displaying the deepzoom image tiles (move to deepzoom.js)
-                if (this._controller instanceof PivotViewer.Views.DeepZoomImageController) {
+                if (TileController._imageController instanceof PivotViewer.Views.DeepZoomImageController) {
                     for (var i = 0; i < this._images.length; i++) {
                         // We need to know where individual image tiles go
                         var source = this._images[i].src;
-                        var tileSize = this._controller._tileSize;
+                        var tileSize = TileController._imageController._tileSize;
                         var n = source.match(/[0-9]+_[0-9]+/g);
                         var xPosition = parseInt(n[n.length - 1].substring(0, n[n.length - 1].indexOf("_")));
                         var yPosition = parseInt(n[n.length - 1].substring(n[n.length - 1].indexOf("_") + 1));
@@ -237,13 +220,13 @@ PivotViewer.Views.Tile = Object.subClass({
                         //Get image level
                         n = source.match (/_files\/[0-9]+\//g);
                         var imageLevel = parseInt(n[0].substring(7, n[0].length - 1));
-                        var levelHeight = Math.ceil(completeImageHeight / Math.pow(2, this._controller.GetMaxLevel(this.facetItem.Img) - imageLevel));
+                        var levelHeight = Math.ceil(completeImageHeight / Math.pow(2, TileController._imageController.GetMaxLevel(this.facetItem.Img) - imageLevel));
             
                         //Image will need to be scaled to get the displayHeight
                         var scale = displayHeight / levelHeight;
                     
                         // handle overlap 
-                        overlap = this._controller.GetOverlap(this.facetItem.Img);
+                        overlap = TileController._imageController.GetOverlap(this.facetItem.Img);
             
                         var offsetx = (Math.floor(blankWidth/2)) + 4 + xPosition * Math.floor((tileSize - overlap)  * scale);
                         var offsety = 4 + Math.floor((yPosition * (tileSize - overlap)  * scale));
@@ -285,7 +268,7 @@ PivotViewer.Views.Tile = Object.subClass({
         return -1;
     },
     DrawEmpty: function (loc) {
-        if (this._controller.DrawLevel == undefined) {
+        if (TileController._imageController.DrawLevel == undefined) {
             //draw an empty square
             this.context.beginPath();
             this.context.fillStyle = "#D7DDDD";
@@ -296,7 +279,7 @@ PivotViewer.Views.Tile = Object.subClass({
             this.context.stroke();
         } else {
             //use the controllers blank tile
-            this._controller.DrawLevel(this.facetItem, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
+            TileController._imageController.DrawLevel(this.facetItem, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
         }
     },
     CollectionRoot: "",

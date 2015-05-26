@@ -25,6 +25,7 @@
     <Content Include="HLI_2.html" />
     <Content Include="HLI_sheet.html" />
     <Content Include="images\pivot_help.png" />
+    <Content Include="lib\lawnchair.js" />
     <Content Include="lib\lawnchair.min.js" />
     <Content Include="lib\URI.js" />
     <None Include="pivotLists.json" />

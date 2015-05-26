@@ -98,7 +98,8 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 $('.pv-bucketview-overlay div').fadeIn('slow');
                 // Reset the slider to zero 
                 that.dontZoom = true;
-                $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                PV.Zoom(0);
                 that.RecalibrateUISettings();
             }
             else {
@@ -110,9 +111,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 that.currentWidth = newWidth;
                 that.currentHeight = newHeight;
                 that.columnWidth = that.origColumnWidth * that.scale;
-                //that.columnWidth = newWidth / that.buckets.length
                 $('.pv-bucketview-overlay div').fadeOut('slow');
-                //that.RecalibrateUISettings();
                 that.ResetUISettings();
             }
 
@@ -267,7 +266,8 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 that.currentOffsetY = that.offsetY;
                 that.ResetUISettings();
                 // Zoom using the slider event
-                $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                PV.Zoom(0);
             }
             that.ResetUISettings();
             var controller = TileController._imageController
@@ -482,11 +482,10 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (tile.height / canvasHeight > (tile.height / TileController._imageController.GetRatio(tile.facetItem.Img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
-        if (this.selected == null) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
+        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2)); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
 
         var padding = this.rowscols.PaddingX * bucket;
         this.currentOffsetX = (this.width / 2) - (this.rowscols.TileMaxWidth * col) - (this.rowscols.TileMaxWidth / 2) - padding;
-        //this.currentOffsetY = - this.rowscols.TileHeight * (((this.rowscols.Rows + 1) / 2) - (row + 2)) - ( this.canvasHeightUIAdjusted / 2 ) - (this.rowscols.TileHeight / 2) ;
         this.currentOffsetY = this.height / 2 - this.canvasHeightUIAdjusted + this.rowscols.TileHeight / 2 + row * this.rowscols.TileHeight;
         this.SetVisibleTileGraphPositions(this.rowscols, this.currentOffsetX, this.currentOffsetY, true, true);
     },
@@ -499,7 +498,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (this.selected != tile) {
             if (this.selected == null){
                 var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-                if (value != 0) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                if (value != 0) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             }
         }
 
@@ -521,7 +520,8 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         else if (this.selected != null) {
             //zoom out
             this.selected = tile = null;
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            PV.Zoom(0);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             $('.pv-bucketview-overlay div').fadeIn('slow');
         }
         $.publish("/PivotViewer/Views/Item/Selected", [{item: tile}]);

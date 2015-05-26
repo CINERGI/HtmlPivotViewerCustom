@@ -87,7 +87,8 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
                 that.scale = 1;
                 // Reset the slider to zero 
                 that.dontZoom = true;
-                $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                PV.Zoom(0);
                 that.RecalibrateUISettings();
             }
             else {
@@ -196,7 +197,8 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
             this.currentOffsetX = this.offsetX;
             this.currentOffsetY = this.offsetY;
             // Zoom using the slider event
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            PV.Zoom(0);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
 
             this.ResetUISettings();
             for (var i = 0; i < this.filter.length; i++) {
@@ -301,7 +303,7 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
         if (tile.height / canvasHeight > (tile.height / TileController._imageController.GetRatio(tile.facetItem.Img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
-        if (this.selected == null) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
+        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2)); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
 
         this.currentOffsetX = (this.rowscols.TileMaxWidth * -col) + (this.width / 2) - (this.rowscols.TileMaxWidth / 2);
         this.currentOffsetY = (this.rowscols.TileHeight * -row) + (this.height / 2) - (this.rowscols.TileHeight / 2);
@@ -311,7 +313,7 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
         if (this.selected != tile) {
             if (this.selected == null){
                 var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-                if (value != 0) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                if (value != 0) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             }
         }
 
@@ -323,7 +325,8 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
             //zoom out
             this.currentOffsetX = this.offsetX;
             this.currentOffsetY = this.offsetY;
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            PV.Zoom(0);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
         }
 
         $.publish("/PivotViewer/Views/Item/Selected", [{item: tile}]);

@@ -164,9 +164,15 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             }
             else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
-            else if (category.Type == PivotViewer.Models.FacetType.DateTime)
-                f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
-            if (!category.IsFilterVisible) {
+            else if (category.Type == PivotViewer.Models.FacetType.DateTime ) {
+                var m = moment(raw);
+                if ( m.isValid() ) {
+                    f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+                } else {
+                    console.warn( 'bad date:' & raw);
+                }
+            }
+             if (!category.IsFilterVisible) {
                 f.Href = null;
             }
             item.Facets.push(f);
@@ -200,7 +206,14 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)
-                f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+                {
+                    var m = moment(raw);
+                    if (m.isValid()) {
+                        f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+                    } else {
+                        console.warn('bad date:' & raw);
+                    }
+            }
             if (!category.IsFilterVisible) {
                 f.Href = null;
             }

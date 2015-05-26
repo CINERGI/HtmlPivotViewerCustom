@@ -167,7 +167,7 @@ a {
     margin-bottom: 0px;
     height: 24px;
     border: 1px solid #E2E2E2;
-    display: none;
+    //display: none;
 }
 
     .pv-filterpanel-search:-webkit-input-placeholder {

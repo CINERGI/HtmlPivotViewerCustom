@@ -23,7 +23,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         $("#pv-primsort").clone(true).attr("id", "pv-altsort").appendTo($("#pv-altsortcontrols"));
         $("#pv-altsort").on("change", function (e) {
             if (that.buckets2 == undefined) return; //initialzing
-            that.sortFacet2 = $("#pv-altsort option:selected").attr("label");
+            that.sortFacet2 = $("#pv-altsort option:selected").html();
             var category = PivotCollection.GetFacetCategoryByName(that.sortFacet2);
             if (!category.uiInit) PV.InitUIFacet(category);
             var filter = that.filter.slice(0).sort(tile_sort_by(that.sortFacet2));
@@ -76,7 +76,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     Filter: function (tiles, filter, sort) {
         this._super(tiles, filter, sort);
         if (this.buckets2 == undefined) {
-            this.sortFacet2 = $("#pv-primsort option:selected").attr("label");
+            this.sortFacet2 = $("#pv-primsort option:selected").html();
             $("#pv-altsort").val($("#pv-primsort").val());
             this.buckets2 = this.buckets;
             this.filter2 = this.filter;
@@ -224,7 +224,8 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
 
                 that.ResetUISettings();
                 // Zoom using the slider event
-                $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                PV.Zoom(0);
             }
             that.ResetUISettings();
             var controller = TileController._imageController
@@ -325,7 +326,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         if (tile.height / canvasHeight > (tile.height / TileController._imageController.GetRatio(item.Img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
-        if (this.selected == null) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
+        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2)); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
         this.currentOffsetX = (this.width / 2) - (this.rowscols.TileMaxWidth / 2) - (cellX + 1) * this.columnWidth - cellCol * this.rowscols.TileMaxWidth;
         this.currentOffsetY = (this.height / 2) - this.canvasHeightUIAdjusted + (this.rowscols.TileHeight / 2) + cellY * this.rowHeight * this.scale +
             cellRow * this.rowscols.TileHeight + 10
@@ -341,7 +342,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         if (this.selected != tile) {
             if (this.selected == null){
                 var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-                if (value != 0) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                if (value != 0) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             }
         }
 
@@ -363,7 +364,8 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         else if(this.selected != null) {
             //zoom out
             this.selected = tile = null;
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            PV.Zoom(0);
             $('.pv-bucketview-overlay div').fadeIn('slow');
         }
         $.publish("/PivotViewer/Views/Item/Selected", [{item: tile}]);
