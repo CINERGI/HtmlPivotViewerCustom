@@ -75,7 +75,7 @@
 
     var cl = window.location;
     var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-    var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
+    var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/domains';
     </script>
     <div id="top"><div id="heading">ESMF Components and Modeling Systems </div></div>
 
@@ -178,6 +178,7 @@
             help();
             about(); $('#pivotviewer').PivotViewer({
                 Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&gid=0"),
+                //Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&gid=0"),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/res ESMF Components and Modeling Systems.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",

@@ -994,7 +994,8 @@ var settings = { showMissing: false, visibleCategories: undefined };
 
         //main panel
         _self.append("<div class='pv-mainpanel'></div>");
-        var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        //var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30 - $('#top').height() - $('#bottom').height();
         $('.pv-mainpanel').css('height', mainPanelHeight + 'px');
         $('.pv-mainpanel').append("<div class='pv-filterpanel'></div>");
         $('.pv-mainpanel').append("<div class='pv-viewpanel'><canvas class='pv-canvas' width='" + _self.width() + "' height='" + mainPanelHeight + "px'></canvas></div>");
@@ -1101,7 +1102,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
         _views.push(new PivotViewer.Views.GridView());
         _views.push(new PivotViewer.Views.BucketView());
         _views.push(new PivotViewer.Views.CrosstabView());
-        _views.push(new PivotViewer.Views.GraphView());
+        //_views.push(new PivotViewer.Views.GraphView()); // not yet ready
         _views.push(new PivotViewer.Views.TableView());
         var mapView = new PivotViewer.Views.MapView2();
         mapView.SetOptions(_options);
@@ -1613,10 +1614,13 @@ var settings = { showMissing: false, visibleCategories: undefined };
             var facets = Loader.GetRow(selectedItem.facetItem.Id);
             for (var i = 0, k = 0; i < facets.length; i++) {
                 var category = PivotCollection.GetFacetCategoryByName(facets[i].Name);
-                while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
-                if (k == settings.visibleCategories.length) break;
-                else if (settings.visibleCategories[k] > category.index) continue;
+                //while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
+              //  if (k == settings.visibleCategories.length) break;
+               // else if (settings.visibleCategories[k] > category.index) continue;
 
+                // it would be nice if this worked, but this causes clicks to return to the root of the server.
+                // var IsMetaDataVisible = category.IsMetaDataVisible, IsFilterVisible = category.IsFilterVisible; 
+                // so enabling the click and ignoring it in the "/PivotViewer/Views/Item/Filtered" event works.
                 var IsMetaDataVisible = false. IsFilterVisible = false;
                 if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}
                 if (IsMetaDataVisible) {
@@ -1665,6 +1669,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
             var facetFilter = facetFilters[i];
 
             var category = PivotCollection.GetFacetCategoryByName(facetFilter.Facet);
+            if (!category.IsFilterVisible) continue;   // it is hidden in the filter panel
             if (!category.uiInit) InitUIFacet(category);
             LoadSem.acquire(function (release) {
                 if (category.Type == PivotViewer.Models.FacetType.String) {
