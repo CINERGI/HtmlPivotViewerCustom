@@ -807,7 +807,6 @@
     <Content Include="style\pivotviewer.css" />
     <Content Include="survey1544.html" />
     <Content Include="tabletoptest.html" />
-    <Content Include="UpdateCommunity.html" />
     <Content Include="web.config" />
     <Content Include="workshop.html" />
   </ItemGroup>
