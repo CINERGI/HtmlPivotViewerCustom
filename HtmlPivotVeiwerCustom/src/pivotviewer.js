@@ -1272,12 +1272,12 @@ var settings = { showMissing: false, visibleCategories: undefined };
             if (!category.uiInit) InitUIFacet(category);
             LoadSem.acquire(function (release) {
                 _tiles.sort(tile_sort_by(currentSort, false, _stringFacets));
-                _filterList = [];
-                for (var i = 0; i < _tiles.length; i++) {
-                    var tile = _tiles[i];
-                    tile.missing = !settings.showMissing && tile.facetItem.FacetByName[currentSort] == undefined;
-                    if (tile.filtered && !tile.missing) _filterList.push(_tiles[i]);
-                }
+                //_filterList = [];
+                //for (var i = 0; i < _tiles.length; i++) {
+                //    var tile = _tiles[i];
+                //    tile.missing = !settings.showMissing && tile.facetItem.FacetByName[currentSort] == undefined;
+                //    if (tile.filtered && !tile.missing) _filterList.push(_tiles[i]);
+                //}
                 $.publish("/PivotViewer/Views/Filtered", [{ tiles: _tiles, filter: _filterList, sort: currentSort }]);
                 release();
             });
