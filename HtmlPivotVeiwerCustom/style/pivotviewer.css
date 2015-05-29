@@ -43,6 +43,25 @@ a {
     float: left;
 }
 
+.pv-toolbarpanel-search {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    //height: 24px;
+    border: 1px solid #E2E2E2;
+    //display: none;
+}
+.pv-toolbarpanel-search-autocomplete {height: 150px; 
+                                      width: 150px; 
+                                      overflow-y: scroll;
+                                       overflow-x: hidden; 
+                                      position:absolute; 
+                                      z-index:31;
+                                       background-color: #FFF; border:1px solid #E2E2E2; 
+                                       margin-right:3px; padding: 3px;}
+.pv-toolbarpanel-search-autocomplete span { float:left; width:100%; }
+.pv-toolbarpanel-search-autocomplete span:hover { cursor:pointer; 
+                                                  background-color:#CBE4F0; }
+
 .pv-toolbarpanel-facetbreadcrumb {
     margin-top: 5px;
     margin-left: 5px;
@@ -1046,3 +1065,13 @@ a .ui-slider-handle .ui-state-default, .ui-widget-content .ui-state-default, .ui
             .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
                 float: left;
             }
+
+.ui-accordion .ui-accordion-content {
+  padding: 1em 0em;
+  padding-top: 1em;
+  padding-right: 0em;
+  padding-bottom: 1em;
+  padding-left: 0em;
+  border-top: 0;
+  overflow: auto;
+}

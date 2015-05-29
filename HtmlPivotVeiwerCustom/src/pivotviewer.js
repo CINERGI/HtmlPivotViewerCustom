@@ -976,6 +976,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
         var brandImage = PivotCollection.BrandImage;
         if (brandImage.length > 0) toolbarPanel += "<img class='pv-toolbarpanel-brandimage' src='" + brandImage + "'></img>";
         toolbarPanel += "<span class='pv-toolbarpanel-name'>" + PivotCollection.CollectionName + "</span>";
+        toolbarPanel += "<input  class='pv-searchbox' id='pv-toolbarpanel-search' placeholder='Search Names...'  width='60'/>";
         toolbarPanel += "<span class='pv-countbox' id='pv-toolbarpanel-countbox' width=25></span>";
         toolbarPanel += "<div class='pv-toolbarpanel-facetbreadcrumb'></div>";
         toolbarPanel += "<div class='pv-toolbarpanel-viewcontrols'></div>";
@@ -1010,7 +1011,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
         //filter panel
         var filterPanel = $('.pv-filterpanel');
         filterPanel.append("<div class='pv-filterpanel-clearall'>Clear All</div>")
-            .append("<input class='pv-filterpanel-search' type='text' placeholder='Search...' /><div class='pv-search-clear' id='pv-filterpanel-search-clear'>&nbsp;</div>")
+            .append("<input class='pv-filterpanel-search' type='text' placeholder='Search Facet...' /><div class='pv-search-clear' id='pv-filterpanel-search-clear'>&nbsp;</div>")
             .css('height', mainPanelHeight - 13 + 'px');
         if (navigator.userAgent.match(/iPad/i) != null)
             $('.pv-filterpanel-search').css('width', filterPanel.width() - 24 + 'px');
@@ -1541,6 +1542,34 @@ var settings = { showMissing: false, visibleCategories: undefined };
             TileController.BeginAnimation();
             release();
         });
+
+        // name search
+        $('#pv-toolbarpanel-search').autocomplete({
+            source: PivotCollection.Items.map(function(e) { return e.Name; }),
+            position: { my: "left top", at: "left bottom" },
+            minLength: 2,
+            select: function(event, ui) {
+                var selectedItem = PivotCollection.GetItemByName(ui.item.value);
+                for (var i = 0; i < _filterList.length; i++) {
+                    if (_filterList[i].facetItem.Id == selectedItem.Id) {
+                        //var tile = _filterList[i - 1];
+                        var tile = _filterList[i ];
+                        $.publish("/PivotViewer/Views/Item/Selected", [{ item: tile }]);
+                        _views[_currentView].CenterOnTile(tile);
+                        break;
+                    }
+                }
+                //if (selectedItem) $.publish("/PivotViewer/Views/Item/Selected", [{ item: selectedItem }]);
+            },
+ 
+            html: true, // optional (jquery.ui.autocomplete.html.js required)
+ 
+            // optional (if other layers overlap autocomplete list)
+            open: function(event, ui) {
+                $(".ui-autocomplete").css("z-index", 1000);
+            }
+        });
+        
     });
 
     var oldValue = 0;
