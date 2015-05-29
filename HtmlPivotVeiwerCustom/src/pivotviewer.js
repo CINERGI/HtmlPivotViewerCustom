@@ -19,7 +19,9 @@ var PivotCollection = new PivotViewer.Models.Collection();
 var TileController = null;
 var Loader = null;
 var LoadSem = new Semaphore(1);
-var settings = { showMissing: false, visibleCategories: undefined };
+var _showMissing = true; // default
+var settings = { showMissing: _showMissing, visibleCategories: undefined };
+
 
 (function ($) {
     var _views = [],
@@ -959,7 +961,7 @@ var settings = { showMissing: false, visibleCategories: undefined };
         store.get('settings', function (result) {
             if(result != null) settings = result.value;
             else {
-                settings.showMissing = false;
+                settings.showMissing = _showMissing;
                 settings.visibleCategories = [];
                 for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
                     if (PivotCollection.FacetCategories[i].IsFilterVisible) settings.visibleCategories.push(i);
@@ -1272,12 +1274,12 @@ var settings = { showMissing: false, visibleCategories: undefined };
             if (!category.uiInit) InitUIFacet(category);
             LoadSem.acquire(function (release) {
                 _tiles.sort(tile_sort_by(currentSort, false, _stringFacets));
-                //_filterList = [];
-                //for (var i = 0; i < _tiles.length; i++) {
-                //    var tile = _tiles[i];
-                //    tile.missing = !settings.showMissing && tile.facetItem.FacetByName[currentSort] == undefined;
-                //    if (tile.filtered && !tile.missing) _filterList.push(_tiles[i]);
-                //}
+                _filterList = [];
+                for (var i = 0; i < _tiles.length; i++) {
+                    var tile = _tiles[i];
+                    tile.missing = !settings.showMissing && tile.facetItem.FacetByName[currentSort] == undefined;
+                    if (tile.filtered && !tile.missing) _filterList.push(_tiles[i]);
+                }
                 $.publish("/PivotViewer/Views/Filtered", [{ tiles: _tiles, filter: _filterList, sort: currentSort }]);
                 release();
             });
