@@ -1693,25 +1693,32 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             for (var i = 0, k = 0; i < facets.length; i++) {
                 var category = PivotCollection.GetFacetCategoryByName(facets[i].Name);
                 
-                //while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
-              //  if (k == settings.visibleCategories.length) break;
-               // else if (settings.visibleCategories[k] > category.index) continue;
-                while (enabledCatagories[k] < category.index && k < enabledCatagories.length) k++;
-                if (k == enabledCatagories.length) break;
-                else if (enabledCatagories[k] > category.index) continue;
+
+                // This just does not work for pivots with info. Hidden does not display
+                //while (enabledCatagories[k] < category.index && k < enabledCatagories.length) k++;
+                //if (k == enabledCatagories.length) break;
+                //else if (enabledCatagories[k] > category.index) continue;
 
   
                 // it would be nice if this worked, but this causes clicks to return to the root of the server.
                 // var IsMetaDataVisible = category.IsMetaDataVisible, IsFilterVisible = category.IsFilterVisible; 
                 // so enabling the click and ignoring it in the "/PivotViewer/Views/Item/Filtered" event works.
-                var IsMetaDataVisible = false. IsFilterVisible = false;
-                if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}
+               // var IsMetaDataVisible  = false,IsFilterVisible = false;
+               // if (category.IsMetaDataVisible) { IsMetaDataVisible = true; IsFilterVisible = true;}
+                var IsMetaDataVisible = category.IsMetaDataVisible
+                var IsDisabledCategory = false;
+                if (category.column) {
+                  IsDisabledCategory = _.contains(settings.disabledCategories, category.column);
+                }
+                 var IsFilterVisible = category.IsFilterVisible && !IsDisabledCategory;
+
                 if (IsMetaDataVisible) {
                     detailDOM[detailDOMIndex] = "<div class='pv-infopanel-detail " + (alternate ? "detail-dark" : "detail-light") + "'><div class='pv-infopanel-detail-item detail-item-title' pv-detail-item-title='" + category.Name + "'>" + category.Name + "</div>";
                     for (var j = 0; j < facets[i].FacetValues.length; j++) {
                         var value = facets[i].FacetValues[j];
                         detailDOM[detailDOMIndex] += "<div pv-detail-item-value='" + value.Value + "' class='pv-infopanel-detail-item detail-item-value" + (IsFilterVisible ? " detail-item-value-filter" : "") + "'>";
-                        if (value.Href != null)
+                        if (value.Href != null && value.Href.length > 0)
+                            // might need some logic to handle Links (always display), and NotFilterVisible
                             detailDOM[detailDOMIndex] += "<a class='detail-item-link' href='" + value.Href + "'>" + value.Label + "</a>";
                         else detailDOM[detailDOMIndex] += value.Label;
                         detailDOM[detailDOMIndex] += "</div>";
