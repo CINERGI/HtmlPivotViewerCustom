@@ -20,7 +20,7 @@ var TileController = null;
 var Loader = null;
 var LoadSem = new Semaphore(1);
 var _showMissing = true; // default
-var settings = { showMissing: _showMissing, visibleCategories: undefined };
+var settings = { showMissing: _showMissing, visibleCategories: undefined, disabledCategories: undefined };
 
 
 (function ($) {
@@ -953,19 +953,49 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
         name = uncleanName.replace(/[^\w]/gi, '_');
         _nameMapping[name] = uncleanName;      
         return name;
+    };
+
+    AllVisibleCategories = function () {
+        var FilterVisibleCategories = []
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+            if (PivotCollection.FacetCategories[i].IsFilterVisible) FilterVisibleCategories.push(i);
+        }
+        return FilterVisibleCategories;
+    };
+
+    EnabledCategories = function (disabledCategories) {
+        var allCategories = AllVisibleCategories();
+        if (_.isArray(disabledCategories)) {
+         
+            return _.difference(allCategories, disabledCategories);
+        } else 
+        {
+            return allCategories();
+        }
     }
+
 
     //Events
     $.subscribe("/PivotViewer/Models/Collection/Loaded", function (event) {
         var store = Lawnchair({ name: PivotCollection.CollectionName });
         store.get('settings', function (result) {
-            if(result != null) settings = result.value;
+            if (result != null) {
+                settings = result.value;
+                // if this exists, let's use it initially.
+                if (settings.visibleCategories){
+                    var vset = AllVisibleCategories();                   
+                    settings.disabledCategories = _.difference(vset, settings.visibleCategories);
+
+                    settings.visibleCategories = AllVisibleCategories();
+                }
+            }
             else {
                 settings.showMissing = _showMissing;
-                settings.visibleCategories = [];
-                for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
-                    if (PivotCollection.FacetCategories[i].IsFilterVisible) settings.visibleCategories.push(i);
-                }
+                settings.visibleCategories = AllVisibleCategories();
+                settings.disabledCategories = [];
+                //for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+                //    if (PivotCollection.FacetCategories[i].IsFilterVisible) settings.visibleCategories.push(i);
+                //}
             }
             $.publish("/PivotView/Models/Settings/Loaded");
         });
@@ -1047,7 +1077,9 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
     });
 
     $.subscribe("/PivotViewer/Settings/Changed", function (event) {
-        var selCategory = PivotCollection.FacetCategories[event.visibleCategories[0]];
+        var enabledCatagories = EnabledCategories(event.disabledCategories);
+        //var selCategory = PivotCollection.FacetCategories[event.visibleCategories[0]];
+        var selCategory = PivotCollection.FacetCategories[enabledCatagories[0]];
         if (!selCategory.uiInit) InitUIFacet(selCategory);
         SelectView(0);
 
@@ -1056,8 +1088,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
             facetSelect.hide();
             facetSelect.attr("visible", "invisible");
             $(".pv-toolbarpanel-sort option").remove();
-            for (var i = 0; i < event.visibleCategories.length; i++) {
-                var category = PivotCollection.FacetCategories[event.visibleCategories[i]];
+            for (var i = 0; i < enabledCatagories.length; i++) {//event.visibleCategories
+                var category = PivotCollection.FacetCategories[enabledCatagories[i]]; //event.visibleCategories
                 facetSelect.eq(category.visIndex).show();
                 facetSelect.eq(category.visIndex).attr("visible", "visible");
                 sortSelect.append("<option value='" + i + "' search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>");
@@ -1070,6 +1102,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
     });
 
     $.subscribe("/PivotViewer/ImageController/Collection/Loaded", function (event) {
+        var enabledCatagories = EnabledCategories(settings.disabledCategories);
         var facets = ["<div class='pv-filterpanel-accordion'>"];
         var sort = [];
         var activeNumber = 0;
@@ -1148,11 +1181,11 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
             if(category.IsFilterVisible) html += "<option value=" + i + " search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>";
         }
         html += "</select></td><td><select id='pv-column-select' multiple style='width:250px' size=20>";
-        if (settings.visibleCategories.length == 0) html += "<option value='-1'>Select Variables...</option>";
+        if (enabledCatagories.length == 0) html += "<option value='-1'>Select Variables...</option>";//settings.visibleCategories
         else {
-            for (var i = 0; i < settings.visibleCategories.length; i++) {
-                var category = PivotCollection.FacetCategories[settings.visibleCategories[i]];
-                html += "<option value=" + settings.visibleCategories[i] + " search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>";
+            for (var i = 0; i < enabledCatagories.length; i++) {//settings.visibleCategories
+                var category = PivotCollection.FacetCategories[enabledCatagories[i]];//settings.visibleCategories
+                html += "<option value=" + enabledCatagories[i] + " search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>";//settings.visibleCategories
             }
         }
         html += "</select></td><td width=200><input id='pv-column-search' placeholder='Search For Variable...' type='text' size=20><div " +
@@ -1203,12 +1236,21 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
             $("#pv-column-select").append("<option value='-1'>Select Variables...</option>");
         });
         $("#pv-settings-submit").click(function (e) {
-            settings.visibleCategories = [];
-            var selectList = $("#pv-column-select option");
-            for (var i = 0; i < selectList.length; i++) {
-                settings.visibleCategories.push(selectList[i].value);
-            }
+            settings.disabledCategories = [];
+            var selectList = [], allList = [];
+            $("#pv-column-select option").each(function () {
+                selectList.push($(this).val());
+            });;
+            $("#pv-all-columns option").each(function () {
+                allList.push($(this).val());
+            })
+            //for (var i = 0; i < selectList.length; i++) {
+            //    settings.visibleCategories.push(selectList[i].value);
+            //}
+            var difference = _.difference(allList, selectList);
+            settings.disabledCategories = _.map(difference, function (cat) { return parseInt(cat); }); // _.map(difference, function (cat) { return parseInt(cat.value); })
             settings.showMissing = $("#show-missing").prop("checked");
+            settings.visibleCategories = undefined;
 
             var store = Lawnchair({ name: PivotCollection.CollectionName });
             store.save({ key: "settings", value: settings });
@@ -1535,7 +1577,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
 
             FilterCollection();
 
-            if (settings.visibleCategories.length < PivotCollection.FacetCategories.length)
+            var enabledCatagories = EnabledCategories(settings.disabledCategories);
+            if (enabledCatagories.length < PivotCollection.FacetCategories.length)//settings.visibleCategories
                 $.publish("/PivotViewer/Settings/Changed", [settings]);
             else $(".pv-facet").attr("visible", "visible");
 
@@ -1593,11 +1636,12 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
 
     InitVisibleSelect = function (id) { //hack to avoid .hide() in IE
         $(id + " option").remove();
-        if (settings.visibleCategories.length == 0) $(id).append("<option value='-1'>Select Variables...</option>");
+        var enabledCatagories = EnabledCategories(settings.disabledCategories);
+        if (enabledCatagories.length == 0) $(id).append("<option value='-1'>Select Variables...</option>");
         else {
-            for (var i = 0; i < settings.visibleCategories.length; i++) {
-                var category = PivotCollection.FacetCategories[settings.visibleCategories[i]];
-                $(id).append("<option value=" + settings.visibleCategories[i] + " search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>");
+            for (var i = 0; i < enabledCatagories.length; i++) {
+                var category = PivotCollection.FacetCategories[enabledCatagories[i]];
+                $(id).append("<option value=" + enabledCatagories[i] + " search='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>");
             }
         }
     }
@@ -1643,12 +1687,20 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined };
             var detailDOMIndex = 0;
 
             var facets = Loader.GetRow(selectedItem.facetItem.Id);
+
+            var enabledCatagories = EnabledCategories(settings.disabledCategories);
+
             for (var i = 0, k = 0; i < facets.length; i++) {
                 var category = PivotCollection.GetFacetCategoryByName(facets[i].Name);
+                
                 //while (settings.visibleCategories[k] < category.index && k < settings.visibleCategories.length) k++;
               //  if (k == settings.visibleCategories.length) break;
                // else if (settings.visibleCategories[k] > category.index) continue;
+                while (enabledCatagories[k] < category.index && k < enabledCatagories.length) k++;
+                if (k == enabledCatagories.length) break;
+                else if (enabledCatagories[k] > category.index) continue;
 
+  
                 // it would be nice if this worked, but this causes clicks to return to the root of the server.
                 // var IsMetaDataVisible = category.IsMetaDataVisible, IsFilterVisible = category.IsFilterVisible; 
                 // so enabling the click and ignoring it in the "/PivotViewer/Views/Item/Filtered" event works.
