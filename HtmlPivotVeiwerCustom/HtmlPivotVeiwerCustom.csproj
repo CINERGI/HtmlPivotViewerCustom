@@ -21,12 +21,14 @@
     <Content Include="app.css" />
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
+    <Content Include="ec_posters.html" />
     <Content Include="ecogeo_text.html" />
     <Content Include="HLI_2.html" />
     <Content Include="HLI_sheet.html" />
     <Content Include="images\pivot_help.png" />
     <Content Include="lib\lawnchair.js" />
     <Content Include="lib\lawnchair.min.js" />
+    <Content Include="lib\underscore.js" />
     <Content Include="lib\URI.js" />
     <None Include="pivotLists.json" />
     <Content Include="projects\c4p_Collection_files\hfww03s4.5vu.xml" />
@@ -210,6 +212,8 @@
     <Content Include="projects\images\domains\ocean.jpg" />
     <Content Include="projects\images\domains\polar.jpg" />
     <Content Include="projects\images\domains\soil.png" />
+    <Content Include="projects\images\ecicons\geodataspace.png" />
+    <Content Include="projects\images\ecicons\logo_earthcube.png" />
     <Content Include="projects\images\panomedia\application.png" />
     <Content Include="projects\images\panomedia\Book.png" />
     <Content Include="projects\images\panomedia\broken_link.png" />
@@ -856,6 +860,7 @@
     <Content Include="projects\images\panomedia\LICENSE" />
     <Content Include="sheetsProxy.ashx" />
     <Content Include="projects\images\domains\imagelist.json" />
+    <Content Include="projects\images\ecicons\imagelist.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -879,6 +884,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

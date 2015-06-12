@@ -3,6 +3,7 @@
 <head>
     <title>ESMF Components and Modeling Systems</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
     <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" />
     <link href="lib/leaflet/leaflet.css" rel="stylesheet" type="text/css" media="screen" />
     <script>
@@ -35,7 +36,7 @@
     <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
     <script src="lib/wicket/wicket.min.js" type="text/javascript"></script>
     <script src="lib/lawnchair.min.js" type="text/javascript"></script>
-
+    <script src="lib/underscore.js" type="text/javascript"></script>
     <script src="lib/semaphore.min.js"></script>
     <script src="lib/jquery.cookie.min.js"></script>
 
@@ -178,6 +179,7 @@
             help();
             about(); $('#pivotviewer').PivotViewer({
                 Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&gid=0"),
+                //Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=0Asxif6Jg1upydDNscXp5TnljUU1FTGFhbGF5SXdXUGc&gid=0"),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/res ESMF Components and Modeling Systems.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",
