@@ -587,7 +587,7 @@ a {
     top: 0px;
 }
 
-.pv-bucketview-overlay-buckettitle {
+.pv-bucketview-overlay-bucket-infobox {
     height: 50px;
     background-color: #F5F5F5;
     position: relative;
@@ -600,24 +600,40 @@ a {
     z-index: 25;
 }
 
-.pv-bucketview-overlay-buckettitle-left {
+.pv-bucketview-overlay-bucket-titlebox {
+    height: 50px;
     background-color: #F5F5F5;
-    position: absolute;
-    text-align: center;
+    position: relative;
+    //text-align: center;
     border: 1px solid #D3D4D4;
     cursor: default;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    //white-space: nowrap;
+    z-index: 25;
+}
+.pv-bucketview-overlay-bucket-titlebox-left {
+    background-color: #F5F5F5;
+    position: absolute;
+    //text-align: center;
+    border: 1px solid #D3D4D4;
+    cursor: default;
+    overflow: hidden;
+    //text-overflow: ellipsis;
+    //white-space: nowrap;
     z-index: 25;
 }
 
 .pv-bucket-label {
     position: relative;
-    text-align: center;
-    height: 16px;
-    top: 50%;
-    margin-top: -8px;
+    text-align: right;
+    //height: 16px;  
+    text-overflow: ellipsis;
+    //white-space: nowrap;
+    top: 0.1em;
+    z-index: 26;
+    margin-left: 30px;
+    line-height: 85%
 }
 
 .bucketview-bucket-dark {

@@ -216,11 +216,22 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         for (var i = 0; i < this.buckets.length; i++) {
             var bkt = this.buckets[i];
             var styleClass = i % 2 == 0 ? "bucketview-bucket-dark" : "bucketview-bucket-light", label;
-            var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? bkt.startLabel : bkt.startLabel + "<br>to<br>" + bkt.endLabel;
-            uiElements[i] = "<div class='pv-bucketview-overlay-bucket " + styleClass + "' id='pv-bucketview-overlay-bucket-" + i + "' style='width: " +
-                (Math.floor(this.columnWidth) - 4) + "px; height:" + (this.height - 2) + "px; left:" + ((i * this.columnWidth) - 2) + "px;'>";
-            uiElements[i] += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "px;'><div class='pv-bucket-countbox'>" +
-                this.buckets[i].tiles.length + "<br>" + Math.round(this.buckets[i].tiles.length / this.filter.length * 100) + "%</div>" + label + "</div></div>";
+            var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel
+                ? "<div class='pv-bucket-label' >" + bkt.startLabel + "</div>" :
+                "<div class='pv-bucket-label' ><div>" + bkt.startLabel + "</div><div>to</div>" + bkt.endLabel + "</div></div>";
+            uiElements[i] = "<div class='pv-bucketview-overlay-bucket "
+                + styleClass + "' id='pv-bucketview-overlay-bucket-"
+                + i + "' style='width: " +
+                (Math.floor(this.columnWidth) - 4)
+                + "px; height:" + (this.height - 2) + "px; left:" + ((i * this.columnWidth) - 2) + "px;'>";
+            uiElements[i] += "<div class='pv-bucketview-overlay-bucket-infobox' style='top: "
+                + (this.canvasHeightUIAdjusted + 4)
+                + "px;'><div class='pv-bucket-countbox'>"
+                + this.buckets[i].tiles.length
+                + "<br>" + Math.round(this.buckets[i].tiles.length / this.filter.length * 100)
+                + "%</div>"
+               + label 
+                + "</div></div>";
             if (this.bigCount < bkt.tiles.length) this.bigCount = bkt.tiles.length;
         }
 

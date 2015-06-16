@@ -155,13 +155,17 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         for (var i = 0; i < this.buckets2.length; i++) {
             var bkt = this.buckets2[i];
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = bkt.startLabel : bkt.startLabel + " to " + bkt.endLabel;
-            uiElements += "<div class='pv-bucketview-overlay-buckettitle-left' style='top: " + ((this.buckets2.length - 1 - i) * this.rowHeight) +
+            uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox-left' style='top: " + ((this.buckets2.length - 1 - i) * this.rowHeight) +
                 "px; height: " + (this.rowHeight - 4) + "px; width: " + (this.columnWidth - 4) + "px'><div class='pv-bucket-countbox'>" +
-                this.buckets2[i].tiles.length + "<br>" + Math.round(this.buckets2[i].tiles.length / this.filter2.length * 100) + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
+                this.buckets2[i].tiles.length + "<br>" + Math.round(this.buckets2[i].tiles.length / this.filter2.length * 100)
+                + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
         }
-        uiElements += "<div style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
-                (i * this.rowHeight) + "px;'><div style='text-align:center'>" + this.sortFacet2 +
-                "</div><div class='pv-bucket-countbox'>X<sup>2</sup><br>" + chi2 + "</div><div style='position:absolute; right:2px;'>" + this.sortFacet + "</div></div></div>";
+        // bottom right box
+        uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox-left' style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
+                (i * this.rowHeight) + "px;'><div class='pv-bucket-label' style='text-align: left; margin-left: 0px'>" + this.sortFacet2 +
+                "</div><div class='pv-bucket-countbox'>X<sup>2</sup><br>" + chi2 + "</div><div class='pv-bucket-label' style='top:1em;'>"
+                + this.sortFacet + "</div></div></div>";
+
         for (var i = 0; i < this.buckets.length; i++) {
             var bkt = this.buckets[i];
             uiElements += "<div class='pv-bucketview-overlay-bucket' style='width: " + (this.columnWidth - 4) + "px; left:" + ((i + 1) *
@@ -174,10 +178,11 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                 if (this.bigCount < sub.tiles.length) this.bigCount = sub.tiles.length;
             }
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = "<div class='pv-bucket-label'>" + bkt.startLabel +
-                "</div>" : bkt.startLabel + "<br>to<br>" + bkt.endLabel;
+                "</div>" : "<div class='pv-bucket-label'>" + bkt.startLabel + "<br>to<br>" + bkt.endLabel +"</div>";
             
-            uiElements += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "';'><div class='pv-bucket-countbox'>" +
-                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filter2.length * 100) + "%</div>" + label + "</div></div></div>";
+            uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox' style='top: " + (this.canvasHeightUIAdjusted + 4) + "';'><div class='pv-bucket-countbox'>" +
+                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filter2.length * 100) + "%</div>"
+                + label + "</div></div></div>";
 
         }
 
