@@ -12,7 +12,6 @@
 //  GNU General Public License v2 (see COPYING)
 //
 
-//CSV loader
 PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoader.subClass({
     init: function (CSVUri, proxy) {
         this.CSVUriNoProxy = CSVUri;
@@ -21,6 +20,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     LoadCollection: function (collection) {
         this.collection = collection;
+        this.collection.config = {};
         this._super(collection);
 
         collection.CollectionBaseNoProxy = this.CSVUriNoProxy;
@@ -78,13 +78,17 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     LoadData: function () {
         var categories = this.data[0];
-        var name_column = -1, img_column = -1, index, type, href_column = -1;
+        var name_column = -1, img_column = -1;
         for (var i = 0; i < categories.length; i++) {
-            var SearchVisible = true, isDataVisible = true, isMultipleItems = false;
+            var index, type, visible = true;
             if (categories[i].charAt(0) == "#") {
                 if (categories[i] == "#name") name_column = i;
                 else if (categories[i] == "#img") img_column = i;
-                else if (categories[i] == "#href") href_column = i;
+                else if (categories[i] == "#views") {
+                    var j = 1;
+                    this.collection.config.views = [];
+                    while (this.data[j][i] != null && this.data[j][i] != "") this.collection.config.views.push(this.data[j++][i]);
+                }
                 continue;
             }
             else if ((index = categories[i].indexOf("#")) !== -1) {
@@ -94,30 +98,22 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                     type = PivotViewer.Models.FacetType.DateTime;
                 else if (categories[i].indexOf("#ordinal", index) !== -1)
                     type = PivotViewer.Models.FacetType.Ordinal;
-                else if (categories[i].indexOf("#info", index) !== -1) {
-                    type = PivotViewer.Models.FacetType.String;
-                    SearchVisible = false;
-                } else if (categories[i].indexOf("#hide", index) !== -1) {
-                    SearchVisible = false;
-                    isDataVisible = false;
-                    type = PivotViewer.Models.FacetType.String;
+                else if (categories[i].indexOf("#long", index) !== -1) {
+                    type = PivotViewer.Models.FacetType.LongString;
+                    visible = false;
                 }
-                else if (categories[i].indexOf("#link", index) !== -1 || categories[i].indexOf("#href", index) !== -1) {
+                else if (categories[i].indexOf("#link", index) !== -1) {
                     type = PivotViewer.Models.FacetType.Link;
-                    SearchVisible = false;
+                    visible = false;
                 }
-                else if (categories[i].indexOf("#multi", index) !== -1) {
-                    isMultipleItems = true;
-                    type = PivotViewer.Models.FacetType.String;
-                } else type = PivotViewer.Models.FacetType.String;
+                else type = PivotViewer.Models.FacetType.String;
             }
             else {
                 type = PivotViewer.Models.FacetType.String;
                 index = categories[i].length;
             }
-            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), null, type, SearchVisible, isDataVisible, false);
+            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), null, type, visible, true, true);
             category.column = i;
-            category.isMultipleItems = isMultipleItems;
             this.collection.FacetCategories.push(category);
         }
 
@@ -135,36 +131,14 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var item = this.collection.Items[i], raw = this.data[i + 1][category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
-            if (category.Type == PivotViewer.Models.FacetType.String) {
-                //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
-                if (category.isMultipleItems) {
-                    var split = raw.split(',');
-                    for (var sp = 0 ; sp < split.length; sp++) {
-                        f.AddFacetValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
-                    }
-                }
-                else {
-                    f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
-                }
-            }
-            else if (category.Type == PivotViewer.Models.FacetType.Link) {
-                // need to explicity set the value
-                var fv = new PivotViewer.Models.FacetValue(raw, raw);
-                fv.Href = raw;
-                f.AddFacetValue(fv);
-            } else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) {
+            if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) {
                 var value = parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]);
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(value, raw));
                 if (value != Math.floor(value)) integer = false;
             }
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
-            else if (category.Type == PivotViewer.Models.FacetType.Link) {
-                // need to explicity set the value
-                var fv = new PivotViewer.Models.FacetValue(raw, raw);
-                fv.Href = raw;
-                f.AddFacetValue(fv);
-            }
+            else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
             if (category.Type == PivotViewer.Models.FacetType.Number) category.integer = integer;
             item.Facets.push(f);
         }
@@ -172,37 +146,19 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     GetRow: function (id) {
         var row = this.data[id], facets = [];
         for (var i = 0; i < settings.visibleCategories.length; i++) {
-            var index = settings.visibleCategories[i], category = this.collection.FacetCategories[index];
-            var raw = row[category.column];
+            var index = settings.visibleCategories[i], category = this.collection.FacetCategories[index], raw = row[index];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
-            if (category.Type == PivotViewer.Models.FacetType.String) {
-                //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
-                if (category.isMultipleItems) {
-                    var split = raw.split(',');
-                    for (var sp = 0 ; sp < split.length; sp++) {
-                        f.AddFacetValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
-                    }
-                }
-                else {
-                    f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
-                }
-            }
-            else if (category.Type == PivotViewer.Models.FacetType.Link) {
-                // need to explicity set the value
-                var fv = new PivotViewer.Models.FacetValue(raw, raw);
-                fv.Href = raw;
-                f.AddFacetValue(fv);
-            } else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal)
+            if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) 
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
             else if (category.Type == PivotViewer.Models.FacetType.Link) {
-                // need to explicity set the Href
-                var fv = new PivotViewer.Models.FacetValue(raw, raw);
-                fv.Href = raw;
-                f.AddFacetValue(fv);
+                var value = new PivotViewer.Models.FacetValue(raw);
+                value.value = raw;
+                value.href = raw;
             }
+            else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
             facets.push(f);
         }
         return facets;

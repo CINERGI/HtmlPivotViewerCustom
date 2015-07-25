@@ -33,6 +33,7 @@ PivotViewer.Views.IPivotViewerView = Object.subClass({
 		});
 	},
 	Setup: function (width, height, offsetX, offsetY, tileMaxRatio) { },
+	SetOptions: function(options) {}, 
 	Filter: function (tiles, currentFilter) { },
 	GetUI: function () {
 	    if (Modernizr.canvas) return "";

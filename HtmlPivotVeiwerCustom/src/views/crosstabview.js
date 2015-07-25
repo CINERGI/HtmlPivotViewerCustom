@@ -11,9 +11,9 @@
 //  This software is licensed under the terms of the
 //  GNU General Public License v2 (see COPYING)
 //
-///
-/// Crosstab View
-///
+
+LoadScript("src/views/bucketview.min.js");
+
 PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     init: function () {
         this._super();
@@ -43,7 +43,6 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     },
     GetBucket: function (x) { return Math.floor((x - this.offsetX - this.columnWidth) / this.columnWidth); },
     GetBucket2: function (y) { return this.buckets2.length - Math.floor(y / this.rowHeight) - 1},
-    //GetBucketDiv: function (evt) { return '#pv-bucketview-overlay-bucket-' + this.GetBucket(evt.x) + "-" + this.GetBucket2(evt.y); },
     RecalibrateUISettings: function () {
         this.rowscols = this.GetTileDimensions((this.origColumnWidth - 4) * this.scale, (this.rowHeight - 4) * this.scale,
             this.maxRatio, this.bigCount, this.rowscols);
@@ -66,7 +65,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         for (var i = 0; i < this.filter.length; i++) {
             var tile = this.filter[i], id = tile.facetItem.Id;
             var j = this.buckets.ids[id], k = this.buckets2.ids[id];
-            if (k == undefined) continue;
+            if (j == undefined || k == undefined) continue;
             var bkt = this.buckets[j].subBuckets[k];
             bkt.tiles.push(tile);
             bkt.ids[id] = true;
@@ -135,13 +134,12 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         this.rowHeight = this.canvasHeightUIAdjusted / this.buckets[0].subBuckets.length;
 
         //Find biggest bucket to determine tile size, rows and cols
-        //Also create UI elements
         var uiElements = "<div class='pv-bucketview-overlay-bucket' style='width: " + (this.columnWidth - 4) + "px; height:" +
             this.height + "px;''>";
         this.bigCount = 0;
-        var chi2 = 0;
+        var chi2 = 0, bkt;
         for (var i = 0; i < this.buckets.length; i++) {
-            var bkt = this.buckets[i];
+            bkt = this.buckets[i];
             if (bkt.tiles.length == 0) continue;
             for (var j = 0; j < this.buckets2.length; j++) {
                 var bkt2 = this.buckets2[j];
@@ -151,21 +149,21 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             }
         }
         chi2 = Math.floor(chi2 * 100) / 100;
+        var prob = pochisq(chi2, this.buckets.length, bkt.subBuckets.length), star = "";
+        if (prob < 0.001) star = "***";
+        else if (prob < 0.01) star = "**";
+        else if (prob < 0.05) star = "*";
 
         for (var i = 0; i < this.buckets2.length; i++) {
             var bkt = this.buckets2[i];
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = bkt.startLabel : bkt.startLabel + " to " + bkt.endLabel;
-            uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox-left' style='top: " + ((this.buckets2.length - 1 - i) * this.rowHeight) +
+            uiElements += "<div class='pv-bucketview-overlay-buckettitle-left' style='top: " + ((this.buckets2.length - 1 - i) * this.rowHeight) +
                 "px; height: " + (this.rowHeight - 4) + "px; width: " + (this.columnWidth - 4) + "px'><div class='pv-bucket-countbox'>" +
-                this.buckets2[i].tiles.length + "<br>" + Math.round(this.buckets2[i].tiles.length / this.filter2.length * 100)
-                + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
+                this.buckets2[i].tiles.length + "<br>" + Math.round(this.buckets2[i].tiles.length / this.filter2.length * 100) + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
         }
-        // bottom right box
-        uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox-left' style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
-                (i * this.rowHeight) + "px;'><div class='pv-bucket-label' style='text-align: left; margin-left: 0px'>" + this.sortFacet2 +
-                "</div><div class='pv-bucket-countbox'>X<sup>2</sup><br>" + chi2 + "</div><div class='pv-bucket-label' style='top:1em;'>"
-                + this.sortFacet + "</div></div></div>";
-
+        uiElements += "<div style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
+                (i * this.rowHeight) + "px;'><div style='text-align:center'>" + this.sortFacet2 +
+                "</div><div class='pv-bucket-countbox'>X<sup>2</sup><br>" + chi2 + star + "</div><div style='position:absolute; right:2px;'>" + this.sortFacet + "</div></div></div>";
         for (var i = 0; i < this.buckets.length; i++) {
             var bkt = this.buckets[i];
             uiElements += "<div class='pv-bucketview-overlay-bucket' style='width: " + (this.columnWidth - 4) + "px; left:" + ((i + 1) *
@@ -178,11 +176,10 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                 if (this.bigCount < sub.tiles.length) this.bigCount = sub.tiles.length;
             }
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = "<div class='pv-bucket-label'>" + bkt.startLabel +
-                "</div>" : "<div class='pv-bucket-label'>" + bkt.startLabel + "<br>to<br>" + bkt.endLabel +"</div>";
+                "</div>" : bkt.startLabel + "<br>to<br>" + bkt.endLabel;
             
-            uiElements += "<div class='pv-bucketview-overlay-bucket-titlebox' style='top: " + (this.canvasHeightUIAdjusted + 4) + "';'><div class='pv-bucket-countbox'>" +
-                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filter2.length * 100) + "%</div>"
-                + label + "</div></div></div>";
+            uiElements += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "';'><div class='pv-bucket-countbox'>" +
+                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filter2.length * 100) + "%</div>" + label + "</div></div></div>";
 
         }
 
@@ -201,7 +198,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             tile.startwidth = tile.width;
             tile.startheight = tile.height;
 
-            if (tile.filtered && !tile.missing) continue;
+            if (tile.filtered && (settings.showMissing || !tile.missing)) continue;
             tile.start = PivotViewer.Utils.Now();
             tile.end = tile.start + 1000;
             var theta = Math.atan2(location.y - (this.currentHeight / 2), location.x - (this.currentWidth / 2))
@@ -212,8 +209,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         // recalculate max width of images in filter
         this.maxRatio = TileController._imageController.GetRatio(this.tiles[0].facetItem.Img);
         for (var i = 0; i < this.filter.length; i++) {
-            var item = this.filter[i].facetItem;
-            var ratio = TileController._imageController.GetRatio(item.Img);
+            var ratio = TileController._imageController.GetRatio(this.filter[i].facetItem.Img);
             if (ratio < this.maxRatio) this.maxRatio = ratio;
         }
         
@@ -228,8 +224,6 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                 that.currentOffsetY = that.offsetY;
 
                 that.ResetUISettings();
-                // Zoom using the slider event
-                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
                 PV.Zoom(0);
             }
             that.ResetUISettings();
@@ -249,7 +243,6 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         $("#pv-altsortcontrols").hide();
     },
     GetViewName: function () {return 'Crosstab View';},
-    /// Sets the tiles position based on the GetRowsAndColumns layout function
     SetVisibleTileGraphPositions: function (rowscols, offsetX, offsetY, initTiles, keepColsRows) {
         var columns = (keepColsRows && this.rowscols)  ? this.rowscols.Columns : rowscols.Columns;
         if (!keepColsRows) this.rowscols = rowscols;
@@ -318,10 +311,9 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         var cellCol = Math.round((location.x - this.currentOffsetX - (cellX + 1) * this.columnWidth) / tileMaxWidth);
 
         //Tricky numerical precision
-        var cellRow = cellRows - Math.floor((location.y - this.currentOffsetY - (this.buckets2.length - cellY - 1) * this.rowHeight * this.scale - this.rowscols.PaddingY) / tileHeight) - 1;
-        var col = (cellX * cellCols) + cellCol, row = (cellY * cellRows) + cellRow;
+        var cellRow = cellRows - Math.floor((location.y - this.currentOffsetY - (this.buckets2.length - cellY - 1) * this.rowHeight * this.scale - this.rowscols.PaddingY) / tileHeight);
         var bkt = this.buckets[cellX].subBuckets[cellY], index = cellRow * cellCols + cellCol;
-        while (index > bkt.tiles.length || bkt.tiles[index] != tile) { cellRow--; index -= cellCols;}
+        while ((index > bkt.tiles.length || bkt.tiles[index] != tile) && index >= 0) { cellRow--; index -= cellCols;}
 
         var canvasHeight = tile.context.canvas.height;
         var canvasWidth = tile.context.canvas.width - ($('.pv-filterpanel').width() + $('.pv-infopanel').width());
@@ -331,7 +323,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         if (tile.height / canvasHeight > (tile.height / TileController._imageController.GetRatio(item.Img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
-        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2)); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
+        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2));
         this.currentOffsetX = (this.width / 2) - (this.rowscols.TileMaxWidth / 2) - (cellX + 1) * this.columnWidth - cellCol * this.rowscols.TileMaxWidth;
         this.currentOffsetY = (this.height / 2) - this.canvasHeightUIAdjusted + (this.rowscols.TileHeight / 2) + cellY * this.rowHeight * this.scale +
             cellRow * this.rowscols.TileHeight + 10
@@ -341,15 +333,6 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     handleSelection: function (tile, clickX, clickY, selectedLoc) {
         var found = false;
         var dontFilter = false;
-
-        //Reset slider to zero before zooming ( do this before sorting the tile selection
-        //because zooming to zero unselects everything...)
-        if (this.selected != tile) {
-            if (this.selected == null){
-                var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-                if (value != 0) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
-            }
-        }
 
         if (tile != null) {
             tile.Selected(true);
@@ -369,7 +352,6 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         else if(this.selected != null) {
             //zoom out
             this.selected = tile = null;
-            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             PV.Zoom(0);
             $('.pv-bucketview-overlay div').fadeIn('slow');
         }

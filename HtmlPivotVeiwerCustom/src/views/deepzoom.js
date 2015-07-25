@@ -28,7 +28,7 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
         this._tileSize = 256;
         this._format = "";
         this._ratio = 1;
-        this.MaxRatio = 1;
+        this.MaxRatio = 0;
 
         this._zooming = false;
         var that = this;
@@ -91,7 +91,7 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
                         var basePath = dziSource.substring(0, dziSource.lastIndexOf("/"));
                         if (basePath.length > 0) basePath = basePath + '/';
                         if (width > that.MaxWidth) that.MaxWidth = width;
-                        if (that._ratio < that.MaxRatio) that.MaxRatio = that._ratio;
+                        if (that._ratio > that.MaxRatio) that.MaxRatio = that._ratio;
                         var dzi = new PivotViewer.Views.DeepZoomItem(itemId, dzId, dzN, basePath, that._ratio, width, height, maxLevel, that._baseUrl, dziSource);
                         that._items.push(dzi);
                         that._itemsById[itemId] = dzi;
@@ -99,7 +99,7 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
                 }
                 //Loaded DeepZoom collection
                 $.publish("/PivotViewer/ImageController/Collection/Loaded", null);
-             },
+            },
             error: function (jqXHR, textStatus, errorThrown) {
                 //Make sure throbber is removed else everyone thinks the app is still running
                 $('.pv-loading').remove();
@@ -219,7 +219,9 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
     GetWidth: function (id) {return this._itemsById[id].Width;},
     GetHeight: function (id) {return this._itemsById[id].Height;},
     GetOverlap: function (id) {return this._itemsById[id].Overlap;},
-    GetRatio: function (id) {return this._itemsById[id].Ratio;}
+    GetRatio: function (id) {
+        return this._itemsById[id].Ratio;
+    }
 });
 
 PivotViewer.Views.DeepZoomItem = Object.subClass({
@@ -252,4 +254,26 @@ PivotViewer.Views.DeepZoomItem = Object.subClass({
             }
         });
     }
+});
+
+PivotViewer.Views.LoadImageSetHelper = Object.subClass({
+    init: function () {
+        this._images = [],
+        this._loaded = false;
+    },
+
+    //Load an array of urls
+    LoadImages: function (images) {
+        var that = this;
+        for (var i = 0; i < images.length; i++) {
+            var img = new Image();
+            img.src = images[i];
+            img.onload = function () {
+                that._loaded = true;
+            };
+            this._images.push(img);
+        }
+    },
+    GetImages: function () { return this._images; },
+    IsLoaded: function () { return this._loaded; }
 });

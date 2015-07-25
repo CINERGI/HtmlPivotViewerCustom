@@ -45,6 +45,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         _options = {};
         
 
+
     var methods = {
         // PivotViewer can be initialised with these options:
         // Loader: a loader that inherits from ICollectionLoader must be specified.  Currently the project only includes the CXMLLoader.  It takes the URL of the collection as a parameter.
@@ -110,6 +111,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
 
     InitCollectionLoader = function (options) {
         PV = this;
+        PivotCollection = new PivotViewer.Models.Collection(); /// clean so we can reload different collections
         _self.append("<div class='pv-loading'><img src='images/loading.gif' alt='Loading' /><span>Loading...</span></div>");
         $('.pv-loading').css('top', ($('.pv-wrapper').height() / 2) - 33 + 'px');
         $('.pv-loading').css('left', ($('.pv-wrapper').width() / 2) - 43 + 'px');

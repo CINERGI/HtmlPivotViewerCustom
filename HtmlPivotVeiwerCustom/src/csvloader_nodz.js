@@ -141,7 +141,8 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     LoadColumn: function (category) {
         for (var i = 0; i < this.collection.Items.length; i++) {
-            var item = this.collection.Items[i], raw = this.data[i + 1][category.column];
+            //var item = this.collection.Items[i], raw = this.data[i + 1][category.column];
+            var item = this.collection.Items[i], raw = this.data[i ][category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
             if (category.Type == PivotViewer.Models.FacetType.String) {
