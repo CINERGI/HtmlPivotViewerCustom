@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset=utf-8>
@@ -83,7 +83,7 @@
         // 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
         var cl = window.location;
         var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-        var imagecache = cl.protocol + "//" + cl.host+ '/' + basepath +'projects/images/panomedia';
+        var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
     </script>
     <div id="top"><div id="heading">Collaboration and Cyberinfrastructure for Paleogeosciences (C4P) </div></div>
 
@@ -160,7 +160,7 @@
             </p>
             <p>
                 The Collaboration and Cyberinfrastructure for Paleogeosciences (C4P) Resource Catalog is a collaboration between the <a href="http://earthcube.org/group/c4p">C4P research coordination network</a> project and the CINERGI (Community Inventory of Earthcube Resources for Geoscience Interoperability) projects.
-   it is a community-curated registry of information resources used in  paleogeoscientists, paleobiologists, geo- and bioinformaticists, stratigraphers, geochronologists, and related fields
+                it is a community-curated registry of information resources used in  paleogeoscientists, paleobiologists, geo- and bioinformaticists, stratigraphers, geochronologists, and related fields
 
             </p>
             <p>
@@ -185,7 +185,7 @@
         $(document).ready(function () {
             help();
             about(); $('#pivotviewer').PivotViewer({
-               //Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
+                //Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
                 Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1A3_NYGBfD8r8lGXZzwupNA1OZwld7dQdb0Gmd36_hEQ&gid=486248522"),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/c4p from excel - PaleoResource 07-21-2014.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",

@@ -5,7 +5,7 @@
         {"code": "c4p", "loader": "PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/CIComponentReview - Components.csv')"
             ,"ImageController":"PivotViewer.Views.SimpleImageController(imagecache)"
         },
-        {"code": "c4p", "loader": "PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/SEN CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv')"
+        {"code": "SEN", "loader": "PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/SEN CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv')"
             ,"ImageController":"PivotViewer.Views.SimpleImageController(imagecache)"
         },
     ]

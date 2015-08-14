@@ -21,6 +21,12 @@
     <Content Include="app.css" />
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
+    <Content Include="faqpage_files\arrow_up_medium.png" />
+    <Content Include="faqpage_files\init.js" />
+    <Content Include="faqpage_files\jquery-1.3.2.min.js" />
+    <Content Include="faqpage_files\jquery.highlightFade.js" />
+    <Content Include="faqpage_files\jquery.scrollTo-min.js" />
+    <Content Include="faqpage_files\question.png" />
     <Content Include="solr_test.html" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractFacetWidget.js" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractManager.js" />
@@ -889,8 +895,9 @@
     <Content Include="src\authoring.js" />
     <Content Include="src\collectionloader.js" />
     <Content Include="src\collectionloader.min.js" />
-    <Content Include="src\csvloader_nodz.js" />
     <Content Include="src\csvloader.js" />
+    <Content Include="src\csvloader_nodz.js" />
+    <Content Include="src\csvloader_nodz_orig.js" />
     <Content Include="src\csvloader.min.js" />
     <Content Include="src\csvloader_textimage.js" />
     <Content Include="src\csvsliceloader.js" />

@@ -19,9 +19,7 @@ PivotViewer.Models.Loaders.ICollectionLoader = Object.subClass({
         if (!collection instanceof PivotViewer.Models.Collection) {
             throw "collection not an instance of PivotViewer.Models.Collection.";
         }
-    },
-    LoadColumn: function (category) { },
-    GetRow: function (id) { return PivotCollection.GetItemById(id).Facets; }
+    }
 });
 
 //CXML loader
@@ -111,14 +109,9 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 }
             }
 
-            var facetCategory = new PivotViewer.Models.FacetCategory(
-                facetElement.attr("Name"),
-                facetElement.attr("Format"),
-                facetElement.attr("Type"),
+            var facetCategory = new PivotViewer.Models.FacetCategory(facetElement.attr("Name"), facetElement.attr("Type"),
                 facetElement.attr(namespacePrefix + ":IsFilterVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsFilterVisible").toLowerCase() == "true" ? true : false) : true,
-                facetElement.attr(namespacePrefix + ":IsMetaDataVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsMetaDataVisible").toLowerCase() == "true" ? true : false) : true,
-                facetElement.attr(namespacePrefix + ":IsWordWheelVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsWordWheelVisible").toLowerCase() == "true" ? true : false) : true
-            );
+                 facetElement.attr(namespacePrefix + ":IsMetaDataVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsMetaDataVisible").toLowerCase() == "true" ? true : false) : true);
 
             //Add custom sort order
             var sortOrder = facetElement.find(namespacePrefix + "\\:SortOrder");

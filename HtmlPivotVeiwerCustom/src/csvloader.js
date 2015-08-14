@@ -78,12 +78,12 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     LoadData: function () {
         var categories = this.data[0];
-        var name_column = -1, img_column = -1;
+        var name_column = -1, img_column = -1, href_column = -1;
         for (var i = 0; i < categories.length; i++) {
-            var index, type, visible = true;
             if (categories[i].charAt(0) == "#") {
                 if (categories[i] == "#name") name_column = i;
                 else if (categories[i] == "#img") img_column = i;
+                else if (categories[i] == "#href") href_column = i;
                 else if (categories[i] == "#views") {
                     var j = 1;
                     this.collection.config.views = [];
@@ -91,15 +91,23 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 }
                 continue;
             }
-            else if ((index = categories[i].indexOf("#")) !== -1) {
+            var index, type, visible = true;
+            if ((index = categories[i].indexOf("#")) !== -1) {
                 if (categories[i].indexOf("#number", index) !== -1)
                     type = PivotViewer.Models.FacetType.Number;
                 else if (categories[i].indexOf("#date", index) !== -1)
                     type = PivotViewer.Models.FacetType.DateTime;
                 else if (categories[i].indexOf("#ordinal", index) !== -1)
                     type = PivotViewer.Models.FacetType.Ordinal;
-                else if (categories[i].indexOf("#long", index) !== -1) {
+                else if (categories[i].indexOf("#long", index) !== -1) 
                     type = PivotViewer.Models.FacetType.LongString;
+                else if (categories[i].indexOf("#info", index) !== -1) {
+                    type = PivotViewer.Models.FacetType.String;
+                    SearchVisible = false;
+                } else if (categories[i].indexOf("#hide", index) !== -1) {
+                    SearchVisible = false;
+                    isDataVisible = false;
+                    type = PivotViewer.Models.FacetType.String;
                     visible = false;
                 }
                 else if (categories[i].indexOf("#link", index) !== -1) {
@@ -107,12 +115,13 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                     visible = false;
                 }
                 else type = PivotViewer.Models.FacetType.String;
+                if (categories[i].indexOf("#hidden") !== -1) visible = false;
             }
             else {
                 type = PivotViewer.Models.FacetType.String;
                 index = categories[i].length;
             }
-            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), null, type, visible, true, true);
+            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), type, visible, true);
             category.column = i;
             this.collection.FacetCategories.push(category);
         }
@@ -120,7 +129,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         //Items
         for (var i = 1; i < this.data.length; i++) {
             var row = this.data[i];
-            var item = new PivotViewer.Models.Item(row[img_column], String(i), "", row[name_column]);
+            var item = new PivotViewer.Models.Item(row[img_column], String(i), href_column == -1 ? "" : row[href_column], row[name_column]);
             this.collection.Items.push(item);
         }
         $.publish("/PivotViewer/Models/Collection/Loaded", null);
@@ -131,22 +140,52 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var item = this.collection.Items[i], raw = this.data[i + 1][category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
-            if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) {
+            if (category.Type == PivotViewer.Models.FacetType.String) {
+                //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+                if (category.isMultipleItems == true) {
+                    var split;
+                    if (raw.indexOf('|') == -1) {
+                        split = raw.split(',');
+                    } else {
+                        split = raw.split('|');
+                    }
+
+                    for (var sp = 0 ; sp < split.length; sp++) {
+                        f.AddFacetValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
+                    }
+                }
+                else {
+                    f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+                }
+
+            } else if (category.Type == PivotViewer.Models.FacetType.Link) {
+                // need to explicity set the value
+                var fv = new PivotViewer.Models.FacetValue(raw, raw);
+                fv.Href = raw;
+                f.AddFacetValue(fv);
+            } else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) {
                 var value = parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]);
                 f.AddFacetValue(new PivotViewer.Models.FacetValue(value, raw));
                 if (value != Math.floor(value)) integer = false;
             }
             else if (category.Type == PivotViewer.Models.FacetType.DateTime)
-                f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
-            else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
+                //f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+            {
+                var m = moment(raw);
+                if (m.isValid()) {
+                    f.AddFacetValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+                } else {
+                    console.warn('bad date:' & raw);
+                }
+            } else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
             if (category.Type == PivotViewer.Models.FacetType.Number) category.integer = integer;
             item.Facets.push(f);
         }
     },
     GetRow: function (id) {
-        var row = this.data[id], facets = [];
+        var row = this.data[id], facets = [], dIndex;
         for (var i = 0; i < settings.visibleCategories.length; i++) {
-            var index = settings.visibleCategories[i], category = this.collection.FacetCategories[index], raw = row[index];
+            var index = settings.visibleCategories[i], category = this.collection.FacetCategories[index], raw = row[category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.Name);
             if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) 

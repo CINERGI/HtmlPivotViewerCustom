@@ -1,0 +1,133 @@
+   
+        
+        header  
+    {
+        display: block; 
+    }        
+    html, body {
+	    height: 100%;
+	    
+    }
+    body 
+    {
+        background: #eee; 
+        margin: 0;
+        padding: 0;
+    }
+    #silverlightControlHost {
+	    height: 100%;
+	    text-align:center;
+    }
+    
+header#earthcube-header {
+	background: #cccccc;	
+	color: #000000;
+	height: 45px;	
+	}
+	
+	
+header#earthcube-header h1 {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	width: 135px;
+	height: 48px;
+	border-right: 1px solid #444;
+	}
+	
+header#earthcube-header .logo {
+	position: absolute;
+	top: 5px;
+	left: 12px;
+	width: 110px;
+	height: 30px;
+	background: #ffffff url(http://besuave.azurewebsites.net/wp-content/uploads/2015/07/suavelogo3-small-copy-e1438196105588.png);
+	text-indent: -9000px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	}
+	
+	
+header#earthcube-header .tagline {
+	position: absolute;
+	top: 8px;
+	left: 150px;
+	width: 455px;
+	height: 25px;
+	font: small-caps bold 1.6em Trebuchet MS, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	border: none;
+	}
+	
+#help{
+	position: absolute;
+	top: 10px;
+	right: 50px;
+	display: block;
+	width: 45px;
+    font: small-caps bold 1.0em Trebuchet MS, Arial, sans-serif;
+	height: 30px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	}
+	#FAQ{
+	position: absolute;
+	top: 10px;
+	right: 250px;
+	display: block;
+	width: 45px;
+    font: small-caps bold 1.0em Trebuchet MS, Arial, sans-serif;
+	height: 30px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	}
+	#PDF{
+	position: absolute;
+	top: 3px;
+	right: 350px;
+	display: block;
+	width: 45px;
+    font: small-caps bold 1.0em Trebuchet MS, Arial, sans-serif;
+	height: 30px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	}
+	#VIDEO{
+	position: absolute;
+	top: 3px;
+	right: 150px;
+	display: block;
+	width: 45px;
+    font: small-caps bold 1.0em Trebuchet MS, Arial, sans-serif;
+	height: 30px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	}
+	#ECLINK{
+	position: absolute;
+	top: 10px;
+	right: 290px;
+	display: block;
+	width: 45px;
+    font: small-caps bold 1.0em Trebuchet MS, Arial, sans-serif;
+	height: 30px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	}
+	
+	
+	
+
+
+	
+
+

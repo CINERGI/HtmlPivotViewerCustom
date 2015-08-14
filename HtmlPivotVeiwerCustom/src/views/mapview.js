@@ -1,8 +1,5 @@
 //
 //  HTML5 PivotViewer
-//
-//  Collection loader interface - used so that different types of data sources can be used
-//
 //  Original Code:
 //    Copyright (C) 2011 LobsterPot Solutions - http://www.lobsterpot.com.au/
 //    enquiries@lobsterpot.com.au
@@ -23,13 +20,10 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
     init: function () {
         this._super();
         this.locCache = [];
-        this.locList = [];
-        this.inScopeLocList = [];
         this.map = null; 
         this.markers = [];
         this.overlay;
         this.overlayBaseImageUrl = null;
-        this.geocodeList = [];
         this.itemsToGeocode = [];
         this.startGeocode;
         this.geocodeZero;
@@ -49,13 +43,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         var that = this;
         $.subscribe("/PivotViewer/Views/Item/Selected", function (evt) {
             if (!that.isActive) return;
-            for (var i = 0; i < that.inScopeLocList.length; i++) {
-                var location = that.inScopeLocList[i];
-                if (location.tile == evt.item) {
-                    that.SelectMarker(that.markers[i], location);
-                    break;
-                }
-            }
+            that.SelectMarker(evt.item);
         });
     },
     Setup: function (width, height, offsetX, offsetY, tileMaxRatio) { 
@@ -95,15 +83,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             'lib/leaflet/images/GoldDot.png', 'lib/leaflet/images/GreenDot.png'];
 
         this.ClearMarkers = function () {
-            for (var i = 0; i < this.markers.length; i++) {
-                this.markers[i].setMap(null);
+            for (var i = 0; i < this.tiles.length; i++) {
+                var marker = this.tiles[i].marker;
+                if(marker != undefined) marker.setMap(null);
             }
-            this.markers = [];
         };
-        this.SelectMarker = function (marker, location) {
-            var bucket = that.GetBucketNumber(location);
-            if (marker == that.selectedMarker) {
-                marker.setIcon(that.icons[bucket]);
+
+        this.SelectMarker = function(item) {
+            var bucket = that.GetBucketNumber(item);
+            if (item.marker == that.selectedMarker) {
+                item.marker.setIcon(that.icons[bucket]);
                 that.selected = null;
                 that.selectedMarker.setZIndex(0);
                 that.selectedMarker = null;
@@ -113,16 +102,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
 
             }
             else {
-                marker.setIcon(that.iconsSelected[bucket]);
-                marker.setZIndex(1000000000);
-                that.selected = location.tile;
+                item.marker.setIcon(that.iconsSelected[bucket]);
+                item.marker.setZIndex(1000000000);
+                that.selected = item;
                 if (that.selectedMarker != null) {
                     that.selectedMarker.setZIndex(0);
                     that.selectedMarker.setIcon(that.icons[that.selectedBucket]);
                 }
-                that.selectedMarker = marker;
+                that.selectedMarker = item.marker;
                 that.selectedBucket = bucket;
-                that.map.panTo(location.loc);
+                that.map.panTo(item.loc);
                 $('.pv-toolbarpanel-info').empty();
                 var toolbarContent = "<img style='height:15px;width:auto' src='" + that.icons[bucket] + "'></img>";
                 if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
@@ -133,21 +122,21 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             }
         };
 
-        this.NewMarker = function (location) {
-            var marker = new google.maps.Marker({ position: location.loc, map: this.map, title: location.tile.facetItem.Name });
-            if (!this.buckets[this._bucket].ids[location.tile.facetItem.Id]) this._bucket++;
-            marker.setIcon(this.icons[this._bucket]);
-            google.maps.event.addListener(marker, "click", (function (location) {
-                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile}]);}
-            })(location));
-            return marker;
+        this.NewMarker = function (item) {
+            item.marker = new google.maps.Marker({ position: item.loc, map: this.map, title: item.facetItem.Name });
+            if (!this.buckets[this._bucket].ids[item.facetItem.Id]) this._bucket++;
+            item.marker.setIcon(this.icons[this._bucket]);
+            google.maps.event.addListener(item.marker, "click", (function (item) {
+                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: item}]);}
+            })(item));
         }
 
         this.RefitBounds = function () {
             var bounds = new google.maps.LatLngBounds();
-            for (i = 0; i < this.markers.length; i++) {
+            for (i = 0; i < this.filter.length; i++) {
                 //extend the bounds to include each marker's position
-                bounds.extend(this.markers[i].position);
+                var item = this.filter[i];
+                if(item.loc != undefined) bounds.extend(item.marker.position);
             }
             //now fit the map to the newly inclusive bounds
             this.map.fitBounds(bounds);
@@ -175,15 +164,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
     },
     SetOptions: function (options) {
         $('.pv-viewpanel').append("<div class='pv-mapview-canvas' id='pv-map-canvas'></div>");
-        if (options.GoogleAPIKey) {
-            this.APIKey = options.GoogleAPIKey;
-            this.mapService = "Google";
+
+        if (options.MapService == undefined || options.MapService.toLowerCase() != "openstreetmap") {
+            this.APIKey = options.GoogleAPIKey != undefined ? options.GoogleAPIKey : "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg";
+            this.mapService = "google";
             LoadScript("lib/wicket/wicket-gmap3.min.js");
             if (options.GeocodeService == "Google") this.geocodeService = "Google";
             else GeocodeService = "Nominatim"
         }
         else {
-            this.mapService = "OpenStreetMap";
+            this.mapService = "openstreetmap";
             this.geocodeService = "Nominatim";
             LoadScript("lib/wicket/wicket-leaflet.min.js");
 
@@ -229,16 +219,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             });
 
             this.ClearMarkers = function () {
-                for (var i = 0; i < this.markers.length; i++) {
-                    this.map.removeLayer(this.markers[i]);
+                for (var i = 0; i < this.tiles.length; i++) {
+                    var marker = this.tiles[i].marker;
+                    if(marker != undefined) this.map.removeLayer(marker);
                 }
-                this.markers = [];
             }
 
-            this.SelectMarker = function (marker, location) {
-                var bucket = that.GetBucketNumber(location);
-                if (marker == that.selectedMarker) {
-                    marker.setIcon(new that.icons[bucket]);
+            this.SelectMarker = function (item) {
+                var bucket = that.GetBucketNumber(item);
+                if (item.marker == that.selectedMarker) {
+                    item.marker.setIcon(new that.icons[bucket]);
                     that.selected = null;
                     that.selectedMarker.setZIndexOffset(0);
                     that.selectedMarker = null;    
@@ -247,18 +237,18 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                     $('.pv-altinfopanel').fadeIn();
                 }
                 else {
-                    marker.setIcon(new that.iconsSelected[bucket]);
-                    marker.setZIndexOffset(1000000000);
-                    that.selected = location.tile;
+                    item.marker.setIcon(new that.iconsSelected[bucket]);
+                    item.marker.setZIndexOffset(1000000000);
+                    that.selected = item;
                     if (that.selectedMarker != null) {
                         that.selectedMarker.setIcon(new that.icons[that.selectedBucket]);
                         that.selectedMarker.setZIndexOffset(0);
                     }
-                    that.selectedMarker = marker;
+                    that.selectedMarker = item.marker;
                     that.selectedBucket = bucket;
-                    that.map.panTo(location.loc);
+                    that.map.panTo(item.loc);
                     $('.pv-toolbarpanel-info').empty();
-                    var toolbarContent = "<img style='height:15px;width:auto' src='" + marker._icon.src + "'></img>";
+                    var toolbarContent = "<img style='height:15px;width:auto' src='" + item.marker._icon.src + "'></img>";
                     if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
                         toolbarContent += that.buckets[bucket].startRange;
                     else toolbarContent += that.buckets[bucket].startRange + " to " + that.buckets[bucket].endRange;
@@ -268,23 +258,24 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 }
             }
 
-            this.NewMarker = function (location) {
-                var marker = new L.Marker(location.loc, { title: location.tile.facetItem.Name });
-                this.map.addLayer(marker);
-                if (!this.buckets[this._bucket].ids[location.tile.facetItem.Id]) this._bucket++;
-                marker.setIcon(new this.icons[this._bucket]);
-                marker.on('click', (function (location) {
-                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: location.tile}]);}
-                })(location));
+            this.NewMarker = function (item) {
+                item.marker = new L.Marker(item.loc, { title: item.facetItem.Name });
+                this.map.addLayer(item.marker);
+                if (!this.buckets[this._bucket].ids[item.facetItem.Id]) this._bucket++;
+                item.marker.setIcon(new this.icons[this._bucket]);
+                item.marker.on('click', (function (item) {
+                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: item}]);}
+                })(item));
                 return marker;
             }
 
             this.RefitBounds = function () {
                 var markerPos = [];
 
-                for (i = 0; i < this.markers.length; i++) {
+                for (i = 0; i < this.filter.length; i++) {
                     //extend the bounds to include each marker's position
-                    markerPos.push(this.markers[i].getLatLng());
+                    var item = this.filter[i];
+                    if(item.marker != undefined) markerPos.push(item.marker.getLatLng());
                 }
                 var bounds = new L.LatLngBounds(markerPos);
 
@@ -316,13 +307,6 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
     Activate: function () {
         if (!Modernizr.canvas) return;
 
-        if (this.map == null) {
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = "https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.APILoaded";
-            document.body.appendChild(script);
-            return;
-        }
         this._super();
         $('.pv-toolbarpanel-info').fadeIn();
         $('.pv-altinfopanel').fadeIn();
@@ -332,7 +316,10 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-mapview-canvas').fadeIn();
         $('.pv-toolbarpanel-sort').fadeIn();
 
-        if (this.filtered) this.Filter(this.filterEvt.tiles, this.filterEvt.filter, this.filterEvt.sort);
+        if (this.mapService == "google" && this.map == null) {
+            LoadScript("https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.APILoaded");
+        }
+        else if (this.filtered) this.Filter(this.filterEvt.tiles, this.filterEvt.filter, this.filterEvt.sort);
     },
     Deactivate: function () {
         this._super();
@@ -341,8 +328,8 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-mapview-canvas').fadeOut();
         $('.pv-toolbarpanel-sort').fadeOut();
     },
-    GetBucketNumber: function (location) {
-        var bkt = this.buckets.ids[location.tile.facetItem.Id];
+    GetBucketNumber: function (item) {
+        var bkt = this.buckets.ids[item.facetItem.Id];
         return bkt != undefined ? bkt : -1;
     },
     Bucketize: function (tiles, filterList, orderBy) {
@@ -405,10 +392,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         this.filter = filter;
         this.tiles = tiles;
 
-        this.buckets = this.Bucketize(tiles, filter, this.sortFacet);
-
-        //Empty the inScope item list
-        this.inScopeLocList = [];        
+        this.buckets = this.Bucketize(tiles, filter, this.sortFacet);       
 
         //Clear legend info in toolbar
         $('.pv-toolbarpanel-info').empty();
@@ -442,198 +426,142 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 }
             }
         }
-        
-        //Create a list of in scope locations
+
+        var category, category1 = null, category2 = null;
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+            var category = PivotCollection.FacetCategories[i], name = category.Name.toLowerCase();
+            if (name.indexOf("location") >= 0) {
+                if (category.uiInit == false) PV.InitUIFacet(category);
+                break;
+            }
+            if (name.indexOf("latitude") >= 0) category1 = category;
+            else if (name.indexOf("longitude") >= 0) category2 = category;
+            if (category1 != null && category2 != null) {
+                if (category1.uiInit == false) PV.InitUIFacet(category1);
+                if (category2.uiInit == false) PV.InitUIFacet(category2);
+                break;
+            }
+        }
+
         for (var i = 0; i < filter.length; i++) {
-            //Tile is in scope
-            var item = filter[i];
+            var item = filter[i], c;
 
             //Have we cached the item location?
-            var c;
-            for (var c = 0; c < this.locList.length; c++) {
-                if (this.locList[c].tile == filter[i]) {
-                    if (this.locList[c].loc.lat != 0 || this.locList[c].loc.lng != 0)
-                        this.inScopeLocList.push(this.locList[c]);
-                    break;
-                }
-            }
-
-            if (c == this.locList.length) {
-                var l = -1, m = -1;
+            if (item.loc == undefined) {
                 //First try to get co-ordinate information from the facets
-                for (k = 0; k < item.facetItem.Facets.length; k++) {
-                    var facet = item.facetItem.Facets[k];
-                    if (facet.Name.toUpperCase().indexOf("LATITUDE") >= 0) l = k;
-                    else if (facet.Name.toUpperCase().indexOf("LONGITUDE") >= 0) m = k;
-                }
-                if (l != -1 && m != -1) {
-                    var latitude = item.facetItem.Facets[l].FacetValues[0].Value, longitude = item.facetItem.Facets[m].FacetValues[0].Value;
-                    if (typeof latitude == "string") latitude = parseFloat(latitude);
-                    if (typeof longitude == "string") longitude = parseFloat(longitude);
+                var facet1 = null, facet2 = null;
+                if(category1 != null && category2 != null) {
+                    facet1 = item.facetItem.FacetByName[category1.Name];
+                    facet2 = item.facetItem.FacetByName[category2.Name];
+  
+                    if (facet1 != undefined && facet2 != undefined) {
+                        var latitude = facet1.FacetValues[0].Value;
+                        var longitude = facet2.FacetValues[0].Value;
 
-                    var newLoc = new L.LatLng(latitude, longitude);
-                    this.locList.push({ tile: item, loc: newLoc });
-                    this.inScopeLocList.push({ tile: item, loc: newLoc});
+                        if (longitude != null && latitude != null) {
+                            if (typeof latitude == "string") latitude = parseFloat(latitude);
+                            if (typeof longitude == "string") longitude = parseFloat(longitude);
+                            item.loc = new L.LatLng(latitude, longitude);
+                        }
+                    }
                 }
-                else {
-                    for (var k = 0; k < item.facetItem.Facets.length; k++) {
-                        var facet = item.facetItem.Facets[k];
-                        if (facet.Name.toUpperCase().indexOf("LOCATION") >= 0) {
-                            for (var v = 0; v < facet.FacetValues.length; v++) {
-                                var value = facet.FacetValues[v].Value;
-                                var invalidCoordinates = false;
+                else if (category != null) {
+                    var facet = item.facetItem.FacetByName[category.Name];
+                    if (facet == undefined) continue;
+                    var value = facet.FacetValues[0].Value;
+                    if (value.toLowerCase().indexOf("point(") == 0) {
+                        var longitude = parseFloat(value.substring(6, value.indexOf(' ', 6) - 6));
+                        var latitude = parseFloat(value.substring(value.indexOf(' ', 6) + 1, value.indexOf(')') - (value.indexOf(' ') + 1)));
+                        if (!isNaN(latitude) && !isNaN(longitude)) item.loc = new L.LatLng(latitude, longitude);
+                    }
+                    else if (value.indexOf(",") > -1) {
+                        //Could be a co-ordinate pair
+                        var latitude = parseFloat(value.substring(0, value.indexOf(',')));
+                        var longitude = parseFloat(value.substring(value.indexOf(',')));
+                        if (!isNaN(latitude) && !isNaN(longitude)) item.loc = new L.LatLng(latitude, longitude);
+                        else if (value.length > 1) {
+                            var geoLoc = value.replace('_', ' ').toUpperCase();
 
-                                if (value.toUpperCase().indexOf("POINT(") == 0) {
-                                    var longitude = parseFloat(value.substring(6, value.indexOf(' ', 6) - 6));
-                                    var latitude = parseFloat(value.substring(value.indexOf(' ', 6) + 1, value.indexOf(')') - (value.indexOf(' ') + 1)));
-                                    if (isNaN(latitude) || isNaN(longitude)) continue;
-                                    var newLoc = new L.LatLng(latitude, longitude);
-                                    locList.push({ tille:item,  loc: newLoc });
-                                    inScopeLocList.push({ tile: item, loc: newLoc});
+                            // First add region and country to the location.
+                            for (var r = 0; r < item.facetItem.Facets.length; r++) {
+                                if (item.facetItem.Facets[r].Name.toUpperCase().indexOf("REGION") >= 0) {
+                                    var region = item.facetItem.Facets[r].FacetValues[0].Value;
+                                    if (region.length > 1) geoLoc = geoLoc + ", " + region.replace('_', ' ').toUpperCase();
                                     break;
                                 }
-                                else if (value.indexOf(",") > -1) {
-                                    //Could be a co-ordinate pair
-                                    var latitude = parseFloat(value.substring(0, value.indexOf(',')));
-                                    var longitude = parseFloat(value.substring(value.indexOf(',')));
-                                    if (isNaN(latitude) || !isNaN(longitude)) continue;
-                                    var newLoc = new L.LatLng(lat, lon);
-                                    locList.push({ tile: item, loc: newLoc});
-                                    inScopeLocList.push({ tile: item, loc: newLoc});
+                            }
+                            for (var c = 0; c < item.facetItem.Facets.length; c++) {
+                                if (item.facetItem.Facets[c].Name.toUpperCase().indexOf("COUNTRY") >= 0) {
+                                    var country = item.facetItem.Facets[c].FacetValues[0].Value;
+                                    if (country.length > 1) geoLoc = geoLoc + ", " + country.replace('_', ' ').toUpperCase();
                                     break;
                                 }
-                                else if (value.length > 1) {
-                                    var geoLoc = value.replace('_', ' ').toUpperCase();
-
-                                    // First add region and country to the location.
-                                    for (var r = 0; r < item.facetItem.Facets.length; r++) {
-                                        if (item.facetItem.Facets[r].Name.toUpperCase().indexOf("REGION") >= 0) {
-                                            var region = item.facetItem.Facets[r].FacetValues[0].Value;
-                                            if (region.length > 1) geoLoc = geoLoc + ", " + region.replace('_', ' ').toUpperCase();
-                                            break;
-                                        }
-                                    }
-                                    for (var s = 0; s < item.facetItem.Facets.length; s++) {
-                                        if (item.facetItem.Facets[s].Name.toUpperCase().indexOf("COUNTRY") >= 0) {
-                                            var country = item.facetItem.Facets[s].FacetValues[0].Value;
-                                            if (country.length > 1) geoLoc = geoLoc + ", " + country.replace('_', ' ').toUpperCase();
-                                            break;
-                                        }
-                                    }
-                                    // Is it in the cache?
-                                    for (var l = 0; l < this.locCache.length; l++) {
-                                        if (this.locCache[l].locName == geoLoc) {
-                                            this.locList.push({tile: item, loc: this.locCache[l].loc });
-                                            this.inScopeLocList.push({ tile: item, loc: this.locCache[l].loc});
-                                            break;
-                                        }
-                                    }
-
-                                    if (l == this.locCache.length && this.localStorage) {
-                                        // Now try the users persistent cache
-                                        var newLatLng = null;
-                                        var newLoc = JSON.parse(localStorage.getItem(geoLoc));
-                                        if (newLoc) {
-                                            var latitude = parseFloat(newLoc.lat);
-                                            var longitude = parseFloat(newLoc.longitude);
-                                            if (!isNaN(latitude) && !isNaN(lng)) {
-                                                newLatLng = new L.LatLng(lat, lng);
-                                                // Add it to local cache
-                                                this.locCache.push({ locName: geoLoc, loc: newLatLng });
-                                                this.locList.push({ tile: item, loc: newLatLng });
-                                                this.inScopeLocList.push({ tile: item, loc: newLatLng});
-                                            }
-                                        }
-                                        if (newLatLng == null) {
-                                            // Not in local or persistent cache so will have to use geocode service
-                                            // Add location to list for geocoding (will need to keep itemId name with it)
-                                            if (g < 1000) {//limiting the number of items to geocode at once to 1000 for now
-                                                var gl = 0;
-                                                for (; gl < this.geocodeList.length; gl++) {
-                                                    if (this.geocodeList[gl] == geoLoc) break;
-                                                }
-                                                if (gl == this.geocodeList.length) {
-                                                    this.geocodeList.push(geoLoc);
-                                                    g++;
-                                                }
-                                                this.itemsToGeocode.push({ tile: item, locName: geoLoc });
-                                                break;
-                                            }
-                                        }
+                            }
+                            // Is it in the cache?
+                            if (this.locCache[geoLoc] != undefined) item.loc = this.locCache[geoLoc];
+                            else if (this.localStorage) {
+                                // Now try the users persistent cache
+                                var loc = JSON.parse(localStorage.getItem(geoLoc));
+                                if (loc) {
+                                    var latitude = parseFloat(loc.latitude);
+                                    var longitude = parseFloat(loc.longitude);
+                                    if (!isNaN(latitude) && !isNaN(longitude)) {
+                                        item.loc = new L.LatLng(latitude, longitude);
+                                        this.locCache[geoLoc] = loc;
                                     }
                                 }
                             }
-                            if (v != facet.FacetValues.length) break;
+                            else {
+                                // Not in local or persistent cache so will have to use geocode service
+                                if (g < 1000) {//limiting the number of items to geocode at once to 1000 for now
+                                    if (this.itemsToGeocode[geoLoc] == undefined) {
+                                        this.itemsToGeocode[geoLoc] = [];
+                                        g++;
+                                    }
+                                    this.itemsToGeocode[geoLoc].push(item);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
 
-        //Check that at least one in scope item has a location
-        if (this.inScopeLocList.length == 0 && g == 0) {
-            this.ShowMapError();
-            return;
-        }
-        else if (g > 0) this.GetLocationsFromNames();
+        if (g > 0) this.GetLocationsFromNames();
         $('.pv-mapview-canvas').css('height', this.height - 12 + 'px');
         $('.pv-mapview-canvas').css('width', this.width - 415 + 'px');
         this.CreateMap();
-
         this.filtered = false;
     },
     GetButtonImage: function () {return 'images/MapView.png';},
     GetButtonImageSelected: function () {return 'images/MapViewSelected.png';},
-    GetViewName: function () { return 'Map View 2'; },
+    GetViewName: function () { return 'Map View'; },
     MakeGeocodeCallBack: function(locName) {
         var that = this;
         if (this.geocodeService == "Google"){
             var geocodeCallBack = function(results, status) {
-                var dummy = new L.LatLng(0, 0);
-                var loc = dummy;
+                var loc = new L.LatLng(0, 0);
                 
                 if (status == google.maps.GeocoderStatus.OK) { 
                     var googleLoc = results[0].geometry.location;
                     var lat = googleLoc.lat();
-                    var lon = googleLoc.lng();
-                    if (lat && lon) loc = new L.LatLng(lat, lon);
+                    var long = googleLoc.lng();
+                    if (lat && long) loc = new L.LatLng(lat, long);
                 }
 
                 // Add to local cache
-                that.locCache.push ({locName: locName, loc: loc});
+                that.locCache[locName] = loc;
        
                 // Add to persistent cache
-                if (this.localStorage) {
-                    var newLoc = {lat: loc.lat, lng: loc.lng};
-                    localStorage.setItem(locName, JSON.stringify(newLoc));
-                }
+                if (that.localStorage) localStorage.setItem(locName, JSON.stringify(loc));
        
                 // Find items that have that location
-                for (var i = 0; i < that.itemsToGeocode.length; i++ ) {
-                    var item = that.itemsToGeocode[i].tile;
-                    var value = that.itemsToGeocode[i].locName;
-                    if (value == locName) {
-                        that.locList.push({tile: item, loc:loc});
-                        if (loc.lat != 0 || loc.lng != 0)
-                            that.inScopeLocList.push({tile: item, loc:loc});
-                    }
+                for (var i = 0; i < that.itemsToGeocode[locName].length; i++) {
+                    that.itemsToGeocode[locName][i].loc = loc;
                 }
+                delete that.itemsToGeocode[locName];
        
-                var doneGeocoding = true;
-                for (var g = 0; g < that.geocodeList.length; g++) {
-                    var value = that.geocodeList[g];
-                    var currentLocNotFound = true;
-                    for (var c = 0; c < that.locCache.length; c++) {
-                        if (that.locCache[c].locName == value) {
-                            currentLocNotFound = false;
-                            break;
-                        }
-                    }
-                    if (currentLocNotFound) {
-                        doneGeocoding = false;
-                        break;
-                    }
-                }
                 // If geocoding has taken more than 20 secs then try to set
                 // the bookmark.  Otherwise, if the time taken is more than 
                 // 2 secs make the pins we have so far
@@ -648,107 +576,49 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                     that.GetOverlay();
                     that.startGeocode = new Date();
                 }
-       
-                // If the geocodeResults array is totally filled, make the pins.
-                if (doneGeocoding || that.geocodeList.Count == 0) {
-                    //change cursor back ?
-                    that.geocodeList = [];
-                    if (that.inScopeLocList.Count == 0) {
-                        this.ShowMapError();
-                        return;
-                    }
-                    else {
-                        that.CreateMap();
-                        if (that.applyBookmark) {
-                            that.SetBookmark();
-                            that.applyBookmark = false;
-                        }
-                    }
-                }
+                
+                if(Object.keys(that.itemsToGeocode).length == 0) that.CreateMap();
             }
         }
         else {
-            var geocodeCallBack = function(xml) {
-                var dummy = new L.LatLng(0, 0);
-                var loc = dummy;
+            var geocodeCallBack = function (xml) {
+                var loc = new L.LatLng(0, 0);
                 var results = $(xml).find("searchresults");
                 var place = $(xml).find("place");
- 
+
                 if (place) {
                     var lat = $(place).attr("lat");
                     var lon = $(place).attr("lon");
-                    if (lat && lon)
-                        loc = new L.LatLng(lat, lon);
+                    if (lat && lon) loc = new L.LatLng(lat, lon);
                 }
 
-                // Add to local cache
-                that.locCache.push ({locName: locName, loc: loc});
-       
+                that.locCache[place] = loc;
+
                 // Add to persistent cache
-                if (this.localStorage) {
-                    var newLoc = {
-                        lat: loc.lat,
-                        lng: loc.lng
-                    };
-                    localStorage.setItem(locName, JSON.stringify(newLoc));
-                }
-       
+                if (that.localStorage) localStorage.setItem(locName, JSON.stringify(loc));
+
                 // Find items that have that location
-                for (var i = 0; i < that.itemsToGeocode.length; i++ ) {
-                    var itemId = that.itemsToGeocode[i].tile.Id;
-                    var value = that.itemsToGeocode[i].tile.facetItem.Id;
-                    if (value == locName) {
-                        that.locList.push({tile: item, loc:loc});
-                        if (loc.lat != 0 || loc.lng != 0)
-                            that.inScopeLocList.push({tile: item, loc:loc});
-                    }
+                for (var i = 0; i < that.itemsToGeocode[locName].length; i++) {
+                    that.itemsToGeocode[locName][i].loc = loc;
                 }
-       
-                var doneGeocoding = true;
-                for (var g = 0; g < that.geocodeList.length; g++) {
-                    var value = that.geocodeList[g];
-                    var currentLocNotFound = true;
-                    for (var c = 0; c < that.locCache.length; c++) {
-                        if (that.locCache[c].locName == value) {
-                            currentLocNotFound = false;
-                            break;
-                        }
-                    }
-                    if (currentLocNotFound) {
-                        doneGeocoding = false;
-                        break;
-                    }
-                }
+                delete that.itemsToGeocode[locName];
+
                 // If geocoding has taken more than 20 secs then try to set
                 // the bookmark.  Otherwise, if the time taken is more than 
                 // 2 secs make the pins we have so far
                 var now = new Date();
-                if ((now.getTime() - that.geocodeZero.getTime())/1000 > 20) {
+                if ((now.getTime() - that.geocodeZero.getTime()) / 1000 > 20) {
                     that.RedrawMarkers();
                     that.startGeocode = new Date();
                 }
                 else if ((now.getTime() - that.startGeocode.getTime()) / 1000 > 2) {
                     that.RedrawMarkers();
                     that.RefitBounds();
+                    that.GetOverlay();
                     that.startGeocode = new Date();
                 }
-       
-                // If the geocodeResults array is totally filled, make the pins.
-                if (doneGeocoding || that.geocodeList.Count == 0) {
-                    //change cursor back ?
-                    that.geocodeList = [];
-                    if (that.inScopeLocList.Count == 0) {
-                        this.ShowMapError();
-                        return;
-                    }
-                    else {
-                        that.CreateMap();
-                        if (that.applyBookmark) {
-                            that.SetBookmark();
-                            that.applyBookmark = false;
-                        }
-                    }
-                }
+
+                if (Object.keys(that.itemsToGeocode).length == 0) that.CreateMap();
             }
 
         }
@@ -765,27 +635,14 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             $.ajax({
                 type: "GET",
                 url: nominatimUrl,
-                success: callbackFunction,
-                error: function(jqXHR, textStatus, errorThrown) {
-                    //Throw an alert so the user knows something is wrong
-                    var msg = 'Error goecoding<br><br>';
-                    msg += 'URL        : ' + nominatimUrl + '<br>';
-                    msg += 'Status : ' + jqXHR.status + ' ' + errorThrown + '<br>';
-                    msg += 'Details    : ' + jqXHR.responseText + '<br>';
-                    msg += '<br>Pivot Viewer cannot continue until this problem is resolved<br>';
-                    $('.pv-wrapper').append("<div id=\"pv-dzloading-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>"+ msg + "</p></div></div>");
-                    setTimeout(function(){window.open("#pv-dzloading-error","_self")},1000)
-  
-                }
+                success: callbackFunction
             });
         }
     },
     GetLocationsFromNames: function () {
-        for (l = 0; l < this.itemsToGeocode.length; l ++) {
-            var locName = this.itemsToGeocode[l].tile.facetItem.Name;
-            this.Geocode(locName, this.MakeGeocodeCallBack(locName));
+        for (var key in Object.keys(this.itemsToGeocode)) {
+            this.Geocode(key, this.MakeGeocodeCallBack(key));
         }
-        // Change cursor?
         this.startGeocode = new Date();
         this.startGeocode.setSeconds(this.startGeocode.getSeconds() + 2);
         this.geocodeZero = new Date();
@@ -820,8 +677,9 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
     CreateMarkers: function () {
         this.ClearMarkers();
         this._bucket = 0;
-        for (i = 0; i < this.inScopeLocList.length; i++) {  
-            this.markers.push(this.NewMarker(this.inScopeLocList[i]));
+        for (i = 0; i < this.filter.length; i++) {  
+            var item = this.filter[i];
+            if(item.loc != undefined) this.NewMarker(this.filter[i]);
         }
     },
     DrawArea: function () {
@@ -849,7 +707,6 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 catch (e2) {
                     if (e2.name === 'WKTError') {
                         Debug.Log('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
-                        //return;
                         geometryOK = false;
                     }
                 }
@@ -869,14 +726,6 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         this.CreateMarkers();
         this.DrawArea();
     },
-    ShowMapError: function () {
-        var msg = '';
-        msg = msg + 'The current data selection does not contain any location information that can be shown on a map<br><br>';
-        msg = msg + '<br>Choose a different view<br>';
-        $('.pv-wrapper').append("<div id=\"pv-dzlocation-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-        setTimeout(function(){window.open("#pv-dzlocation-error","_self")},1000)
-        return;
-    },
     CreateLegend: function() {
         // Get width of the info panel (width of icon image = 30 )
         var width = $('.pv-altinfopanel').width() - 32;
@@ -884,7 +733,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-altinfopanel').append("<div class='pv-legend-heading' style='height:28px' title='" + this.sortFacet + "'>" + this.sortFacet + "</div>");
         var tableContent = "<table id='pv-legend-data' style='color:#484848;'>";
         for (var i = 0; i < this.buckets.length; i++) {
-            var iconFile = this.mapService == "Google" ? this.icons[i] : (new this.icons[i]).options.iconUrl;
+            var iconFile = this.mapService == "google" ? this.icons[i] : (new this.icons[i]).options.iconUrl;
             tableContent += "<tr><td><img src='" + iconFile + "'></img></td>";
             if (this.buckets[i].startRange == this.buckets[i].endRange)
                 tableContent += "<td><div style='overflow:hidden;white-space:nowrap;width:" + width + "px;text-overflow:ellipsis'>" + this.buckets[i].startLabel + "</div></td></tr>"; 

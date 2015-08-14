@@ -117,19 +117,12 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
     },
 
     GetImages: function (id, width, height) {
-        //Determine level
-        var biggest = width > height ? width : height;
-        var thisLevel = Math.ceil(Math.log(biggest) / Math.log(2));
-
-        if (thisLevel == Infinity || thisLevel == -Infinity) thisLevel = 0;
-
-        //TODO: Look at caching last image to avoid using _controller
-        this._level = thisLevel;
-        return this.GetImagesAtLevel(id, thisLevel);
+        var level = Math.ceil(Math.log(width > height ? width : height) / Math.log(2));
+        if (level == Infinity || level == -Infinity) level = 0;
+        return this.GetImagesAtLevel(id, level);
     },
 
     GetImagesAtLevel: function (id, level) {
-        //level = (level > 8 ? 8 : level);
         level = (level <= 0 ? 6 : level);
 
         var item = this._itemsById[id];
@@ -150,19 +143,15 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
         //for the zoom level work out the DZ tile where it came from
 
         if ((item.Levels == undefined || item.Levels.length == 0) && !this._zooming) {
-        //create 0 level
-            var imageList = this.GetImageList(id, this._baseUrl + "/" + item.BasePath + item.DZId + "_files/6/", 6); ;
-            var newLevel = new PivotViewer.Views.LoadImageSetHelper();
-            newLevel.LoadImages(imageList);
-            item.Levels.push(newLevel);
+            //create 0 level
+            var imageList = this.GetImageList(id, this._baseUrl + "/" + item.BasePath + item.DZId + "_files/6/", 6); ; 
+            item.Levels.push(new PivotViewer.Views.ImageLevel(imageList));
             return null;
         }
         else if (item.Levels.length < level && !this._zooming) {
             //requested level does not exist, and the Levels list is smaller than the requested level
             var imageList = this.GetImageList(id, this._baseUrl + "/" + item.BasePath + item.DZId + "_files/" + level + "/", level);
-            var newLevel = new PivotViewer.Views.LoadImageSetHelper();
-            newLevel.LoadImages(imageList);
-            item.Levels.splice(level, 0, newLevel);
+            item.Levels.splice(level, 0, new PivotViewer.Views.ImageLevel(imageList));
         }
 
         //get best loaded level to return
@@ -171,12 +160,8 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
 
             //if request level has not been requested yet
             if (j == level && item.Levels[j] == undefined && !this._zooming) {
-                //create array of images to getagePath.replace('.dzi', '').replace('\/\/', '\/');
                 var imageList = this.GetImageList(id, this._baseUrl + "/" + item.BasePath + item.DZId + "_files/" + j + "/", j);
-                //create level
-                var newLevel = new PivotViewer.Views.LoadImageSetHelper();
-                newLevel.LoadImages(imageList);
-                item.Levels.splice(j, 0, newLevel);
+                item.Levels.splice(j, 0, new PivotViewer.Views.ImageLevel(imageList));
             }
         }
         return null;
@@ -186,14 +171,13 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
         var fileNames = [];
 
         var tileSize = this._tileSize;
-        var tileFormat = this._format;
 
         var item = this._itemsById[id];
-        var ratio = item.Ratio;
         var height = item.Height;
         var maxLevel = item.MaxLevel;
+        var format = item.Format == null ? this._format : item.Format;
 
-        var levelWidth = Math.ceil( (height/ratio) / Math.pow(2, maxLevel - level));
+        var levelWidth = Math.ceil((height / item.Ratio) / Math.pow(2, maxLevel - level));
         var levelHeight = Math.ceil(height / Math.pow(2, maxLevel - level));
         //based on the width for this level, get the slices based on the DZ Tile Size
         var hslices = Math.ceil(levelWidth / tileSize);
@@ -202,7 +186,7 @@ PivotViewer.Views.DeepZoomImageController = PivotViewer.Views.IImageController.s
         //Construct list of file names based on number of vertical and horizontal images
         for (var i = 0; i < hslices; i++) {
             for (var j = 0; j < vslices; j++) {
-                fileNames.push(basePath + i + "_" + j + "." + tileFormat);
+                fileNames.push(basePath + i + "_" + j + "." + format);
             }
         }
         return fileNames;
@@ -230,7 +214,7 @@ PivotViewer.Views.DeepZoomItem = Object.subClass({
         this.DZId = DZId,
         this.DZN = parseInt(DZn),
         this.BasePath = BasePath,
-        this.Levels = [];    //jch                    
+        this.Levels = [];                  
         this.Ratio = Ratio;  
         this.Width = Width;
         this.Height = Height;
@@ -247,7 +231,8 @@ PivotViewer.Views.DeepZoomItem = Object.subClass({
                 if (image.length == 0) return;
         
                 var jImage = $(image[0]);
-                that.Overlap = jImage.attr('Overlap');
+                that.Overlap = jImage.attr("Overlap");
+                that.Format = jImage.attr("Format");
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 that.Overlap = 0;
@@ -256,14 +241,10 @@ PivotViewer.Views.DeepZoomItem = Object.subClass({
     }
 });
 
-PivotViewer.Views.LoadImageSetHelper = Object.subClass({
-    init: function () {
+PivotViewer.Views.ImageLevel = Object.subClass({
+    init: function (images) {
         this._images = [],
         this._loaded = false;
-    },
-
-    //Load an array of urls
-    LoadImages: function (images) {
         var that = this;
         for (var i = 0; i < images.length; i++) {
             var img = new Image();

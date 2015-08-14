@@ -64,13 +64,12 @@ PivotViewer.Models.Collection = Object.subClass({
 
 //PivotViewer.Models
 PivotViewer.Models.FacetCategory = Object.subClass({
-	init: function (Name, Format, Type, IsFilterVisible, IsMetaDataVisible, IsWordWheelVisible, CustomSort) {
-		this.Name = Name; this.Format = Format;
+    init: function (Name, Type, IsFilterVisible, IsMetaDataVisible) {
+		this.Name = Name;
 		this.Type = Type != null && Type != undefined ? Type : PivotViewer.Models.FacetType.String;
 		this.IsFilterVisible = IsFilterVisible != null && IsFilterVisible != undefined ? IsFilterVisible : true;
-		this.IsMetaDataVisible = IsMetaDataVisible != null && IsMetaDataVisible != undefined ? IsMetaDataVisible : true;
-		this.IsWordWheelVisible = IsWordWheelVisible != null && IsWordWheelVisible != undefined ? IsWordWheelVisible : true;
-		this.CustomSort; this.recount = true; this.uiInit = false;
+		this.IsMetaDataVisible = IsMetaDataVisible != null && IsMetaDataVisible != undefined ? IsMetaDataVisible : true;;
+		this.recount = true; this.uiInit = false;
 		this.datetimeBuckets = [];
 	}
 });
