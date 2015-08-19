@@ -1174,7 +1174,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
     $.subscribe("/PivotViewer/ImageController/Collection/Loaded", function (event) {
         var enabledCatagories = EnabledCategories(settings.disabledCategories);
         var facets = ["<div class='pv-filterpanel-accordion'>"];
-        var longSearch = ["<div id='pv-long-search-box'><br><select id='pv-long-search-cat'>"];
+        var longSearch = ["<div id='pv-long-search-box'><br><label for='pv-long-search-cat'>Select a text field to search</label><select name='pv-long-search-cat' id='pv-long-search-cat'>"];
         var sort = [], activeNumber = 0;
         for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
             var category = PivotCollection.FacetCategories[i];
@@ -1193,6 +1193,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         if (longSearch.length > 1) {
             longSearch.push("</div></select>");
             $(".pv-filterpanel").append(longSearch.join('') + "<span class='pv-search-clear' id='pv-long-search-clear'>&nbsp;</span><input type=text length=25 id='pv-long-search' placeholder='Search text...'>");
+            
             $("#pv-long-search").on("keyup", function (e) {
                 var input = this.value.toLowerCase();
                 if (e.keyCode == 13) {
@@ -1212,6 +1213,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                 else $("#pv-long-search").css("text-decoration", "").css("color", "black");
                 $("#pv-long-search-clear").css("visibility", "visible");
             });
+            
             $("#pv-long-search-clear").click(function (e) {
                 $("#pv-long-search").val("");
                 $("#pv-long-search-clear").css("visibility", "hidden");
