@@ -82,7 +82,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     LoadData: function () {
         var categories = this.data[0];
-        var name_column = -1, img_column = -1, href_column = -1;
+        var name_column = -1, img_column = -1, href_column = -1, desc_column=-1;
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].charAt(0) == "#") {
                 if (categories[i] == "#name") name_column = i;
@@ -95,10 +95,14 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 }
                 continue;
             }
+
             var index, type, visible = true, SearchVisible = true;
             var isMultipleItems = false, isInfoVisible = true;
             if ((index = categories[i].indexOf("#")) !== -1) {
-                if (categories[i].indexOf("#number", index) !== -1)
+                if (categories[i].indexOf("#description", index) !== -1) {
+                    desc_column = i;
+                    continue;
+                } else if (categories[i].indexOf("#number", index) !== -1)
                     type = PivotViewer.Models.FacetType.Number;
                 else if (categories[i].indexOf("#date", index) !== -1)
                     type = PivotViewer.Models.FacetType.DateTime;
@@ -144,6 +148,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         for (var i = 1; i < this.data.length; i++) {
             var row = this.data[i];
             var item = new PivotViewer.Models.Item(row[img_column].trim(), String(i), href_column == -1 ? "" : row[href_column], row[name_column]);
+            if (desc_column !== -1) item.Description = row[desc_column];
             this.collection.Items.push(item);
         }
         $.publish("/PivotViewer/Models/Collection/Loaded", null);

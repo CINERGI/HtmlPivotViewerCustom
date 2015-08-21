@@ -1850,8 +1850,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             $('.pv-infopanel-heading').append("<a href=\"" + selectedItem.facetItem.Href + "\" target=\"_blank\">" + selectedItem.facetItem.Name + "</a></div>");
             var infopanelDetails = $('.pv-infopanel-details');
             infopanelDetails.empty();
-            if (selectedItem.Description != undefined && selectedItem.Description.length > 0) {
-                infopanelDetails.append("<div class='pv-infopanel-detail-description' style='height:100px;'>" + selectedItem.Description + "</div><div class='pv-infopanel-detail-description-more'>More</div>");
+            if (selectedItem.facetItem.Description != undefined && selectedItem.facetItem.Description.length > 0) {
+                infopanelDetails.append("<div class='pv-infopanel-detail-description' style='height:100px;'>" + selectedItem.facetItem.Description + "</div><div class='pv-infopanel-detail-description-more'>More</div>");
             }
             // nav arrows...
             if (selectedItem.facetItem.Id == _filterList[0].Id) {
