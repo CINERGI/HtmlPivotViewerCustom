@@ -64,10 +64,11 @@ PivotViewer.Models.Collection = Object.subClass({
 
 //PivotViewer.Models
 PivotViewer.Models.FacetCategory = Object.subClass({
-    init: function (Name, Type, IsFilterVisible, IsMetaDataVisible) {
+    init: function (Name, Type, IsFilterVisible, IsMetaDataVisible, IsSearchVisible) {
 		this.Name = Name;
 		this.Type = Type != null && Type != undefined ? Type : PivotViewer.Models.FacetType.String;
 		this.IsFilterVisible = IsFilterVisible != null && IsFilterVisible != undefined ? IsFilterVisible : true;
+		this.IsSearchVisible = IsSearchVisible != null && IsSearchVisible != undefined ? IsSearchVisible : true;
 		this.IsMetaDataVisible = IsMetaDataVisible != null && IsMetaDataVisible != undefined ? IsMetaDataVisible : true;;
 		this.recount = true; this.uiInit = false;
 		this.datetimeBuckets = [];

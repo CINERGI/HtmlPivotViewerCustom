@@ -1011,16 +1011,17 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         _nameMapping[name] = uncleanName;
         return name;
     };
-    AllVisibleCategories = function () {
-        var FilterVisibleCategories = []
+    AllVisibleFilterCategories = function () {
+        var FilterVisibleCategories = [];
         for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
             if (PivotCollection.FacetCategories[i].IsFilterVisible) FilterVisibleCategories.push(i);
+           // if (PivotCollection.FacetCategories[i].IsSearchVisible) FilterVisibleCategories.push(i);
         }
         return FilterVisibleCategories;
     };
 
-    EnabledCategories = function (disabledCategories) {
-        var allCategories = AllVisibleCategories();
+    EnabledFilterCategories = function (disabledCategories) {
+        var allCategories = AllVisibleFilterCategories();
         if (_.isArray(disabledCategories)) {
 
             return _.difference(allCategories, disabledCategories);
@@ -1030,7 +1031,36 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         }
     }
 
+    EnabledSearchableLongStringCategories = function (disabledCategories) {
+        var SearchVisibleCategories = [];
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+           // if (PivotCollection.FacetCategories[i].IsFilterVisible) SearchVisibleCategories.push(i);
+            if (PivotCollection.FacetCategories[i].IsSearchVisible &&
+                PivotCollection.FacetCategories[i].Type == PivotViewer.Models.FacetType.LongString)
+                {SearchVisibleCategories.push(i);}
+        }
+        if (_.isArray(disabledCategories)) {
 
+            return _.difference(SearchVisibleCategories, disabledCategories);
+        } else {
+            return SearchVisibleCategories;
+        }
+    }
+
+    EnabledMetadataCategories = function (disabledCategories) {
+        var MetadataCatagories = [];
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+            // if (PivotCollection.FacetCategories[i].IsFilterVisible) SearchVisibleCategories.push(i);
+            if (PivotCollection.FacetCategories[i].IsMetaDataVisible)
+            { MetadataCatagories.push(i); }
+        }
+        if (_.isArray(disabledCategories)) {
+
+            return _.difference(MetadataCatagories, disabledCategories);
+        } else {
+            return MetadataCatagories;
+        }
+    }
     //Events
     $.subscribe("/PivotViewer/Models/Collection/Loaded", function (event) {
         var store = Lawnchair({ name: PivotCollection.CollectionName });
@@ -1039,15 +1069,15 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                 settings = result.value;
                 // if this exists, let's use it initially.
                 if (settings.visibleCategories) {
-                    var vset = AllVisibleCategories();
+                    var vset = AllVisibleFilterCategories();
                     settings.disabledCategories = _.difference(vset, settings.visibleCategories);
 
-                    settings.visibleCategories = AllVisibleCategories();
+                    settings.visibleCategories = AllVisibleFilterCategories();
                 }
             }
             else {
                 settings.showMissing = _showMissing;
-                settings.visibleCategories = AllVisibleCategories();
+                settings.visibleCategories = AllVisibleFilterCategories();
                 settings.disabledCategories = [];
                 //for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
                 //    settings.visibleCategories.push(i);
@@ -1126,14 +1156,16 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
     });
 
     $.subscribe("/PivotViewer/Settings/Changed", function (event) {
-        var enabledCatagories = EnabledCategories(event.disabledCategories);
+        var enabledCatagories = EnabledFilterCategories(event.disabledCategories);
         //var selCategory = PivotCollection.FacetCategories[event.visibleCategories[0]];
         var selCategory = PivotCollection.FacetCategories[enabledCatagories[0]];
         if (!selCategory.uiInit) InitUIFacet(selCategory);
         SelectView(0);
 
         LoadSem.acquire(function (release) {
-            var facetSelect = $(".pv-facet"), sortSelect = $(".pv-toolbarpanel-sort"), longSearchSelect = $("#pv-long-search-cat");
+            var facetSelect = $(".pv-facet"),
+                sortSelect = $(".pv-toolbarpanel-sort"),
+                longSearchSelect = $("#pv-long-search-cat");
             facetSelect.hide();
             facetSelect.attr("visible", "invisible");
             $(".pv-toolbarpanel-sort option").remove();
@@ -1144,7 +1176,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                 //var category = PivotCollection.FacetCategories[event.visibleCategories[i]];
             for (var i = 0; i < enabledCatagories.length; i++) {
                 var category = PivotCollection.FacetCategories[enabledCatagories[i]];
-                if (!category.IsFilterVisible) continue;
+                //if (!category.IsFilterVisible) continue;
+                if (!category.IsSearchVisible) continue;
                 if (category.Type == PivotViewer.Models.FacetType.LongString) {
                     longSearchSelect.append("<option value='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>");
                     _longStringCategories.push(category);
@@ -1172,13 +1205,14 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
     });
 
     $.subscribe("/PivotViewer/ImageController/Collection/Loaded", function (event) {
-        var enabledCatagories = EnabledCategories(settings.disabledCategories);
+        var enabledCatagories = EnabledFilterCategories(settings.disabledCategories);
         var facets = ["<div class='pv-filterpanel-accordion'>"];
         var longSearch = ["<div id='pv-long-search-box'><br><label for='pv-long-search-cat'>Select a text field to search</label><select name='pv-long-search-cat' id='pv-long-search-cat'>"];
         var sort = [], activeNumber = 0;
         for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
             var category = PivotCollection.FacetCategories[i];
             if (category.IsFilterVisible) {
+                //if (category.IsSearchVisible) {
                 if (category.Type == PivotViewer.Models.FacetType.LongString) {
                     longSearch.push("<option value='" + CleanName(category.Name.toLowerCase()) + "'>" + category.Name + "</option>");
                     _longStringCategories.push(category);
@@ -1718,7 +1752,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
 
             FilterCollection();
 
-            var enabledCatagories = EnabledCategories(settings.disabledCategories);
+            var enabledCatagories = EnabledFilterCategories(settings.disabledCategories);
             if (enabledCatagories.length < PivotCollection.FacetCategories.length)//settings.visibleCategories
                 $.publish("/PivotViewer/Settings/Changed", [settings]);
             else $(".pv-facet").attr("visible", "visible");
@@ -1739,8 +1773,10 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                     if (_filterList[i].facetItem.Id == selectedItem.Id) {
                         //var tile = _filterList[i - 1];
                         var tile = _filterList[i];
+                        _views[_currentView].handleSelection(tile);
                         $.publish("/PivotViewer/Views/Item/Selected", [{ item: tile }]);
-                        _views[_currentView].CenterOnTile(tile);
+                        //_views[_currentView].CenterOnTile(tile);
+                        
                         break;
                     }
                 }
@@ -1787,7 +1823,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         for (var i = 0; i < select.length; i++) {
             var selValue = select.eq(i).val();
             select.eq(i).children().remove();
-            var enabledCatagories = EnabledCategories(settings.disabledCategories);
+            var enabledCatagories = EnabledFilterCategories(settings.disabledCategories);
             for (var j = 0; j < enabledCatagories.length; j++) {
                 var index = enabledCatagories[j], category = PivotCollection.FacetCategories[index];
                 if (((category.IsFilterVisible && category.Type != PivotViewer.Models.FacetType.LongString) || showFilterInvisible) &&
@@ -1839,7 +1875,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             var detailDOMIndex = 0;
 
             var facets = Loader.GetRow(selectedItem.facetItem.Id);
-            var enabledCatagories = EnabledCategories(settings.disabledCategories);
+            var enabledCatagories = EnabledMetadataCategories(settings.disabledCategories);
             for (var i = 0, k = 0; i < facets.length; i++) {
                 var category = PivotCollection.GetFacetCategoryByName(facets[i].Name);
 

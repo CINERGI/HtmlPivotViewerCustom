@@ -95,7 +95,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 }
                 continue;
             }
-            var index, type, visible = true;
+            var index, type, visible = true, SearchVisible = true;
             var isMultipleItems = false, isInfoVisible = true;
             if ((index = categories[i].indexOf("#")) !== -1) {
                 if (categories[i].indexOf("#number", index) !== -1)
@@ -104,11 +104,15 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                     type = PivotViewer.Models.FacetType.DateTime;
                 else if (categories[i].indexOf("#ordinal", index) !== -1)
                     type = PivotViewer.Models.FacetType.Ordinal;
-                else if (categories[i].indexOf("#long", index) !== -1) 
+                else if (categories[i].indexOf("#long", index) !== -1) {
                     type = PivotViewer.Models.FacetType.LongString;
+                    SearchVisible = true;
+                    visible = false;
+                }
                 else if (categories[i].indexOf("#info", index) !== -1) {
                     type = PivotViewer.Models.FacetType.LongString;
-                    SearchVisible = false;
+                    SearchVisible = true;
+                    visible = false;
                 } else if (categories[i].indexOf("#hide", index) !== -1) {
                     SearchVisible = false;
                     isInfoVisible = false; // hide from details panel, too
@@ -129,7 +133,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 type = PivotViewer.Models.FacetType.String;
                 index = categories[i].length;
             }
-            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), type, visible, isInfoVisible);
+            var category = new PivotViewer.Models.FacetCategory(categories[i].substring(0, index), type, visible, isInfoVisible, SearchVisible);
             category.column = i;
             category.isMultipleItems = isMultipleItems;
 
@@ -199,7 +203,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
     },
     GetRow: function (id) {
         var row = this.data[id], facets = [], dIndex;
-        var enabledCatagories = EnabledCategories(settings.disabledCategories);
+        var enabledCatagories = EnabledMetadataCategories(settings.disabledCategories);
         for (var n = 0; n < enabledCatagories.length; n++) {
             var index = enabledCatagories[n], category = this.collection.FacetCategories[index], raw = row[category.column];
             if (raw.trim() == "") continue;
@@ -212,6 +216,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 var value = new PivotViewer.Models.FacetValue(raw);
                 value.value = raw;
                 value.href = raw;
+                f.AddFacetValue(value);
             }
             else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
             facets.push(f);

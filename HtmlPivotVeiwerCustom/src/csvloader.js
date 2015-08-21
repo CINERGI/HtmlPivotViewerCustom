@@ -196,6 +196,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 var value = new PivotViewer.Models.FacetValue(raw);
                 value.value = raw;
                 value.href = raw;
+                f.AddFacetValue(value);
             }
             else f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
             facets.push(f);
