@@ -513,10 +513,10 @@ a {
 }
 
 .pv-bucket-countbox {
-    position: absolute;
+    position: relative;
     height: 30px;
     top: 50%;
-    margin-top: -15px;
+    //margin-top: -15px;
     float: left;
     margin-left: 4px;
     font-size: 8pt;
