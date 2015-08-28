@@ -102,6 +102,12 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 if (categories[i].indexOf("#description", index) !== -1) {
                     desc_column = i;
                     continue;
+                } else if (categories[i].indexOf("#name", index) !== -1) {
+                    name_column = i;
+                    continue;
+                } else if (categories[i].indexOf("#href", index) !== -1) {
+                    href_column = i;
+                    continue;
                 } else if (categories[i].indexOf("#number", index) !== -1)
                     type = PivotViewer.Models.FacetType.Number;
                 else if (categories[i].indexOf("#date", index) !== -1)

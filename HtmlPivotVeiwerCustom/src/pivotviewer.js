@@ -1288,11 +1288,11 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         var offsetY = 4;
 
         if (PivotCollection.config == undefined) PivotCollection.config = [];
-        if (PivotCollection.config.views == undefined) PivotCollection.config.views = ["Grid", "Bucket", "Crosstab"];
+        if (PivotCollection.config.views == undefined) PivotCollection.config.views = ["Grid", "Bucket", "Table"];
         if (_options.View != undefined && PivotCollection.config.views.indexOf(_options.View) < 0) PivotCollection.config.views.push(_options.View)
         for (var i = 0; i < PivotCollection.config.views.length; i++) {
             var viewName = PivotCollection.config.views[i];
-            LoadScript("src/views/" + viewName.toLowerCase() + "view.min.js");
+            LoadScript("src/views/" + viewName.toLowerCase() + "view.js");
             eval("var view = new PivotViewer.Views." + viewName.charAt(0).toUpperCase() + viewName.substring(1) + "View()");
             view.SetOptions(_options);
             _views.push(view);

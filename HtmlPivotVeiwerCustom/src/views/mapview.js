@@ -170,7 +170,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             this.mapService = "google";
             LoadScript("lib/wicket/wicket-gmap3.min.js");
             if (options.GeocodeService == "Google") this.geocodeService = "Google";
-            else GeocodeService = "Nominatim"
+            else this.GeocodeService = "Nominatim";
         }
         else {
             this.mapService = "openstreetmap";

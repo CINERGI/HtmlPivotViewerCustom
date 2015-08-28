@@ -27,6 +27,7 @@
     <Content Include="faqpage_files\jquery.highlightFade.js" />
     <Content Include="faqpage_files\jquery.scrollTo-min.js" />
     <Content Include="faqpage_files\question.png" />
+    <Content Include="CResCy.html" />
     <Content Include="solr_test.html" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractFacetWidget.js" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractManager.js" />
