@@ -458,7 +458,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
 
         if (tile != null) {
             tile.Selected(true);
-            tile.selectedLoc = selectedLoc;
+            if (selectedLoc != undefined) tile.selectedLoc = selectedLoc;
             found = true;
         }
 

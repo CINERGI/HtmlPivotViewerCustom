@@ -1776,8 +1776,9 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                         _views[_currentView].handleSelection(tile);
                         $.publish("/PivotViewer/Views/Item/Selected", [{ item: tile }]);
                         //_views[_currentView].CenterOnTile(tile);
-                        
-                        break;
+                        $(this).val("");
+                        return false;
+                        //break;
                     }
                 }
                 //if (selectedItem) $.publish("/PivotViewer/Views/Item/Selected", [{ item: selectedItem }]);
@@ -1790,6 +1791,9 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                 $(".ui-autocomplete").css("z-index", 1000);
             }
         });
+
+
+       
     });
 
     var oldValue = 0;
