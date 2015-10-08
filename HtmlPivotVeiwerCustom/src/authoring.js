@@ -70,9 +70,51 @@
     cards.push(function () {
         classes = $("#class-select").val();
  
-        var html = "<form enctype=\"multipart/form-data\" method=\"post\" id=\"upload\">Image Association:<p>";
-        
+        var html = "<form enctype=\"multipart/form-data\" method=\"post\" id=\"upload\">Image Association:<p>Class Combinations:";
+
+        var valueSet = [];
         for (var i = 0; i < classes.length; i++) {
+            valueSet[i] = {};
+            var column = classes[i];
+            for (var j = 1; j < permutation.length; j++) {
+                if (!valueSet[i].hasOwnProperty(permutation[j][classes[i]])) {
+                    valueSet[i][permutation[j][column]] = true;
+                }
+            }
+        }
+        
+        var numFiles = 1, counter = [], values = [];
+        for (var i = 0; i < classes.length; i++) {
+            values[i] = [];
+            var j = 0;
+            for(var key in valueSet[i]) {
+                values[i][j++] = key;
+            }
+            numFiles *= values[i].length;
+            counter[i] = 0;
+        }
+
+        for (var i = 0; i < numFiles; i++) {
+            var file = "";
+            var label = "";
+
+            for (var j = 0; j < classes.length; j++) {
+                if(counter[j] == values[j].length) {
+                    counter[j] = 0;
+                    if(j != classes.length - 1) counter[j + 1]++;
+                }
+                var value = values[j][counter[j]];
+                if (value.trim() == "") value = "(missing)";
+                else value = value.replace(/[\.\s]/g, "_");
+                file += "-" + value;
+                label += value + " ";
+            }
+            counter[0]++;
+            html += "<input type=file name=\"class" + file + "\" accept=\".jpg,.gif,.png\"> " + label + "<br>"
+
+        }
+        
+        /*for (var i = 0; i < classes.length; i++) {
             var set = {};
             var column = classes[i];
             html += permutation[0][column] + "<br>";
@@ -90,7 +132,7 @@
             }
 
             html += "<p>";
-        }
+        }*/
         html += "</form>";
         return html;
    
@@ -105,75 +147,57 @@
 
     $("#pv-card-submit").on("click", function (e) {
         if (current_card == cards.length - 1) {
-
             var columns = permutation[0];
-
             //determine column type
-            //var cutoff = permutation.length < 10 ? permutation.length : 10;
-            var cutoff = permutation.length;
             for (var j = 0; j < columns.length; j++) {
-                var i = 1;
-                var cur_cutoff = cutoff;
-                for (; i < cur_cutoff; i++) {
-                    if(permutation[i][j].trim() == "") {
-                        //if (++cur_cutoff > permutation.length) break;
-                        continue;
-                    }
+                var i = 1, nonmissing = false;
+                for (; i < permutation.length; i++) {
+                    if (permutation[i][j].trim() == "") continue;
+                    nonmissing = true;
                     var format = moment.parseFormat(permutation[i][j]);
-                    if((format.indexOf("H") === -1 && format.indexOf("M") === -1) || !moment(permutation[i][j], format).isValid()) break;
+                    if((format.indexOf("H") === -1 && format.indexOf("M") === -1) || format.indexOf("MMM") !== -1 || !moment(permutation[i][j], format).isValid()) break;
                 }
-                if (i == cur_cutoff) {
+                if (!nonmissing) continue;
+                if (i == permutation.length) {
                     columns[j] += "#date";
                     continue;
                 }
-                cur_cutoff = cutoff;
                 var ordinal = true;
-                for (i = 1; i < cur_cutoff; i++) {
-                    if (permutation[i][j].trim() == "") {
-                        //if (++cur_cutoff > permutation.length) break;
-                        continue;
-                    }
+                for (i = 1; i < permutation.length; i++) {
+                    if (permutation[i][j].trim() == "") continue;
                     if (!/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/.test(permutation[i][j].replace(/,/g, ""))) break;
                     if (ordinal) {
                         var value = parseFloat(permutation[i][j].replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]);
                         if (value < 0 || value >= 10 || !Number.isInteger(value)) ordinal = false;
                     }
                 }
-                if (i == cur_cutoff) {
-                    /*for (i = 1; i < permutation.length; i++) {
-                        if (permutation[i][j].trim() == "") continue;
-                        var value = parseFloat(permutation[i][j].replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]);
-                        if (value < 0 || value >= 10 || !Number.isInteger(value)) break;
-                    }*/
-                    //if (i == permutation.length) columns[j] += "#ordinal";
+                if (i == permutation.length) {
                     if (ordinal) columns[j] += "#ordinal";
                     else columns[j] += "#number";
                     continue;
                 }
-                /*cur_cutoff = cutoff;
-                for (i = 1; i < cur_cutoff; i++) {
-                    if (permutation[i][j].trim() == "") {
-                        if (++cur_cutoff > permutation.length) break;
-                        continue;
-                    }
-                    if (!permutation[i][j].startsWith("http://") && !permutation[i][j].startsWith("www.")) break;
-                }
-                if (i == cur_cutoff) columns[j] += "#link";*/
             }
 
             permutation[0].push("#img");
             permutation[0].push("#name");
-            var index = permutation[0][classes[0]].indexOf("#");
-            var img_column = index === -1 ? permutation[0][classes[0]] : permutation[0][classes[0]].substring(0, index);
+            //var index = permutation[0][classes[0]].indexOf("#");
+            //var img_column = index === -1 ? permutation[0][classes[0]] : permutation[0][classes[0]].substring(0, index);
+            
             for (var i = 1; i < permutation.length; i++) {
-                var value = permutation[i][classes[0]];
+                var file = "class";
+                for (var j = 0; j < classes.length; j++) {
+                    var value = permutation[i][classes[j]]
+                    if (value.trim() == "") value = "(missing)";
+                    file += "-" + value;
+                }
+                permutation[i].push(file.replace(/[\.\s]/g, "_"));
+                /*var value = permutation[i][classes[0]];
                 if (value.trim() == "") value = "(missing)";
                 else value = value.replace(/[\.\s]/g, "_");
-                permutation[i].push("class-" + img_column.replace(/[\.\s]/g, "_") + "-" + value);
+                permutation[i].push("class-" + img_column.replace(/[\.\s]/g, "_") + "-" + value);*/
                 if (name_column == -1) permutation[i].push(i);
                 else permutation[i].push(permutation[i][name_column]);
             }
-
             csvloader.data = permutation;
 
             var fd = new FormData($("#upload")[0]);

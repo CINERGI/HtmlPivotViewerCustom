@@ -26,10 +26,10 @@ PivotViewer.Views.TileController = Object.subClass({
         var that = this;
         this._tiles.push = function (x) {
             this.__proto__.push.apply(that._tiles, [x]);
-            that._tilesById[x.facetItem.Id] = x;
+            that._tilesById[x.item.id] = x;
         }
     },
-    GetTileById: function (id) {
+    getTileById: function (id) {
         var item = this._tilesById[id];
         if (item == undefined) return null;
         return item;
@@ -38,8 +38,7 @@ PivotViewer.Views.TileController = Object.subClass({
         //Set the initial state for the tiles
         for (var i = 0; i < pivotCollectionItems.length; i++) {
             var tile = new PivotViewer.Views.Tile(this._imageController);
-            tile.facetItem = pivotCollectionItems[i];
-            tile.CollectionRoot = baseCollectionPath.replace(/\\/gi, "/").replace(/\.xml/gi, "");
+            tile.item = pivotCollectionItems[i];
             this._canvasContext = canvasContext;
             tile.context = this._canvasContext;
             tileLocation = new PivotViewer.Views.TileLocation();
@@ -49,7 +48,7 @@ PivotViewer.Views.TileController = Object.subClass({
         return this._tiles;
     },
 
-    AnimateTiles: function () {
+    animateTiles: function () {
         var that = this;
         this._started = true;
         var context = null;
@@ -61,7 +60,7 @@ PivotViewer.Views.TileController = Object.subClass({
             for (var i = 0; i < this._tiles.length; i++) {
                 //for each tile location...
                 for (l = 0; l < this._tiles[i]._locations.length; l++) {
-                    var now = PivotViewer.Utils.Now() - this._tiles[i].start,
+                    var now = PivotViewer.Utils.now() - this._tiles[i].start,
                     end = this._tiles[i].end - this._tiles[i].start;
                     //use the easing function to determine the next position
                     if (now <= end) {
@@ -138,33 +137,33 @@ PivotViewer.Views.TileController = Object.subClass({
                     this._tiles[i]._locations[l].x < context.canvas.width &&
                     this._tiles[i]._locations[l].y + this._tiles[i].height > 0 &&
                     this._tiles[i]._locations[l].y < context.canvas.height) {
-                    this._tiles[i].Draw(l);
+                    this._tiles[i].draw(l);
                 }
             }
         }
 
         // request new frame
-        if (!this._breaks) requestAnimFrame(function () {that.AnimateTiles();});
+        if (!this._breaks) requestAnimFrame(function () {that.animateTiles();});
         else this._started = false;
     },
 
-    BeginAnimation: function () {
+    beginAnimation: function () {
         if (!this._started && this._tiles.length > 0) {
             this._breaks = false;
-            this.AnimateTiles();
+            this.animateTiles();
         }
     },
-    StopAnimation: function () {this._breaks = true;},
-    SetLinearEasingBoth: function () {
+    stopAnimation: function () {this._breaks = true;},
+    setLinearEasingBoth: function () {
         this._easing = new Easing.Easer({ type: "linear", side: "both" });
     },
-    SetCircularEasingBoth: function () {
+    setCircularEasingBoth: function () {
         this._easing = new Easing.Easer({ type: "circular", side: "both" });
     },
-    SetQuarticEasingOut: function () {
+    setQuarticEasingOut: function () {
         this._easing = new Easing.Easer({ type: "quartic", side: "out" });
     },
-    GetMaxTileRatio: function () {return this._imageController.MaxRatio;}
+    getMaxTileRatio: function () {return this._imageController.MaxRatio;}
 });
 
 ///
@@ -183,27 +182,23 @@ PivotViewer.Views.Tile = Object.subClass({
         this._visible = true;
     },
 
-    IsSelected: function () {
-       return this._selected;
-    },
-
-    Draw: function (loc) {
+    draw: function (loc) {
         //Is the tile destination in visible area?
         if (this.destinationVisible) {
-            this._images = TileController._imageController.GetImages(this.facetItem.Img, this.width, this.height);
+            this._images = TileController._imageController.getImages(this.item.img, this.width, this.height);
         }
 
         if (this._images != null) {
             if (typeof this._images == "function") {
                 //A DrawLevel function returned - invoke
-                this._images(this.facetItem, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
+                this._images(this.item, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
             }
 
             else if (this._images.length > 0 && this._images[0] instanceof Image) {
                 //if the collection contains an image
-                var completeImageHeight = TileController._imageController.GetHeight(this.facetItem.Img);
+                var completeImageHeight = TileController._imageController.getHeight(this.item.img);
                 var displayHeight = this.height - Math.ceil(this.height < 128 ? this.height / 16 : 8);
-                var displayWidth = Math.ceil(TileController._imageController.GetWidthForImage(this.facetItem.Img, displayHeight));
+                var displayWidth = Math.ceil(TileController._imageController.getWidthForImage(this.item.img, displayHeight));
                 //Narrower images need to be centered 
                 blankWidth = (this.width - 8) - displayWidth;
 
@@ -220,13 +215,13 @@ PivotViewer.Views.Tile = Object.subClass({
                         //Get image level
                         n = source.match (/_files\/[0-9]+\//g);
                         var imageLevel = parseInt(n[0].substring(7, n[0].length - 1));
-                        var levelHeight = Math.ceil(completeImageHeight / Math.pow(2, TileController._imageController.GetMaxLevel(this.facetItem.Img) - imageLevel));
+                        var levelHeight = Math.ceil(completeImageHeight / Math.pow(2, TileController._imageController.getMaxLevel(this.item.img) - imageLevel));
             
                         //Image will need to be scaled to get the displayHeight
                         var scale = displayHeight / levelHeight;
                     
                         // handle overlap 
-                        overlap = TileController._imageController.GetOverlap(this.facetItem.Img);
+                        overlap = TileController._imageController.getOverlap(this.item.img);
             
                         var offsetx = (Math.floor(blankWidth/2)) + 4 + xPosition * Math.floor((tileSize - overlap)  * scale);
                         var offsety = 4 + Math.floor((yPosition * (tileSize - overlap)  * scale));
@@ -255,11 +250,11 @@ PivotViewer.Views.Tile = Object.subClass({
             }
         }
         else {
-            this.DrawEmpty(loc);
+            this.drawEmpty(loc);
         }
     },
     //http://simonsarris.com/blog/510-making-html5-canvas-useful
-    Contains: function (mx, my) {
+    contains: function (mx, my) {
         for (i = 0; i < this._locations.length; i++) {
             if ((this._locations[i].x <= mx) && (this._locations[i].x + this.width >= mx) &&
                 (this._locations[i].y <= my) && (this._locations[i].y + this.height >= my))
@@ -267,7 +262,7 @@ PivotViewer.Views.Tile = Object.subClass({
         }
         return -1;
     },
-    DrawEmpty: function (loc) {
+    drawEmpty: function (loc) {
         if (TileController._imageController.DrawLevel == undefined) {
             //draw an empty square
             this.context.beginPath();
@@ -279,10 +274,9 @@ PivotViewer.Views.Tile = Object.subClass({
             this.context.stroke();
         } else {
             //use the controllers blank tile
-            TileController._imageController.DrawLevel(this.facetItem, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
+            TileController._imageController.DrawLevel(this.item, this.context, this._locations[loc].x + 4, this._locations[loc].y + 4, this.width - 8, this.height - 8);
         }
     },
-    CollectionRoot: "",
     now: null,
     end: null,
     width: 0,
@@ -296,7 +290,7 @@ PivotViewer.Views.Tile = Object.subClass({
     destinationheight: 0,
     destinationVisible: true,
     context: null,
-    facetItem: null,
+    item: null,
     firstFilterItemDone: false,
     selectedLoc: 0,
     Selected: function (selected) { this._selected = selected }

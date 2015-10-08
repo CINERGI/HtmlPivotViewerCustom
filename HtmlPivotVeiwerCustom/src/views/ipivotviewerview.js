@@ -27,22 +27,23 @@ PivotViewer.Views.IPivotViewerView = Object.subClass({
 		    that.filtered = true;
 		    that.filterEvt = evt;
 		    if (that.isActive) {
-		        that.Filter(evt.tiles, evt.filter, evt.sort);
-		        that.Activate();
+		        that.filter(evt.tiles, evt.filterList, evt.sort);
+		        that.activate();
 		    }
 		});
 	},
-	Setup: function (width, height, offsetX, offsetY, tileMaxRatio) { },
-	Filter: function (tiles, currentFilter) { },
-	GetUI: function () {
+	setup: function (width, height, offsetX, offsetY, tileMaxRatio) { },
+	setOptions: function(options) {}, 
+	filterList: function (tiles, currentFilter) { },
+	getUI: function () {
 	    if (Modernizr.canvas) return "";
 	    else return "<div class='pv-viewpanel-unabletodisplay'><h2>Unfortunately this view is unavailable as your browser does not support this functionality.</h2>Please try again with one of the following supported browsers: IE 9+, Chrome 4+, Firefox 2+, Safari 3.1+, iOS Safari 3.2+, Opera 9+<br/><a href='http://caniuse.com/#feat=canvas'>http://caniuse.com/#feat=canvas</a></div>";
 	},
-	GetButtonImage: function () { return ''; },
-	GetButtonImageSelected: function () { return ''; },
-	GetViewName: function () { return ''; },
-	Activate: function () { this.isActive = true; },
-	Deactivate: function () { this.isActive = false; },
-	SetSelected: function (item) { this.selected = item; },
-	CenterOnTile: function (item) { return;}
+	getButtonImage: function () { return ''; },
+	getButtonImageSelected: function () { return ''; },
+	getViewName: function () { return ''; },
+	activate: function () { this.isActive = true; },
+	deactivate: function () { this.isActive = false; },
+	setSelected: function (item) { this.selected = item; },
+	centerOnTile: function (item) { return;}
 });

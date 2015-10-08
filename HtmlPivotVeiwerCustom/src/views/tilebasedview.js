@@ -15,7 +15,7 @@
 //
 
 PivotViewer.Views.TileBasedView = PivotViewer.Views.IPivotViewerView.subClass({
-    Activate: function () {
+    activate: function () {
         this._super();
         $('.pv-toolbarpanel-zoomslider').fadeIn();
         $('.pv-toolbarpanel-zoomcontrols').css('border-width', '1px');
@@ -23,19 +23,19 @@ PivotViewer.Views.TileBasedView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-toolbarpanel-sort').fadeIn();
         $('.pv-canvas').fadeIn();
     },
-    Deactivate: function () {
+    deactivate: function () {
         this._super();
         $('.pv-toolbarpanel-zoomslider').fadeOut();
         $('.pv-toolbarpanel-sort').fadeOut();
         $('.pv-canvas').fadeOut();
     },
-    OffsetTiles: function (offsetX, offsetY) {
-		for (var i = 0; i < this.filter.length; i++) {
-            this.filter[i]._locations[0].destinationx += offsetX;
-            this.filter[i]._locations[0].destinationy += offsetY;
+    offsetTiles: function (offsetX, offsetY) {
+		for (var i = 0; i < this.filterList.length; i++) {
+            this.filterList[i]._locations[0].destinationx += offsetX;
+            this.filterList[i]._locations[0].destinationy += offsetY;
 		}
 	},
-	GetRowsAndColumns: function (canvasWidth, canvasHeight, tileMaxRatio, tileCount) {
+	calculateDimensions: function (canvasWidth, canvasHeight, tileMaxRatio, tileCount) {
 	    var gap = 0.9;
 		var a = tileMaxRatio * (tileCount - gap * gap);
 		var b = (canvasHeight + (canvasWidth * tileMaxRatio)) * gap;
@@ -48,7 +48,7 @@ PivotViewer.Views.TileBasedView = PivotViewer.Views.IPivotViewerView.subClass({
 		if (tileHeight < 3) tileHeight = 3;
 		return { Rows: canvasRows, Columns: canvasColumns, TileMaxWidth: tileMaxWidth, TileHeight: tileHeight, PaddingX : paddingX, PaddingY: paddingY };
 	},
-	GetTileDimensions: function (canvasWidth, canvasHeight, tileMaxRatio, tileCount, rowscols) {
+	getTileDimensions: function (canvasWidth, canvasHeight, tileMaxRatio, tileCount, rowscols) {
 	    var gap = 0.9;
 	    var a = tileMaxRatio * (tileCount - gap * gap);
 	    var b = (canvasHeight + (canvasWidth * tileMaxRatio)) * gap;
