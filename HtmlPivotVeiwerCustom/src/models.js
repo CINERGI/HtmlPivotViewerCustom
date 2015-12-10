@@ -72,7 +72,8 @@ PivotViewer.Models.FacetCategory = Object.subClass({
 		this.IsMetaDataVisible = IsMetaDataVisible != null && IsMetaDataVisible != undefined ? IsMetaDataVisible : true;;
 		this.recount = true; this.uiInit = false;
 		this.datetimeBuckets = [];
-	}
+        this.uiInit = false;
+    }
 });
 
 PivotViewer.Models.FacetCategorySort = Object.subClass({

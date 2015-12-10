@@ -216,7 +216,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
     CreateHistogram = function (category, histogram) {
         var w = 165, h = 80, name = CleanName(category.Name);
 
-        var chartWrapper = $("#pv-filterpanel-category-numberitem-" + PivotViewer.Utils.EscapeMetaChars(name));
+        var chartWrapper = $("#pv-filterpanel-category-numberitem-" + PivotViewer.Utils.escapeMetaChars(name));
         chartWrapper.empty();
         chartWrapper.append("<span class='pv-filterpanel-numericslider-range-val'>&nbsp;</span>");
         var chart = "<svg class='pv-filterpanel-accordion-facet-chart' width='" + w + "' height='" + h + "'>";
@@ -235,9 +235,9 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         }
         chartWrapper.append(chart + "</svg>");
         //add the extra controls
-        var p = $("#pv-filterpanel-category-numberitem-" + PivotViewer.Utils.EscapeMetaChars(name));
+        var p = $("#pv-filterpanel-category-numberitem-" + PivotViewer.Utils.escapeMetaChars(name));
         p.append('</span><div id="pv-filterpanel-numericslider-' + name + '" class="pv-filterpanel-numericslider"></div><span class="pv-filterpanel-numericslider-range-min">' + histogram.min + '</span><span class="pv-filterpanel-numericslider-range-max">' + histogram.max + '</span>');
-        var s = $('#pv-filterpanel-numericslider-' + PivotViewer.Utils.EscapeMetaChars(name));
+        var s = $('#pv-filterpanel-numericslider-' + PivotViewer.Utils.ecapeMetaChars(name));
         s.slider({
             range: true,
             min: histogram.min,
@@ -289,7 +289,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
     SortFacetItems = function (facetName) {
         if (PivotCollection.GetFacetCategoryByName(facetName).Type == PivotViewer.Models.FacetType.DateTime) return;
         //get facets
-        var facetList = $("#pv-cat-" + PivotViewer.Utils.EscapeMetaChars(CleanName(facetName)) + " ul");
+        var facetList = $("#pv-cat-" + PivotViewer.Utils.escapeMetaChars(CleanName(facetName)) + " ul");
         var sortType = facetList.prev().text().replace("Sort: ", "");
         var facetItems = facetList.children("li").get();
         if (sortType == "A-Z") {
@@ -624,8 +624,9 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             filterList.push(tile);
         }
 
-        _filterList = filterList;
-	    _numericFacets = numericFacets;
+        //_filterList = filterList; _.uniq(array, [isSorted], [iteratee]) 
+        _filterList = _.uniq(filterList);
+        _numericFacets = numericFacets;
 	    _stringFacets = stringFacets;
 	    _datetimeFacets = datetimeFacets;
 	    _selectedFacets = selectedFacets
@@ -846,10 +847,11 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                     if (!_tiles[i].filtered) checkList.push(_tiles[i]);
                 }
             }
+            checkList = _.uniq(checkList); // get unique list
 
             if (category.Type == PivotViewer.Models.FacetType.String) {
                 var filterList = [];
-                var emptyItem = PivotViewer.Utils.EscapeMetaChars('pv-facet-item-' + CleanName(category.Name) + '__' + CleanName("(no info)"));
+                var emptyItem = PivotViewer.Utils.escapeMetaChars('pv-facet-item-' + CleanName(category.Name) + '__' + CleanName("(no info)"));
                 for (var j = 0; j < checkList.length; j++) {
                     var facet = checkList[j].facetItem.FacetByName[category.Name];
                     if (facet == undefined) {
@@ -859,7 +861,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                         continue;
                     }
                     for (var k = 0; k < facet.FacetValues.length ; k++) {
-                        var item = PivotViewer.Utils.EscapeMetaChars('pv-facet-item-' + CleanName(category.Name) + '__' + CleanName(facet.FacetValues[k].Value));
+                        var item = PivotViewer.Utils.escapeMetaChars('pv-facet-item-' + CleanName(category.Name) + '__' + CleanName(facet.FacetValues[k].Value));
                         var filteredItem = filterList[item];
                         if (filteredItem != undefined) filteredItem.count++;
                         else filterList[item] = { count: 1 };
@@ -899,7 +901,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             }
             else if (category.Type == PivotViewer.Models.FacetType.DateTime) {
                 var filterList = [];
-                var emptyItem = PivotViewer.Utils.EscapeMetaChars('#pv-facet-item-' + CleanName(category.Name) + '__' + CleanName("(no info)"));
+                var emptyItem = PivotViewer.Utils.escapeMetaChars('#pv-facet-item-' + CleanName(category.Name) + '__' + CleanName("(no info)"));
                 for (var i = 0; i < checkList.length; i++) {
                     var facet = checkList[i].facetItem.FacetByName[category.Name];
                     if (facet == undefined) {
@@ -912,7 +914,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                             var group = category.datetimeBuckets[j];
                             for (var k = 0; k < group.length; k++) {
                                 if (group[k].items[checkList[i].facetItem.Id + "a"] == undefined) continue;
-                                var item = PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
+                                var item = PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
                                 var filteredItem = filterList[item];
                                 if (filteredItem != undefined) filteredItem.count++;
                                 else filterList[item] = { count: 1 };
@@ -926,7 +928,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                     for (var j = 0; j < category.datetimeBuckets.length && j < 2; j++) {
                         var group = category.datetimeBuckets[j];
                         for (var k = 0; k < group.length; k++) {
-                            item = PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
+                            item = PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
                             if (filterList[item] == undefined) {
                                 if (!_selectedFacets[category.Name]) $(item).hide();
                             }
@@ -941,7 +943,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                     for (var j = 0; j < category.datetimeBuckets.length && j < 2; j++) {
                         var group = category.datetimeBuckets[j];
                         for (var k = 0; k < group.length; k++) {
-                            item = PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
+                            item = PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(category.Name) + "__" + CleanName(group[k].name.toString()));
                             var count;
                             if (filterList[item] == undefined) count = group[k].items.length;
                             else count = group[k].items.length - filterList[item].count;
@@ -1292,7 +1294,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         if (_options.View != undefined && PivotCollection.config.views.indexOf(_options.View) < 0) PivotCollection.config.views.push(_options.View)
         for (var i = 0; i < PivotCollection.config.views.length; i++) {
             var viewName = PivotCollection.config.views[i];
-            LoadScript("src/views/" + viewName.toLowerCase() + "view.js");
+            PivotViewer.Utils.loadScript("src/views/" + viewName.toLowerCase() + "view.js");
             eval("var view = new PivotViewer.Views." + viewName.charAt(0).toUpperCase() + viewName.substring(1) + "View()");
             view.SetOptions(_options);
             _views.push(view);
@@ -1409,7 +1411,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             if (!category.uiInit) InitUIFacet(category);
 
             LoadSem.acquire(function (release) {
-                _tiles.sort(tile_sort_by(_currentSort, false, _stringFacets));
+                _tiles.sort(tileSortBy(_currentSort, false, _stringFacets));
                 _filterList = [];
                 for (var i = 0; i < _tiles.length; i++) {
                     var tile = _tiles[i];
@@ -1465,7 +1467,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
             var category = PivotCollection.GetFacetCategoryByName(_currentSort);
             if (!category.uiInit) InitUIFacet(category);
             LoadSem.acquire(function (release) {
-                _tiles.sort(tile_sort_by(_currentSort, false, _stringFacets));
+                _tiles.sort(tileSortBy(_currentSort, false, _stringFacets));
                 _filterList = [];
                 for (var i = 0; i < _tiles.length; i++) {
                     var tile = _tiles[i];
@@ -1743,7 +1745,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         if (!category.uiInit) InitUIFacet(category);
 
         LoadSem.acquire(function (release) {
-            _tiles.sort(tile_sort_by(_currentSort, false, _stringFacets));
+            _tiles.sort(tileSortBy(_currentSort, false, _stringFacets));
 
             for (var i = 0; i < _tiles.length; i++) {
                 var tile = _tiles[i];
@@ -1788,12 +1790,13 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
 
             // optional (if other layers overlap autocomplete list)
             open: function (event, ui) {
+              //  this.source= _filterList.map(function (e) { return e.facetItem.Name; }),
                 $(".ui-autocomplete").css("z-index", 1000);
             }
         });
-
-
        
+  
+
     });
 
     var oldValue = 0;
@@ -1956,26 +1959,26 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                     $('.pv-facet-facetitem[itemfacet="' + CleanName(facetFilter.Facet) + '"]:checked').prop('checked', false);
                     if (facetFilter.Values) {
                         if (facetFilter.Values.length == 1) {
-                            var cb = $(PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[0].toString())) + " input");
+                            var cb = $(PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[0].toString())) + " input");
                             cb.prop('checked', true);
                             if(facetFilters.length == 1) FacetItemClick(cb[0]);
                         }
                         else {
                             for (var j = 0; j < facetFilter.Values.length; j++) {
-                                $(PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[j].toString())) + " input").prop('checked', true);
+                                $(PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[j].toString())) + " input").prop('checked', true);
                             }
-                            $($(PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[0].toString())) + " input")[0].parentElement.parentElement.parentElement).prev().find('.pv-filterpanel-accordion-heading-clear').css('visibility', 'visible');
+                            $($(PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Values[0].toString())) + " input")[0].parentElement.parentElement.parentElement).prev().find('.pv-filterpanel-accordion-heading-clear').css('visibility', 'visible');
                             if (facetFilters.length == 1) FilterCollection();
                         }
                     }
                     else {
-                        var cb = $(PivotViewer.Utils.EscapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Item.toString())) + " input");
+                        var cb = $(PivotViewer.Utils.escapeMetaChars("#pv-facet-item-" + CleanName(facetFilter.Facet) + "__" + CleanName(facetFilter.Item.toString())) + " input");
                         cb.prop('checked', true);
                         if (facetFilters.length == 1) FacetItemClick(cb[0]);
                     }
                 }
                 else if (category.Type == PivotViewer.Models.FacetType.Number || category.Type == PivotViewer.Models.FacetType.Ordinal) {
-                    var s = $('#pv-filterpanel-numericslider-' + PivotViewer.Utils.EscapeMetaChars(CleanName(facetFilter.Facet)));
+                    var s = $('#pv-filterpanel-numericslider-' + PivotViewer.Utils.escapeMetaChars(CleanName(facetFilter.Facet)));
                     if (facetFilter.MaxRange == undefined) facetFilter.MaxRange = facetFilter.Item;
                     FacetSliderDrag(s, facetFilter.Item, facetFilter.MaxRange, facetFilters.length == 1);
                 }

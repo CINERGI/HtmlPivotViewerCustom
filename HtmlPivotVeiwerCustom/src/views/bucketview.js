@@ -239,7 +239,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             tile.startheight = tile.height;
 
             if (tile.filtered && (settings.showMissing || !tile.missing)) continue;
-            tile.start = PivotViewer.Utils.Now();
+            tile.start = PivotViewer.Utils.now();
             tile.end = tile.start + 1000;
             var theta = Math.atan2(tile._locations[0].y - (this.currentHeight / 2), tile._locations[0].x - (this.currentWidth / 2))
             tile._locations[0].destinationx = this.currentWidth * Math.cos(theta) + (this.currentWidth / 2);
@@ -321,7 +321,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                     tile.destinationheight = rowscols.TileHeight;
                     tile._locations[0].destinationx = (b * this.columnWidth) + (currentColumn * rowscols.TileMaxWidth) + offsetX;
                     tile._locations[0].destinationy = this.canvasHeightUIAdjusted - rowscols.TileHeight - (currentRow * rowscols.TileHeight) + offsetY;
-                    tile.start = PivotViewer.Utils.Now();
+                    tile.start = PivotViewer.Utils.now();
                     tile.end = tile.start + 1000;
                     tile.firstFilterItemDone = true;
                 }

@@ -1,4 +1,55 @@
-﻿function about() {
+﻿//Load default options from "defaults" file
+//$.getJSON("pivotLists.json")
+//.always(function (defaultOptions) {
+
+//    var keys = Object.keys(defaultOptions);
+//    for (var i = 0; i < keys.length; i++) {
+//        if (options[keys[i]] == undefined) options[keys[i]] == defaultOptions[keys[i]];
+//    }
+
+//    //Image controller
+//    if (options.ImageController == undefined) _imageController = new PivotViewer.Views.DeepZoomImageController();
+//    else if (options.ImageController instanceof PivotViewer.Views.IImageController)
+//        _imageController = options.ImageController;
+//    else throw "Image Controller does not inherit from PivotViewer.Views.IImageController.";
+
+//    if (options.Loader == undefined) {
+//        $('.pv-wrapper').append("<div id='pv-file-selection' class='pv-modal-dialog modal-lg'><div><div id='pv-modal-text'><p>Use Existing Project:<br><select id='pv-server-file' class='pv-server-file'><option>Select a file</option></select><p>Create New Project:<br><input id='pv-load-file' class='pv-load-file' type=file accept='.csv'></div></div></div>");
+
+//        $pv_server_file = $('#pv-server-file');
+//        $.getJSON("../project_list.php", function (data) {
+//            $.each(data, function (key, value) {
+//                $pv_server_file.append('<option value=\"' + value + '\">' + value + '</option>');
+//            });
+//        });
+
+//        $pv_server_file.on('change', function (e) {
+//            if ($pv_server_file.val().endsWith(".cxml"))
+//                Loader = new PivotViewer.Models.Loaders.CXMLLoader("projects/" + $pv_server_file.val());
+//            else Loader = new PivotViewer.Models.Loaders.CSVLoader("projects/" + $pv_server_file.val());
+//            InitCollectionLoader(options);
+//            window.open("#pv-modal-dialog-close", "_self");
+//        });
+
+//        $('.pv-load-file').on('change', function (e) {
+//            var fileInput = $("#pv-load-file")[0];
+//            Loader = new PivotViewer.Models.Loaders.LocalCSVLoader(fileInput.files[0]);
+//            InitCollectionLoader(options);
+//        });
+//    }
+//    else {
+//        Loader = options.Loader;
+//        InitCollectionLoader(options);
+//    }
+
+//    window.open("#pv-file-selection", "_self");
+//})
+//.fail(function (jqxhr, textStatus, error) {
+//    var err = textStatus + ", " + error;
+//    Debug.Log("Getting defaults file failed: " + err);
+//});
+
+function about() {
 var b = "close";
 var p = "about";
 $("#buttonAbout").html(p);
@@ -50,6 +101,8 @@ function SelectableLoader() {
         }
     }
     );
+
+ 
 //    $(".pivotlist").click(
 //        function () {
 //            var resource = $(this).innerText();

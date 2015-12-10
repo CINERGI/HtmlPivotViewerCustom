@@ -259,5 +259,5 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
         if (facetItem.length > 0) $.publish("/PivotViewer/Models/Collection/Loaded", null);
     },
     LoadColumn: function (category) { },
-    GetRow: function (id) {return PivotCollection.GetItemById(id).Facets;}
+    GetRow: function (id) {return PivotCollection.getItemById(id).Facets;}
 });

@@ -114,7 +114,7 @@
 #page {
     position: absolute;
     top: 60px;
-    //left: 100%;
+    left: 100%;
     bottom: 0;
     z-index: 50;
     width: 100%;
@@ -193,7 +193,7 @@ a:active {
     top: 0;
     right: 0;
     height: 600px;
-    //width: 300px;
+    /*width: 300px;*/
     width: 70px;
     background: #2d6ca2;
     z-index: 60;
@@ -235,3 +235,51 @@ a:active {
     #about-body p {
         margin-top: 0;
     }
+
+
+#slider{
+	background-color: #BDBDBD;
+	color: #fff;
+    
+	z-index: 1002;
+}
+.right-shadow-overlay{
+	box-shadow: 10px 0 15px 10px #585858;
+}
+#slider h3{
+	background-color: #2E2E2E;
+	font-size: 1.9em;
+	padding: 20px;
+	margin: 0;
+	font-weight: 300;
+}
+#slider a{
+	border-bottom: 1px solid #D8D8D8;
+	padding: 1em;
+	display: block;
+	color: #424242;
+	font-size: 1.4em;
+	font-weight: 300;
+	text-decoration: none;
+}
+#slider a:hover{
+	background-color: #D8D8D8;
+}
+#slider .handle{
+	background-color: #2E2E2E;
+  right: -40px;
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  width: 20px;
+  cursor: pointer;
+  /*margin-top: -20px;*/
+	/*-moz-transition: 200ms ease all;
+	-webkit-transition: 200ms ease all;
+  -o-transition: 200ms ease all;
+  transition: 200ms ease all;*/
+}
+#slider .handle:hover{
+  /*left: -46px;
+  width: 30px;*/
+}

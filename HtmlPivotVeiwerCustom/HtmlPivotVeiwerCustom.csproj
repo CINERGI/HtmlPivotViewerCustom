@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="eclandscape.html" />
     <Content Include="c4p_cxml.html" />
     <Content Include="c4p.html" />
     <Content Include="faqpage_files\arrow_up_medium.png" />
@@ -28,6 +29,8 @@
     <Content Include="faqpage_files\jquery.scrollTo-min.js" />
     <Content Include="faqpage_files\question.png" />
     <Content Include="CResCy.html" />
+    <Content Include="images\ajax-loader.gif" />
+    <Content Include="lib\jquery.slidereveal.js" />
     <Content Include="solr_test.html" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractFacetWidget.js" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractManager.js" />
@@ -89,7 +92,6 @@
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters-requirejs\widgets\ResultWidget.js" />
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters-requirejs\widgets\TagcloudWidget.js" />
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters-requirejs\widgets\TextWidget.js" />
-    <Content Include="lib\evolvingweb-ajax-solr\examples\reuters\css\reuters.css" />
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters\images\ajax-loader.gif" />
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters\images\header.gif" />
     <Content Include="lib\evolvingweb-ajax-solr\examples\reuters\index.0.html" />
@@ -907,6 +909,7 @@
     <Content Include="src\models.js" />
     <Content Include="src\namespaces.js" />
     <Content Include="src\namespaces.min.js" />
+    <Content Include="src\ObjectLoader.js" />
     <Content Include="src\pivotviewer.js" />
     <Content Include="src\pubsub.js" />
     <Content Include="src\pubsub.min.js" />
@@ -937,9 +940,23 @@
     <Content Include="style\jquery.sidr.dark.css" />
     <Content Include="style\jquery.sidr.light.css" />
     <Content Include="style\pivotviewer.css" />
+    <Content Include="style\solr.css" />
     <Content Include="survey1544.html" />
     <Content Include="tabletoptest.html" />
     <Content Include="web.config" />
+    <Content Include="widgets\AutocompleteWidget.7.0.js" />
+    <Content Include="widgets\AutocompleteWidget.js" />
+    <Content Include="widgets\CalendarWidget.js" />
+    <Content Include="widgets\CountryCodeWidget.8.0.js" />
+    <Content Include="widgets\CountryCodeWidget.js" />
+    <Content Include="widgets\CurrentSearchWidget.9.js" />
+    <Content Include="widgets\CurrentSearchWidget.js" />
+    <Content Include="widgets\ResultWidget.2.0.js" />
+    <Content Include="widgets\ResultWidget.f.js" />
+    <Content Include="widgets\ResultWidget_Geoportal.js" />
+    <Content Include="widgets\ResultWidget_PivotGeoportal.js" />
+    <Content Include="widgets\TagcloudWidget.js" />
+    <Content Include="widgets\TextWidget.js" />
     <Content Include="workshop.html" />
   </ItemGroup>
   <ItemGroup>
@@ -1012,7 +1029,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="lib\evolvingweb-ajax-solr\examples\reuters\css\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

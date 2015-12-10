@@ -156,7 +156,7 @@ PivotViewer.Models.Loaders.SpreadsheetLoader = PivotViewer.Models.Loaders.IColle
         }
     },
   //  LoadColumn: function (category) { },
-  //  GetRow: function (id) { return PivotCollection.GetItemById(id).Facets; }
+  //  GetRow: function (id) { return PivotCollection.getItemById(id).Facets; }
 
 }
 );

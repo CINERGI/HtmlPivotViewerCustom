@@ -50,7 +50,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
                 url: this.CSVUri,
                 dataType: "text",
                 success: function (csv) {
-                    Debug.Log('CSV loaded');
+                    Debug.log('CSV loaded');
                     that.data = csv.csvToArray();
                     if (that.data.length <= 1) {
                         //Make sure throbber is removed else everyone thinks the app is still running

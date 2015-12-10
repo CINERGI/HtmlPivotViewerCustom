@@ -12,7 +12,7 @@
 //  GNU General Public License v2 (see COPYING)
 //
 
-LoadScript("src/views/bucketview.min.js");
+PivotViewer.Utils.loadScript("src/views/bucketview.js");
 
 PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     init: function () {
@@ -26,7 +26,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             that.sortFacet2 = $("#pv-altsort option:selected").html();
             var category = PivotCollection.GetFacetCategoryByName(that.sortFacet2);
             if (!category.uiInit) PV.InitUIFacet(category);
-            var filter = that.filter.slice(0).sort(tile_sort_by(that.sortFacet2));
+            var filter = that.filter.slice(0).sort(tileSortBy(that.sortFacet2));
             if (settings.showMissing) that.filter2 = filter;
             else {
                 that.filter2 = [];
@@ -95,7 +95,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                     if (this.buckets2.ids[tile.facetItem.Id] == undefined &&
                         (settings.showMissing || tile.facetItem.FacetByName[this.sortFacet2] != undefined)) addFilter2.push(tile);
                 }
-                addFilter2.sort(tile_sort_by(this.sortFacet2));
+                addFilter2.sort(tileSortBy(this.sortFacet2));
 
                 var i = 0, j = 0;
                 while (i < this.filter2.length && j < addFilter2.length) {
@@ -199,7 +199,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             tile.startheight = tile.height;
 
             if (tile.filtered && (settings.showMissing || !tile.missing)) continue;
-            tile.start = PivotViewer.Utils.Now();
+            tile.start = PivotViewer.Utils.now();
             tile.end = tile.start + 1000;
             var theta = Math.atan2(location.y - (this.currentHeight / 2), location.x - (this.currentWidth / 2))
             location.destinationx = this.currentWidth * Math.cos(theta) + (this.currentWidth / 2);
@@ -279,7 +279,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                         location.destinationx = ((i + 1) * this.columnWidth) + (currentColumn * rowscols.TileMaxWidth) + offsetX;
                         location.destinationy = this.canvasHeightUIAdjusted - (j * rowHeight) - rowscols.TileHeight -
                             (currentRow * rowscols.TileHeight) + offsetY - 10;
-                        tile.start = PivotViewer.Utils.Now();
+                        tile.start = PivotViewer.Utils.now();
                         tile.end = tile.start + 1000;
                         tile.firstFilterItemDone = true;
                     }

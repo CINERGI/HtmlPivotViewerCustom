@@ -214,7 +214,7 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
                 tile.startheight = tile.height;
 
                 if (tile.filtered && (settings.showMissing || !tile.missing)) continue;
-                tile.start = PivotViewer.Utils.Now();
+                tile.start = PivotViewer.Utils.now();
                 tile.end = tile.start + 1000;
                 var theta = Math.atan2(tile._locations[0].y - (that.currentHeight / 2), tile._locations[0].x - (that.currentWidth / 2))
                 tile._locations[0].destinationx = that.currentWidth * Math.cos(theta) + (that.currentWidth / 2);
@@ -282,7 +282,7 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
             tile.destinationheight = rowscols.TileHeight;
             tile._locations[0].destinationx = (currentColumn * rowscols.TileMaxWidth) + offsetX;
             tile._locations[0].destinationy = (currentRow * rowscols.TileHeight) + offsetY;
-            tile.start = PivotViewer.Utils.Now();
+            tile.start = PivotViewer.Utils.now();
             tile.end = tile.start + milliseconds;
             if (currentColumn == columns - 1) {
                 currentColumn = 0;

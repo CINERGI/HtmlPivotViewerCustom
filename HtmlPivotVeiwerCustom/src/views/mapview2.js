@@ -1,4 +1,4 @@
-//
+﻿//
 //  HTML5 PivotViewer
 //
 //  Collection loader interface - used so that different types of data sources can be used
@@ -349,7 +349,7 @@ PivotViewer.Views.MapView2 = PivotViewer.Views.IPivotViewerView.subClass({
         return bkt != undefined ? bkt : -1;
     },
     Bucketize: function (tiles, filterList, orderBy) {
-        category = PivotCollection.GetFacetCategoryByName(orderBy);
+        category = PivotCollection.getCategoryByName(orderBy);
         if (filterList[0].facetItem.FacetByName[orderBy] == undefined)
             return [{ startRange: "(no info)", endRange: "(no info)", tiles: [filterList[0]], values: ["(no info)"], startLabel: "(no info)", endLabel: "(no info)" }];
 
