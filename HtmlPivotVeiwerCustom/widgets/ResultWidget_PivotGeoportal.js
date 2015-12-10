@@ -1,4 +1,25 @@
 
+FACETTYPE=Object.freeze({
+    String: "String", Info: "Info", Link: "Link",
+    Geom: "Geom", Hidden: "Hidden",
+    DateTime: "DateTime", Number: "Number"
+});
+
+SolrFacet = Object.subClass({
+    init: function (Name,Field, FacetType ,IsMultipleItems ) {
+        this.name = Name;
+        this.field = Field;
+        if (FacetType == undefined){
+            FacetType = FACETTYPE.String;
+        } 
+        this.facetType = FacetType;
+        if (IsMultipleItems == undefined) {
+            IsMultipleItems = true;
+        }
+        this.isMultipleItems = IsMultipleItems
+    }
+});
+
 solrpivot = function () {
     var mainManager = Manager;
     var globalPivotCollection = PivotCollection;
@@ -28,15 +49,39 @@ solrpivot = function () {
    //      { name: 'Metadata Link', field: 'url.metadata_s' },
    //      { name: 'Abstract', field: 'apiso:Abstract_t' }, ]
         for (var f in fields) {
-            var type = PivotViewer.Models.FacetType.String;
-            var name = fields[f].name;
+            var thisField = fields[f];
+            var type = thisField.facetType;
+            var name = thisField.name;
             var visible = true;
             var isInfoVisible = true;
             var SearchVisible = true;
-
+            if (type == FACETTYPE.Hidden)
+            {
+                type = FACETTYPE.String
+                visible = false;
+               isInfoVisible = false;
+               SearchVisible = false;
+            }
+            if (type == FACETTYPE.Info) {
+                type = FACETTYPE.String
+                visible = false;
+                isInfoVisible = true;
+                SearchVisible = false;
+            }
+            if (type == FACETTYPE.Link) {
+                visible = false;
+                isInfoVisible = true;
+                SearchVisible = false;
+            }
+            if (type == FACETTYPE.Geom) {
+                type = FACETTYPE.String
+                visible = true;
+                isInfoVisible = true;
+                SearchVisible = false;
+            }
             var category = new PivotViewer.Models.FacetCategory(name, type, visible, isInfoVisible, SearchVisible);
             //category.column = i;
-            category.isMultipleItems = true;
+            category.isMultipleItems = f.isMultipleItems;
             globalPivotCollection.FacetCategories.push(category);
             
 
@@ -107,7 +152,7 @@ solrpivot = function () {
             GeocodeService: "Google",
             ViewerState: "$view$=1",
             ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
-            // View: "Map",
+            View: "Map",
         });
 
         $('#docs').empty();

@@ -9,18 +9,32 @@
             id: 'result',
             target: '#docs'
         }));
-       // var fields = ['keywords_ss', 'contact.organizations_ss', 'apiso.Subject_t', 'apiso.TopicCategory_ss', 'apiso.Type_s'];
-        var fields = [
-            { name: 'Keyword', field: 'keywords_ss' }, 
-            { name: 'Organization', field: 'contact.organizations_ss' }, 
-            { name: 'Subject', field: 'apisoapiso.Subject_t' }, 
-            { name: 'Topic Category', field: 'apiso.TopicCategory_ss' },
-            { name: 'Type', field: 'apiso.Type_s' },
-        ];
+
+       //// var fields = ['keywords_ss', 'contact.organizations_ss', 'apiso.Subject_t', 'apiso.TopicCategory_ss', 'apiso.Type_s'];
+       // var fields = [
+       //     { name: 'Keyword', field: 'keywords_ss' }, 
+       //     { name: 'Organization', field: 'contact.organizations_ss' }, 
+       //     { name: 'Subject', field: 'apisoapiso.Subject_t' }, 
+       //     { name: 'Topic Category', field: 'apiso.TopicCategory_ss' },
+       //     { name: 'Type', field: 'apiso.Type_s' },
+       // ];
         var infoFields = [{ name: 'Publication Date', field: 'apiso.PublicationDate_tdt' },
         { name: 'Other Constraints', field: 'apiso.OtherConstraints_ss' },
          { name: 'Metadata Link', field: 'url.metadata_s' },
          { name: 'Abstract', field: 'apiso:Abstract_t' }, ]
+        var fields = [
+        new SolrFacet('Keyword', 'keywords_ss', FACETTYPE.String, true),
+        new SolrFacet('Organization', 'contact.organizations_ss', FACETTYPE.String, true),
+        new SolrFacet('Subject', 'apisoapiso.Subject_t', FACETTYPE.String, false),
+           new SolrFacet('Topic Category', 'apiso.TopicCategory_ss', FACETTYPE.String, true),
+  new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.DateTime, false),
+      //      new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.Info, false),
+        new SolrFacet('Type', 'apiso.Type_s', FACETTYPE.String, false),
+        new SolrFacet('Other Constraints', 'apiso.OtherConstraints_ss', FACETTYPE.Info, true),
+       new SolrFacet('Metadata Link', 'url.metadata_s', FACETTYPE.Link, true),
+        new SolrFacet('Abstract', 'apiso:Abstract_t', FACETTYPE.Info, false),
+        new SolrFacet('location', 'envelope_geo', FACETTYPE.Geom, false), // must be location to be used in map
+        ];
         Manager.addWidget(new AjaxSolr.PivotResultWidget({
             id: 'pivot',
             target: '#pivotviewer',
@@ -71,7 +85,10 @@
         //}));
         Manager.init();
         Manager.store.addByValue('q', '*:*');
-        var fieldnames = _.pluck(fields, 'field');
+        //var fieldnames = _.pluck(fields, 'field');
+        var fieldnames = _.pluck(
+            _.where(fields,{facetType:FACETTYPE.String}),'field'
+             );
         var params = {
             facet: true,
             'facet.field': fieldnames,
