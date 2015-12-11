@@ -32,7 +32,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
 	    _datetimeFacets = [],
         _selectedFacets = [],
         _currentView = 0,
-        _currentSort = null;
+        _currentSort = null, 
+    //_currentSort = "Sort: Quantity", /// does not work.
         _tiles = [],
         _filterList = [],
         _selectedItem = null,
@@ -42,6 +43,7 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
         _self = null,
         _nameMapping = [],
         _options = {};
+        _default_sort="Quantity"
         
 
     var methods = {
@@ -731,7 +733,8 @@ var settings = { showMissing: _showMissing, visibleCategories: undefined, disabl
                 uiFacet.append("<input class='pv-value-search' id='pv-value-search-" + CleanName(category.Name) + "' type='text' placeholder='Search values...' size=15><div class='pv-search-clear' id='pv-value-search-clear-" + CleanName(category.Name) + "'>&nbsp;</div><br>");
                 if (category.CustomSort != undefined || category.CustomSort != null)
                     uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort' customSort='" + category.CustomSort.Name + "'>Sort: " + category.CustomSort.Name + "</span>");
-                else uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort'>Sort: A-Z</span>");
+                //else uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort'>Sort: A-Z</span>");
+                else uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort'>Sort: " + _default_sort+ "</span>");
                 uiFacet.append(CreateStringFacet(category.Name));
                 var facetItem = _facetItemTotals[category.Name];
                 for (value in facetItem.values) {

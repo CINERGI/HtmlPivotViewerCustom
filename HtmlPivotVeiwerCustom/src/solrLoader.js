@@ -24,16 +24,20 @@
          { name: 'Abstract', field: 'apiso:Abstract_t' }, ]
         var fields = [
         new SolrFacet('Keyword', 'keywords_ss', FACETTYPE.String, true),
-        new SolrFacet('Organization', 'contact.organizations_ss', FACETTYPE.String, true),
-        new SolrFacet('Subject', 'apisoapiso.Subject_t', FACETTYPE.String, false),
+
+        //new SolrFacet('Subject', 'apisoapiso.Subject_t', FACETTYPE.String, false), // same as keyword_txt
            new SolrFacet('Topic Category', 'apiso.TopicCategory_ss', FACETTYPE.String, true),
-  new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.DateTime, false),
-      //      new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.Info, false),
+                new SolrFacet('Organization', 'contact.organizations_ss', FACETTYPE.String, true),
+                new SolrFacet('Authors', 'contact.people_ss', FACETTYPE.String, true),
+  // new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.DateTime, false),
+           new SolrFacet('Publication Date', 'apiso.PublicationDate_tdt', FACETTYPE.Info, false),
         new SolrFacet('Type', 'apiso.Type_s', FACETTYPE.String, false),
         new SolrFacet('Other Constraints', 'apiso.OtherConstraints_ss', FACETTYPE.Info, true),
        new SolrFacet('Metadata Link', 'url.metadata_s', FACETTYPE.Link, true),
         new SolrFacet('Abstract', 'apiso:Abstract_t', FACETTYPE.Info, false),
         new SolrFacet('location', 'envelope_geo', FACETTYPE.Geom, false), // must be location to be used in map
+         new SolrFacet('CINERGI', 'sys.src.collections_ss', FACETTYPE.String, true),
+
         ];
         Manager.addWidget(new AjaxSolr.PivotResultWidget({
             id: 'pivot',
