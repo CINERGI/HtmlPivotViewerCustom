@@ -201,10 +201,10 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (!Modernizr.canvas) return;
         this._super();
         if (this.filtered) this.Filter(this.filterEvt.tiles, this.filterEvt.filter, this.filterEvt.sort);
-        this.CreateUI();
+    //    this.CreateUI();
 
-    },
-    CreateUI: function () {
+    //},
+    //CreateUI: function () {
         this.columnWidth = this.origColumnWidth = (this.width - this.offsetX) / this.buckets.length;
         this.canvasHeightUIAdjusted = this.height - this.offsetY - this.titleSpace;
 
@@ -427,7 +427,8 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             }
             return bkts;
         }
-        else return GetBuckets(filterList, orderBy);
+        // else return GetBuckets(filterList, orderBy);
+        else return PivotViewer.Utils.getBuckets(filterList, orderBy);
         //Got rid of multiple values for now
     },
     CenterOnTile: function (tile) {

@@ -928,6 +928,7 @@
     <Content Include="src\views\LoadImageSetHelper.js" />
     <Content Include="src\views\LoadImageSetHelper.min.js" />
     <Content Include="src\views\mapview.js" />
+    <None Include="src\views\mapview.js__" />
     <Content Include="src\views\mapview2.js" />
     <Content Include="src\views\simpleimage.js" />
     <Content Include="src\views\tableview.js" />
@@ -936,6 +937,7 @@
     <Content Include="src\views\tilebasedview.js" />
     <Content Include="src\views\tilecontroller.js" />
     <Content Include="src\views\timeview.js" />
+    <Content Include="style\headerstyle.css" />
     <Content Include="style\index.css" />
     <Content Include="style\jquery.sidr.dark.css" />
     <Content Include="style\jquery.sidr.light.css" />

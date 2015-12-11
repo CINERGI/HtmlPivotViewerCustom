@@ -114,7 +114,7 @@
 #page {
     position: absolute;
     top: 60px;
-    left: 100%;
+
     bottom: 0;
     z-index: 50;
     width: 100%;

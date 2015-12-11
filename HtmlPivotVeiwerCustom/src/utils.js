@@ -278,36 +278,37 @@ PivotViewer.Models.Bucket = Object.subClass({
     },
     addTile: function (tile) {
         this.tiles.push(tile);
-        this.ids[tile.item.id] = true;
+        this.ids[tile.facetItem.Id] = true;
     },
     addValue: function (value) { this.values.push(value); },
     getLabel: function () { return this.startLabel == this.endLabel ? this.startLabel : this.startLabel + " - " + this.endLabel;}
 });
 
 PivotViewer.Utils.getBuckets = function (filterList, facet, valueFunction, labelFunction) {
-    if (valueFunction == undefined) valueFunction = function (value) { return value.value; }
-    if (labelFunction == undefined) labelFunction = function (value) { return value.label.toString();}
+    if (valueFunction == undefined) valueFunction = function (value) { return value.Value; }
+    if (labelFunction == undefined) labelFunction = function (value) { return value.Label.toString();}
 
-    var bkts = [], value1 = filterList[0].item.FacetByName(facet).values[0], value = valueFunction(value1), label = labelFunction(value1);
-    var bkt = new PivotViewer.Models.Bucket(value1.value, label);
+    // var bkts = [], value1 = filterList[0].item.FacetByName(facet).values[0], value = valueFunction(value1), label = labelFunction(value1);
+    var bkts = [], value1 = filterList[0].facetItem.FacetByName[facet].FacetValues[0], value = valueFunction(value1), label = labelFunction(value1);
+    var bkt = new PivotViewer.Models.Bucket(value1.Value, label);
     bkt.addTile(filterList[0]); bkt.addValue(value);
     bkts.push(bkt);
 
     var i = 1, j = 0;
     for (; i < filterList.length; i++) {
-        var tile = filterList[i], item = tile.item;
-        if (item.FacetByName(facet) == undefined) break;
+        var tile = filterList[i], item = tile.facetItem;
+        if (item.FacetByName[facet] == undefined) break;
         if (tile.missing) continue;
-        var value2 = item.FacetByName(facet).values[0];
+        var value2 = item.FacetByName[facet].FacetValues[0];
         if(valueFunction(value2) > value) {
             value1 = value2;
             var label = labelFunction(value2), value = valueFunction(value2);
-            bkts[++j] = new PivotViewer.Models.Bucket(value2.value, label);
+            bkts[++j] = new PivotViewer.Models.Bucket(value2.Value, label);
             bkts[j].addTile(tile); bkt.addValue(value);
         }
         else {
             bkts[j].addTile(tile);
-            bkts[j].endRange = value2.value;
+            bkts[j].endRange = value2.Value;
         }
     }
 

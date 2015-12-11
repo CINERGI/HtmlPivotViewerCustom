@@ -43,10 +43,10 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         var that = this;
         $.subscribe("/PivotViewer/Views/Item/Selected", function (evt) {
             if (!that.isActive) return;
-            that.selectMarker(evt.item);
+            that.SelectMarker(evt.item);
         });
     },
-    setup: function (width, height, offsetX, offsetY, tileMaxRatio) { 
+    Setup: function (width, height, offsetX, offsetY, tileMaxRatio) { 
         this.width = width;
         this.height = height;
         this.offsetX = offsetX;
@@ -58,17 +58,18 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         if (Modernizr.localstorage) this.localStorage = true;
         else this.localStorage = false;
         window.mapView = this;
+        this.Activate();
     },
-    apiLoaded: function () {
+    APILoaded: function () {
         var that = this;
         this.map = new google.maps.Map(document.getElementById('pv-map-canvas'));
         google.maps.event.addListener(this.map, 'zoom_changed', function () {
             $.publish("/PivotViewer/Views/Item/Updated", null);
-            that.getOverlay();
+            that.GetOverlay();
         });
         google.maps.event.addListener(this.map, 'center_changed', function () {
             $.publish("/PivotViewer/Views/Item/Updated", null);
-            that.getOverlay();
+            that.GetOverlay();
         });
 
         this.icons = [
@@ -82,17 +83,17 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             'lib/leaflet/images/PinkDot.png', 'lib/leaflet/images/SkyDot.png', 'lib/leaflet/images/LimeDot.png',
             'lib/leaflet/images/GoldDot.png', 'lib/leaflet/images/GreenDot.png'];
 
-        this.clearMarkers = function () {
+        this.ClearMarkers = function () {
             for (var i = 0; i < this.tiles.length; i++) {
                 var marker = this.tiles[i].marker;
                 if(marker != undefined) marker.setMap(null);
             }
         };
 
-        this.selectMarker = function(tile) {
-            var bucket = that.getBucketNumber(tile);
-            if (tile.marker == that.selectedMarker) {
-                tile.marker.setIcon(that.icons[bucket]);
+        this.SelectMarker = function(item) {
+            var bucket = that.GetBucketNumber(item);
+            if (item.marker == that.selectedMarker) {
+                item.marker.setIcon(that.icons[bucket]);
                 that.selected = null;
                 that.selectedMarker.setZIndex(0);
                 that.selectedMarker = null;
@@ -102,16 +103,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
 
             }
             else {
-                tile.marker.setIcon(that.iconsSelected[bucket]);
-                tile.marker.setZIndex(1000000000);
-                that.selected = tile;
+                item.marker.setIcon(that.iconsSelected[bucket]);
+                item.marker.setZIndex(1000000000);
+                that.selected = item;
                 if (that.selectedMarker != null) {
                     that.selectedMarker.setZIndex(0);
                     that.selectedMarker.setIcon(that.icons[that.selectedBucket]);
                 }
-                that.selectedMarker = tile.marker;
+                that.selectedMarker = item.marker;
                 that.selectedBucket = bucket;
-                that.map.panTo(tile.loc);
+                that.map.panTo(item.loc);
                 $('.pv-toolbarpanel-info').empty();
                 var toolbarContent = "<img style='height:15px;width:auto' src='" + that.icons[bucket] + "'></img>";
                 if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
@@ -122,26 +123,27 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             }
         };
 
-        this.newMarker = function (tile) {
-            tile.marker = new google.maps.Marker({ position: tile.loc, map: this.map, title: tile.item.name });
-            tile.marker.setIcon(this.icons[this.buckets.ids[tile.item.id]]);
-            google.maps.event.addListener(tile.marker, "click", (function (tile) {
-                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: tile}]);}
-            })(tile));
+        this.NewMarker = function (item) {
+            item.marker = new google.maps.Marker({ position: item.loc, map: this.map, title: item.facetItem.Name });
+            if (!this.buckets[this._bucket].ids[item.facetItem.Id]) this._bucket++;
+            item.marker.setIcon(this.icons[this._bucket]);
+            google.maps.event.addListener(item.marker, "click", (function (item) {
+                return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: item}]);}
+            })(item));
         }
 
-        this.refitBounds = function () {
+        this.RefitBounds = function () {
             var bounds = new google.maps.LatLngBounds();
-            for (i = 0; i < this.filterList.length; i++) {
+            for (i = 0; i < this.filter.length; i++) {
                 //extend the bounds to include each marker's position
-                var tile = this.filterList[i];
-                if (tile.loc != undefined && (Settings.showMissing || !tile.missing)) bounds.extend(tile.marker.position);
+                var item = this.filter[i];
+                if(item.loc != undefined) bounds.extend(item.marker.position);
             }
             //now fit the map to the newly inclusive bounds
             this.map.fitBounds(bounds);
         }
 
-        this.getOverlay = function () {
+        this.GetOverlay = function () {
             // Get the boundary and use to get image to overlay
             var mapBounds = this.map.getBounds();
             if (mapBounds) {
@@ -159,9 +161,9 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         }
         $('.pv-mainpanel').append("<div class='pv-altinfopanel' id='pv-altinfopanel'></div>");
         $('.pv-altinfopanel').css('left', (($('.pv-mainpanel').offset().left + $('.pv-mainpanel').width()) - 205) + 'px').css('height', $(window).height() - $('.pv-toolbarpanel').height() - 58 + 'px');
-        this.activate();
+        this.Activate();  // Activate calls MapView APILoaded? moving to setup
     },
-    setOptions: function (options) {
+    SetOptions: function (options) {
         $('.pv-viewpanel').append("<div class='pv-mapview-canvas' id='pv-map-canvas'></div>");
 
         if (options.MapService == undefined || options.MapService.toLowerCase() != "openstreetmap") {
@@ -169,7 +171,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             this.mapService = "google";
             PivotViewer.Utils.loadScript("lib/wicket/wicket-gmap3.min.js");
             if (options.GeocodeService == "Google") this.geocodeService = "Google";
-            else GeocodeService = "Nominatim"
+            else this.GeocodeService = "Nominatim";
         }
         else {
             this.mapService = "openstreetmap";
@@ -210,24 +212,24 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             var that = this;
             this.map.on('zoomend', function (e) {
                 $.publish("/PivotViewer/Views/Item/Updated", null);
-                that.getOverlay();
+                that.GetOverlay();
             });
             this.map.on('moveend', function (e) {
                 $.publish("/PivotViewer/Views/Item/Updated", null);
-                that.getOverlay();
+                that.GetOverlay();
             });
 
-            this.clearMarkers = function () {
+            this.ClearMarkers = function () {
                 for (var i = 0; i < this.tiles.length; i++) {
                     var marker = this.tiles[i].marker;
                     if(marker != undefined) this.map.removeLayer(marker);
                 }
             }
 
-            this.selectMarker = function (tile) {
-                var bucket = that.getBucketNumber(tile);
-                if (tile.marker == that.selectedMarker) {
-                    tile.marker.setIcon(new that.icons[bucket]);
+            this.SelectMarker = function (item) {
+                var bucket = that.GetBucketNumber(item);
+                if (item.marker == that.selectedMarker) {
+                    item.marker.setIcon(new that.icons[bucket]);
                     that.selected = null;
                     that.selectedMarker.setZIndexOffset(0);
                     that.selectedMarker = null;    
@@ -236,18 +238,18 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                     $('.pv-altinfopanel').fadeIn();
                 }
                 else {
-                    tile.marker.setIcon(new that.iconsSelected[bucket]);
-                    tile.marker.setZIndexOffset(1000000000);
-                    that.selected = tile;
+                    item.marker.setIcon(new that.iconsSelected[bucket]);
+                    item.marker.setZIndexOffset(1000000000);
+                    that.selected = item;
                     if (that.selectedMarker != null) {
                         that.selectedMarker.setIcon(new that.icons[that.selectedBucket]);
                         that.selectedMarker.setZIndexOffset(0);
                     }
-                    that.selectedMarker = tile.marker;
+                    that.selectedMarker = item.marker;
                     that.selectedBucket = bucket;
-                    that.map.panTo(tile.loc);
+                    that.map.panTo(item.loc);
                     $('.pv-toolbarpanel-info').empty();
-                    var toolbarContent = "<img style='height:15px;width:auto' src='" + tile.marker._icon.src + "'></img>";
+                    var toolbarContent = "<img style='height:15px;width:auto' src='" + item.marker._icon.src + "'></img>";
                     if (that.buckets[bucket].startRange == that.buckets[bucket].endRange)
                         toolbarContent += that.buckets[bucket].startRange;
                     else toolbarContent += that.buckets[bucket].startRange + " to " + that.buckets[bucket].endRange;
@@ -257,23 +259,24 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 }
             }
 
-            this.newMarker = function (tile) {
-                tile.marker = new L.Marker(tile.loc, { title: tile.item.name });
-                this.map.addLayer(tile.marker);
-                tile.marker.setIcon(new this.icons[this.buckets.ids[tile.item.id]]);
-                tile.marker.on('click', (function (tile) {
-                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: tile}]);}
-                })(tile));
+            this.NewMarker = function (item) {
+                item.marker = new L.Marker(item.loc, { title: item.facetItem.Name });
+                this.map.addLayer(item.marker);
+                if (!this.buckets[this._bucket].ids[item.facetItem.Id]) this._bucket++;
+                item.marker.setIcon(new this.icons[this._bucket]);
+                item.marker.on('click', (function (item) {
+                    return function () {$.publish("/PivotViewer/Views/Item/Selected", [{ item: item}]);}
+                })(item));
                 return marker;
             }
 
-            this.refitBounds = function () {
+            this.RefitBounds = function () {
                 var markerPos = [];
 
-                for (i = 0; i < this.filterList.length; i++) {
+                for (i = 0; i < this.filter.length; i++) {
                     //extend the bounds to include each marker's position
-                    var tile = this.filterList[i];
-                    if(tile.marker != undefined) markerPos.push(tile.marker.getLatLng());
+                    var item = this.filter[i];
+                    if(item.marker != undefined) markerPos.push(item.marker.getLatLng());
                 }
                 var bounds = new L.LatLngBounds(markerPos);
 
@@ -281,7 +284,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 this.map.fitBounds(bounds);
             }
 
-            this.getOverlay = function () {
+            this.GetOverlay = function () {
                 // Get the boundary and use to get image to overlay
                 var mapBounds = this.map.getBounds();
                 var west = mapBounds.getWest();
@@ -299,9 +302,11 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 }
             }
         }
+        this.Activate();
         if (options.MapOverlay != undefined) this.overlayBaseImageUrl = options.MapOverlay;
     },
-    activate: function () {
+
+    Activate: function () {
         if (!Modernizr.canvas) return;
 
         this._super();
@@ -314,82 +319,104 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-toolbarpanel-sort').fadeIn();
 
         if (this.mapService == "google" && this.map == null) {
-            PivotViewer.Utils.loadScript("https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.apiLoaded");
+        	PivotViewer.Utils.loadScript("https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.APILoaded");
         }
-        else if (this.filtered) this.filter(this.filterEvt.tiles, this.filterEvt.filterList, this.filterEvt.sort);
+        else if (this.filtered) this.Filter(this.filterEvt.tiles, this.filterEvt.filter, this.filterEvt.sort);
     },
-    deactivate: function () {
+    GetButtonImage: function () { return 'images/MapView.png'; },
+    GetButtonImageSelected: function () { return 'images/MapViewSelected.png'; },
+    GetViewName: function () { return 'Map View'; },
+    Deactivate: function () {
         this._super();
         $('.pv-altinfopanel').fadeOut();
         $('.pv-toolbarpanel-info').fadeOut();
         $('.pv-mapview-canvas').fadeOut();
         $('.pv-toolbarpanel-sort').fadeOut();
     },
-    getBucketNumber: function (tile) {
-        var bkt = this.buckets.ids[tile.item.id];
+    GetBucketNumber: function (item) {
+        var bkt = this.buckets.ids[item.facetItem.Id];
         return bkt != undefined ? bkt : -1;
     },
-    bucketize: function (tiles, filterList, orderBy) {
-        category = PivotCollection.getCategoryByName(orderBy);
-        if (filterList[0].item.getFacetByName(orderBy) == undefined)
+    Bucketize: function (tiles, filterList, orderBy) {
+        category = PivotCollection.GetFacetCategoryByName(orderBy);
+        if (filterList[0].facetItem.FacetByName[orderBy] == undefined)
             return [{ startRange: "(no info)", endRange: "(no info)", tiles: [filterList[0]], values: ["(no info)"], startLabel: "(no info)", endLabel: "(no info)" }];
 
-        var min = filterList[0].item.FacetByName(orderBy).values[0].value;
+        var min = filterList[0].facetItem.FacetByName[orderBy].FacetValues[0].Value;
         for (var i = filterList.length - 1; i > 0; i--) {
-            if (filterList[i].item.FacetByName(orderBy) != undefined) break;
+            if (filterList[i].facetItem.FacetByName[orderBy] != undefined) break;
         }
-        var max = filterList[i].item.FacetByName(orderBy).values[0].value;
+        var max = filterList[i].facetItem.FacetByName[orderBy].FacetValues[0].Value;
 
-        if (category.type == PivotViewer.Models.FacetType.DateTime) {
+        if (category.Type == PivotViewer.Models.FacetType.DateTime) {
             //Start with biggest time difference
             min = new Date(min); max = new Date(max);
             if (max.getFullYear() - min.getFullYear() + min.getFullYear() % 10 > 9) {
-                return PivotViewer.Utils.getBuckets(filterList, orderBy,
-                    function (value) { var year = new Date(value.value).getFullYear(); return (year - year % 10); },
-                    function (value) { var year = new Date(value.value).getFullYear(); return (year - year % 10) + "s"; }
+                return GetBuckets(filterList, orderBy,
+                    function (value) { var year = new Date(value.Value).getFullYear(); return (year - year % 10); },
+                    function (value) { var year = new Date(value.Value).getFullYear(); return (year - year % 10) + "s"; }
                 );
             }
             else if (max.getFullYear() > min.getFullYear())
-                return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getFullYear(); },
-                    function (value) { return new Date(value.value).getFullYear().toString(); });
+                return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getFullYear(); },
+                    function (value) { return new Date(value.Value).getFullYear().toString(); });
             else if (max.getMonth() > min.getMonth())
-                return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getMonth(); },
-                    function (value) { var date = new Date(value.value); return PivotViewer.Utils.getMonthName(date) + " " + date.getFullYear(); });
+                return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getMonth(); },
+                    function (value) { var date = new Date(value.Value); return GetMonthName(date) + " " + date.getFullYear(); });
             else if (max.getDate() > min.getDate())
-                return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getDate(); },
-                    function (value) { var date = new Date(value.value); return PivotViewer.Utils.getMonthName(date) + " " + date.getDate() + ", " + date.getFullYear(); });
+                return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getDate(); },
+                    function (value) { var date = new Date(value.Value); return GetMonthName(date) + " " + date.getDate() + ", " + date.getFullYear(); });
             else if (max.getHours() > min.getHours())
-                return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getHours(); },
+                return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getHours(); },
                     function (value) {
-                        var date = new Date(value.value);
-                        return PivotViewer.Utils.getMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + PivotViewer.Utils.getHour(date) + " " + PivotViewer.Utils.getMeridian(date);
+                        var date = new Date(value.Value);
+                        return GetMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + GetStandardHour(date) + " " + GetMeridian(date);
                     });
             else if (max.getMinutes() > min.getMinutes())
-                return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getMinutes(); },
+                return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getMinutes(); },
                     function (value) {
                         var date = new Date(value);
-                        return PivotViewer.Utils.getMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + PivotViewer.Utils.getHour(date) + ":" + date.getMinutes() + " " + PivotViewer.Utils.getMeridian(date);
+                        return GetMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + GetStandardHour(date) + ":" + date.getMinutes() + " " + GetMeridian(date);
                     });
-            else return PivotViewer.Utils.getBuckets(filterList, orderBy, function (value) { return new Date(value.value).getSeconds(); },
+            else return GetBuckets(filterList, orderBy, function (value) { return new Date(value.Value).getSeconds(); },
                 function (value) {
-                    var date = new Date(value.value);
-                    return PivotViewer.Utils.getMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + PivotViewer.Utils.getHour(date) + ":" + date.getMinutes() + "::" + date.getSeconds() + " " + PivotViewer.Utils.getMeridian(date);
+                    var date = new Date(value.Value);
+                    return GetMonthName(date) + " " + date.getDate() + ", " + date.getFullYear() + " " + GetStandardHour(date) + ":" + date.getMinutes() + "::" + date.getSeconds() + " " + GetMeridian(date);
                 });
         }
-        return PivotViewer.Utils.getBuckets(filterList, orderBy);
+        return GetBuckets(filterList, orderBy);
         //Got rid of multiple values for now
     },
-    filter: function (tiles, filterList, sortFacet) { 
+    Filter: function (tiles, filter, sortFacet) { 
         var that = this;
         var g = 0;  //keeps track of the no. of geocode locations;
 
-        Debug.log('Map View Filtered: ' + filterList.length);
+        Debug.log('Map View Filtered: ' + filter.length);
+
+        //if (changingView) {
+        //    $('.pv-viewarea-canvas').fadeOut();
+        //    $('.pv-tableview-table').fadeOut();
+        //    $('.pv-mapview2-canvas').fadeOut();
+        //    $('.pv-timeview-canvas').fadeOut();
+        //    $('.pv-toolbarpanel-sort').fadeIn();
+        //    $('.pv-toolbarpanel-timelineselector').fadeOut();
+        //    $('.pv-toolbarpanel-zoomslider').fadeOut();
+        //    $('.pv-toolbarpanel-maplegend').fadeIn();
+        //    if (!selectedItem)
+        //        $('.pv-mapview-legend').show('slide', { direction: 'up' });
+        //    $('.pv-toolbarpanel-zoomcontrols').css('border-width', '0');
+        //    $('#MAIN_BODY').css('overflow', 'auto');
+        //    $('.pv-mapview-canvas').fadeIn(function () {
+        //        if (selectedItem)
+        //            $.publish("/PivotViewer/Views/Item/Selected", [{ id: selectedItem.Id, bkt: 0 }]);
+        //    });
+        //}
 
         this.sortFacet = sortFacet;
-        this.filterList = filterList;
+        this.filter = filter;
         this.tiles = tiles;
 
-        this.buckets = this.bucketize(tiles, filterList, this.sortFacet);       
+        this.buckets = this.Bucketize(tiles, filter, this.sortFacet);       
 
         //Clear legend info in toolbar
         $('.pv-toolbarpanel-info').empty();
@@ -397,107 +424,110 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
 
         //Check for geometry facet
         //This should contain a geometry definition im WKT that applies to the whole collection
-        //E.g. where a geometry filterList has been applied
-        for(var i = 0; i < PivotCollection.categories.length; i++) {
-            var category = PivotCollection.categories[i];
-            if (category.name.toUpperCase().indexOf("GEOMETRY") >= 0) {
-                for (j = 0; j < filterList.length; j++) {
-                    var facet = filterList[j].item.FacetByName(category.name);
+        //E.g. where a geometry filter has been applied
+        var gotGeometry = false;
+        for (var i = 0; i < PivotCollection.FacetCategories.length && !gotGeometry; i++) {
+            var category = PivotCollection.FacetCategories[i];
+            if (category.Name.toUpperCase().indexOf("GEOMETRY") >= 0) {
+                for (var j = 0; j < filter.length ; j++) {
+                    var facet = filter[j].facetItem.FacetByName[category.Name];
                     if (facet == undefined) continue;
-                    this.geometryValue = facet.values[0].value;
+                    this.geometryValue = facet.FacetValues[0].Value;
+                    gotGeometry = true;
                     break;
                 }
-                if (j < filterList.length) break;
+                if (j < filter.length) break;
             }
         }
 
         //Check for area facet
-        for (var i = 0; i < PivotCollection.categories.length; i++) {
-            var category = PivotCollection.categories[i];
-            if (category.name.toUpperCase().indexOf("AREA") >= 0) {
-                for (j = 0; j < filterList.length; j++) {
-                    var facet = filterList[j].item.FacetByName(category.name);
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+            var category = PivotCollection.FacetCategories[i];
+            if (category.Name.toUpperCase().indexOf("AREA") >= 0) {
+                for (var j = 0; j < filter.length; j++) {
+                    var facet = filter[j].facetItem.FacetByName[category.Name];
                     if (facet == undefined) continue;
-                    this.areaValues.push({ id: filterList[j].item.id, area: facet.values[0].value });
+                    this.areaValues.push({ id: filter[j].facetItem.Id, area: facet.FacetValues[0].Value });
                     break;
                 }
             }
         }
 
         var category, category1 = null, category2 = null;
-        for (var i = 0; i < PivotCollection.categories.length; i++) {
-            var category = PivotCollection.categories[i], name = category.name.toLowerCase();
-            if (name.indexOf("location") >= 0) {
-                if (category.uiInit == false) PV.initUIFacet(category);
-                break;
-            }
+        for (var i = 0; i < PivotCollection.FacetCategories.length; i++) {
+ 
+
+            var category = PivotCollection.FacetCategories[i], name = category.Name.toLowerCase();
+
             if (name.indexOf("latitude") >= 0) category1 = category;
             else if (name.indexOf("longitude") >= 0) category2 = category;
             if (category1 != null && category2 != null) {
-                if (category1.uiInit == false) PV.initUIFacet(category1);
-                if (category2.uiInit == false) PV.initUIFacet(category2);
+                if (category1.uiInit == false) PV.InitUIFacet(category1);
+                if (category2.uiInit == false) PV.InitUIFacet(category2);
+                break;
+            }
+            if (name.indexOf("location") >= 0) {
+                if (category.uiInit == false) PV.InitUIFacet(category);
                 break;
             }
         }
 
-        for (var i = 0; i < filterList.length; i++) {
-            var tile = filterList[i], c;
-
-            if (!Settings.showMissing && tile.missing) continue;
+        for (var i = 0; i < filter.length; i++) {
+            var item = filter[i], c;
 
             //Have we cached the item location?
-            if (tile.loc == undefined) {
+            if (item.loc == undefined) {
                 //First try to get co-ordinate information from the facets
                 var facet1 = null, facet2 = null;
                 if(category1 != null && category2 != null) {
-                    facet1 = tile.item.FacetByName(category1.name);
-                    facet2 = tile.item.FacetByName(category2.name);
+                    facet1 = item.facetItem.FacetByName[category1.Name];
+                    facet2 = item.facetItem.FacetByName[category2.Name];
   
                     if (facet1 != undefined && facet2 != undefined) {
-                        var latitude = facet1.values[0].value;
-                        var longitude = facet2.values[0].value;
+                        var latitude = facet1.FacetValues[0].Value;
+                        var longitude = facet2.FacetValues[0].Value;
 
                         if (longitude != null && latitude != null) {
                             if (typeof latitude == "string") latitude = parseFloat(latitude);
                             if (typeof longitude == "string") longitude = parseFloat(longitude);
-                            tile.loc = new L.LatLng(latitude, longitude);
+                            item.loc = new L.LatLng(latitude, longitude);
                         }
                     }
                 }
                 else if (category != null) {
-                    var facet = tile.item.FacetByName(category.name);
+                    var facet = item.facetItem.FacetByName[category.Name];
                     if (facet == undefined) continue;
-                    var value = facet.values[0].value;
+                    var value = facet.FacetValues[0].Value;
                     if (value.toLowerCase().indexOf("point(") == 0) {
                         var longitude = parseFloat(value.substring(6, value.indexOf(' ', 6) - 6));
                         var latitude = parseFloat(value.substring(value.indexOf(' ', 6) + 1, value.indexOf(')') - (value.indexOf(' ') + 1)));
-                        if (!isNaN(latitude) && !isNaN(longitude)) tile.loc = new L.LatLng(latitude, longitude);
+                        if (!isNaN(latitude) && !isNaN(longitude)) item.loc = new L.LatLng(latitude, longitude);
                     }
                     else if (value.indexOf(",") > -1) {
                         //Could be a co-ordinate pair
                         var latitude = parseFloat(value.substring(0, value.indexOf(',')));
                         var longitude = parseFloat(value.substring(value.indexOf(',')));
-                        if (!isNaN(latitude) && !isNaN(longitude)) tile.loc = new L.LatLng(latitude, longitude);
+                        if (!isNaN(latitude) && !isNaN(longitude)) item.loc = new L.LatLng(latitude, longitude);
                         else if (value.length > 1) {
                             var geoLoc = value.replace('_', ' ').toUpperCase();
 
                             // First add region and country to the location.
-                            for (var r = 0; r < tile.item.facets.length; r++) {
-                                if (tile.item.facets[r].name.toUpperCase().indexOf("REGION") >= 0) {
-                                    var region = tile.item.facets[r].values[0].value;
+                            for (var r = 0; r < item.facetItem.Facets.length; r++) {
+                                if (item.facetItem.Facets[r].Name.toUpperCase().indexOf("REGION") >= 0) {
+                                    var region = item.facetItem.Facets[r].FacetValues[0].Value;
                                     if (region.length > 1) geoLoc = geoLoc + ", " + region.replace('_', ' ').toUpperCase();
                                     break;
                                 }
                             }
-                            for (var c = 0; c < tile.item.facets.length; c++) {
-                                if (tile.item.facets[c].name.toUpperCase().indexOf("COUNTRY") >= 0) {
-                                    var country = tile.item.facets[c].values[0].value;
+                            for (var c = 0; c < item.facetItem.Facets.length; c++) {
+                                if (item.facetItem.Facets[c].Name.toUpperCase().indexOf("COUNTRY") >= 0) {
+                                    var country = item.facetItem.Facets[c].FacetValues[0].Value;
                                     if (country.length > 1) geoLoc = geoLoc + ", " + country.replace('_', ' ').toUpperCase();
                                     break;
                                 }
                             }
                             // Is it in the cache?
-                            if (this.locCache[geoLoc] != undefined) tile.loc = this.locCache[geoLoc];
+                            if (this.locCache[geoLoc] != undefined) item.loc = this.locCache[geoLoc];
                             else if (this.localStorage) {
                                 // Now try the users persistent cache
                                 var loc = JSON.parse(localStorage.getItem(geoLoc));
@@ -505,7 +535,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                                     var latitude = parseFloat(loc.latitude);
                                     var longitude = parseFloat(loc.longitude);
                                     if (!isNaN(latitude) && !isNaN(longitude)) {
-                                        tile.loc = new L.LatLng(latitude, longitude);
+                                        item.loc = new L.LatLng(latitude, longitude);
                                         this.locCache[geoLoc] = loc;
                                     }
                                 }
@@ -517,7 +547,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                                         this.itemsToGeocode[geoLoc] = [];
                                         g++;
                                     }
-                                    this.itemsToGeocode[geoLoc].push(tile);
+                                    this.itemsToGeocode[geoLoc].push(item);
                                     break;
                                 }
                             }
@@ -527,16 +557,16 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             }
         }
 
-        if (g > 0) this.getLocationsFromNames();
+        if (g > 0) this.GetLocationsFromNames();
         $('.pv-mapview-canvas').css('height', this.height - 12 + 'px');
         $('.pv-mapview-canvas').css('width', this.width - 415 + 'px');
-        this.createMap();
+        this.CreateMap();
         this.filtered = false;
     },
-    getButtonImage: function () {return 'images/MapView.png';},
-    getButtonImageSelected: function () {return 'images/MapViewSelected.png';},
-    getViewName: function () { return 'Map View'; },
-    makeGeocodeCallBack: function(locName) {
+    GetButtonImage: function () {return 'images/MapView.png';},
+    GetButtonImageSelected: function () {return 'images/MapViewSelected.png';},
+    GetViewName: function () { return 'Map View'; },
+    MakeGeocodeCallBack: function(locName) {
         var that = this;
         if (this.geocodeService == "Google"){
             var geocodeCallBack = function(results, status) {
@@ -566,17 +596,17 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 // 2 secs make the pins we have so far
                 var now = new Date();
                 if ((now.getTime() - that.geocodeZero.getTime())/1000 > 20) {
-                    that.redrawMarkers();
+                    that.RedrawMarkers();
                     that.startGeocode = new Date();
                 }
                 else if ((now.getTime() - that.startGeocode.getTime()) / 1000 > 2) {
-                    that.redrawMarkers();
-                    that.refitBounds();
-                    that.getOverlay();
+                    that.RedrawMarkers();
+                    that.RefitBounds();
+                    that.GetOverlay();
                     that.startGeocode = new Date();
                 }
                 
-                if(Object.keys(that.itemsToGeocode).length == 0) that.createMap();
+                if(Object.keys(that.itemsToGeocode).length == 0) that.CreateMap();
             }
         }
         else {
@@ -607,26 +637,26 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 // 2 secs make the pins we have so far
                 var now = new Date();
                 if ((now.getTime() - that.geocodeZero.getTime()) / 1000 > 20) {
-                    that.redrawMarkers();
+                    that.RedrawMarkers();
                     that.startGeocode = new Date();
                 }
                 else if ((now.getTime() - that.startGeocode.getTime()) / 1000 > 2) {
-                    that.redrawMarkers();
-                    that.refitBounds();
-                    that.getOverlay();
+                    that.RedrawMarkers();
+                    that.RefitBounds();
+                    that.GetOverlay();
                     that.startGeocode = new Date();
                 }
 
-                if (Object.keys(that.itemsToGeocode).length == 0) that.createMap();
+                if (Object.keys(that.itemsToGeocode).length == 0) that.CreateMap();
             }
 
         }
         return geocodeCallBack;
     },
-    geocode: function (locName, callbackFunction) {
+    Geocode: function (locName, callbackFunction) {
         if (this.geocodeService == "Google"){
             var geocoder = new google.maps.Geocoder();
-            geocoder.geocode( {address: locName}, this.makeGeocodeCallBack(locName));
+            geocoder.geocode( {address: locName}, this.MakeGeocodeCallBack(locName));
         }
         else {
             var that = this;
@@ -638,15 +668,15 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             });
         }
     },
-    getLocationsFromNames: function () {
+    GetLocationsFromNames: function () {
         for (var key in Object.keys(this.itemsToGeocode)) {
-            this.geocode(key, this.makeGeocodeCallBack(key));
+            this.Geocode(key, this.MakeGeocodeCallBack(key));
         }
         this.startGeocode = new Date();
         this.startGeocode.setSeconds(this.startGeocode.getSeconds() + 2);
         this.geocodeZero = new Date();
     },
-    createMap: function () {
+    CreateMap: function () {
         //Add geometry to map using wicket library for reading WKT
         if (this.geometryValue != null) {
             var wkt = new Wkt.Wkt();
@@ -655,7 +685,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 try { wkt.read(this.geometryValue.replace('\n', '').replace('\r', '').replace('\t', '')); }
                 catch (e2) {
                     if (e2.name === 'WKTError')
-                        Debug.log('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
+                        Debug.Log('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
                 }
             }
 
@@ -668,19 +698,20 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             else this.map.addLayer(obj);
         }
 
-        this.createMarkers();
-        this.refitBounds();
-        this.getOverlay();
-        this.createLegend();
+        this.CreateMarkers();
+        if (this['refitBounds'] != undefined) this.refitBounds();
+        if (this['GetOverlay'] != undefined)  this.GetOverlay();
+        this.CreateLegend();
     },
-    createMarkers: function () {
-        this.clearMarkers();
-        for (i = 0; i < this.filterList.length; i++) {  
-            var tile = this.filterList[i];
-            if(tile.loc != undefined && (Settings.showMissing || !tile.missing)) this.newMarker(tile);
+    CreateMarkers: function () {
+        if (this['clearMarkers'] != undefined) this.clearMarkers();
+        this._bucket = 0;
+        for (var i = 0; i < this.filter.length; i++) {  
+            var item = this.filter[i];
+            if(item.loc != undefined) this.NewMarker(this.filter[i]);
         }
     },
-    drawArea: function () {
+    DrawArea: function () {
         var areaValue;
         var areaWkt = new Wkt.Wkt();
 
@@ -688,7 +719,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         if (this.areaObj)
             this.map.removeLayer(this.areaObj);
         for (var i = 0; i < this.areaValues.length; i++) {
-            if (this.areaValues[i].id == this.selected.item.id) {
+            if (this.areaValues[i].id == this.selected.facetItem.Id) {
                 areaValue = this.areaValues[i].area;
                 break;
             }
@@ -704,7 +735,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
                 }
                 catch (e2) {
                     if (e2.name === 'WKTError') {
-                        Debug.log('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
+                        Debug.Log('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
                         geometryOK = false;
                     }
                 }
@@ -720,11 +751,11 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
             }
         }
     },
-    redrawMarkers: function () {
-        this.createMarkers();
-        this.drawArea();
+    RedrawMarkers: function () {
+        this.CreateMarkers();
+        this.DrawArea();
     },
-    createLegend: function() {
+    CreateLegend: function() {
         // Get width of the info panel (width of icon image = 30 )
         var width = $('.pv-altinfopanel').width() - 32;
         $('.pv-altinfopanel').empty();

@@ -152,7 +152,7 @@ solrpivot = function () {
             GeocodeService: "Google",
             ViewerState: "$view$=1",
             ImageController: new PivotViewer.Views.SimpleImageController(imagecache),
-            View: "Map",
+           //View: "Map",
         });
 
         $('#docs').empty();
