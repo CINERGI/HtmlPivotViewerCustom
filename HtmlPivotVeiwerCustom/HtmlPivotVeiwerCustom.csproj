@@ -772,7 +772,7 @@
     <Content Include="src\authoring.js" />
     <Content Include="src\collectionloader.js" />
     <Content Include="src\collectionloader.min.js" />
-    <Content Include="src\csvloader_nodz.js" />
+    <Content Include="src\csvloader_2.js" />
     <Content Include="src\csvloader.js" />
     <Content Include="src\csvloader.min.js" />
     <Content Include="src\csvloader_textimage.js" />

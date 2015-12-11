@@ -12,9 +12,8 @@
 //  GNU General Public License v2 (see COPYING)
 //
 
-///
-/// Bucket View
-///
+PivotViewer.Utils.loadScript("src/views/definebuckets.js");
+
 PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     init: function () {
         this._super();
@@ -25,40 +24,8 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         this.titleSpace = 62;
         this.dontZoom = false;
 
-        $.subscribe("/PivotViewer/Views/Canvas/Click", function (evt) {
-            if (!that.isActive) return;
-
-            var tile = null;
-            var selectedLoc = null;
-            for (var i = 0; i < that.filterList.length; i++) {
-	            var loc = that.filterList[i].contains(evt.x, evt.y);
-                if (loc >= 0) {
-                    tile = that.filterList[i];
-                    selectedLoc = loc;
-                }
-                else that.filterList[i].Selected(false);
-            }
-	        that.handleSelection(tile, evt.x, evt.y, selectedLoc);
-	    });
-
-        $.subscribe("/PivotViewer/Views/Canvas/Hover", function (evt) {
-            if (!that.isActive) return;
-            $('.pv-bucketview-overlay-bucket').removeClass('bucketview-bucket-hover');
-            //determine bucket and select
-            var bucketNumber = that.getBucket(evt.x), bucket = that.buckets[bucketNumber];
-            if (bucketNumber < 0) return;
-            var bucketDiv = $('#pv-bucketview-overlay-bucket-' + bucketNumber);
-            bucketDiv.addClass('bucketview-bucket-hover');
-            //determine tile
-            for (var i = 0; i < bucket.tiles.length; i++) {
-	            var loc = bucket.tiles[i].contains(evt.x, evt.y);
-                if (loc >= 0) {
-                    bucket.tiles[i].Selected(true);
-                    bucket.tiles[i].selectedLoc = loc;
-                }
-                else bucket.tiles[i].Selected(false);
-            }
-        });
+        PV.subsets = [null, null];
+        PV.subsets.finalized = false;
 
         $.subscribe("/PivotViewer/Views/Canvas/Zoom", function (evt) {
             if (!that.isActive) return;
@@ -76,7 +43,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 if (evt.scale >= 1) that.scale += (evt.scale - 1);
                 else {
                     that.scale -= evt.scale;
-                    that.scale = that.scale < 1 ? 1 : that.scale;
+                    if (that.scale < 1) that.scale = 1;
                 }
             }
             else if (evt.delta != undefined)
@@ -118,59 +85,10 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
 
             //deselect tiles if zooming back to min size
             if (that.scale == 1 && oldScale != 1) {
-                for (var i = 0; i < that.tiles.length; i++) {
-                    that.tiles[i].Selected(false);
-                    that.tiles[i].selectedLoc = 0;
-                }
+                for (var i = 0; i < that.tiles.length; i++) that.tiles[i].setSelected(false);
                 that.selected = null;
                 $.publish("/PivotViewer/Views/Item/Selected", [{item: that.selected}]);
             }
-        });
-
-        $.subscribe("/PivotViewer/Views/Canvas/Drag", function (evt) {
-            if (!that.isActive) return;
-
-            var dragX = evt.x;
-            var dragY = evt.y;
-            var noChangeX = false, noChangeY = false;
-            that.currentOffsetX += dragX;
-            that.currentOffsetY += dragY;
-
-            //LHS bounds check
-            if (dragX > 0 && that.currentOffsetX > that.offsetX) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            //Top bounds check
-            if (dragY > 0 && (that.currentOffsetY + that.canvasHeightUIAdjusted) > that.currentHeight + that.offsetY) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-            //RHS bounds check
-            //if the current offset is smaller than the default offset and the zoom scale == 1 then stop drag
-            if (that.currentOffsetX < that.offsetX && that.currentWidth == that.width) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            if (dragX < 0 && (that.currentOffsetX) < -1 * (that.currentWidth - that.width)) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            //bottom bounds check
-
-            if (that.currentOffsetY < that.offsetY && that.currentHeight == that.height) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-            if (dragY < 0 && (that.currentOffsetY - that.offsetY) < -1 * (that.currentHeight - that.height)) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-
-            if (noChangeX && noChangeY) return;
-            if (noChangeX) that.offsetTiles(0, dragY);
-            else if (noChangeY) that.offsetTiles(dragX, 0);
-            else that.offsetTiles(dragX, dragY);
         });
     },
     getBucket: function(x) {return Math.floor((x - this.offsetX) / this.columnWidth)},
@@ -189,44 +107,36 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         this.rowscols = null;
         this.bigCount = 0;
     },
-    filter: function (tiles, filterList, sortFacet) {
-        this.sortFacet = sortFacet;
-        this.tiles = tiles;
-        this.filterList = filterList;
-        this.buckets = this.bucketize(filterList, this.sortFacet);
-        this.filtered = false;
-    },
     activate: function () {
-        var that = this;
-        if (!Modernizr.canvas) return;
         this._super();
-        if (this.filtered) this.filter(this.filterEvt.tiles, this.filterEvt.filterList, this.filterEvt.sort);
-        if (this.buckets) this.createUI();
-
+        if (!DB.isOn()) DB.on();
+        this.createUI();
+    },
+    filter: function () {
+        if (PV.subsets.finalized) this.buckets = this.subset(this.filterList, this.sortCategory);
+        else this.buckets = this.bucketize(this.filterList, this.sortCategory);
     },
     createUI: function () {
         this.columnWidth = this.origColumnWidth = (this.width - this.offsetX) / this.buckets.length;
         this.canvasHeightUIAdjusted = this.height - this.offsetY - this.titleSpace;
 
-        //Find biggest bucket to determine tile size, rows and cols
-        //Also create UI elements
-        var uiElements = [];
-        this.bigCount = 0;
+        var uiElements = "";
+        this.bigCount = 0; //for dimensions
         for (var i = 0; i < this.buckets.length; i++) {
             var bkt = this.buckets[i];
-            var styleClass = i % 2 == 0 ? "bucketview-bucket-dark" : "bucketview-bucket-light", label;
-            var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? bkt.startLabel : bkt.startLabel + "<br>to<br>" + bkt.endLabel;
-            uiElements[i] = "<div class='pv-bucketview-overlay-bucket " + styleClass + "' id='pv-bucketview-overlay-bucket-" + i + "' style='width: " +
+            var styleClass = i % 2 == 0 ? "bucketview-bucket-dark" : "bucketview-bucket-light";
+            if (bkt.equals(PV.subsets[0]) || bkt.equals(PV.subsets[1])) styleClass += " pv-bucketview-subset";
+            var label = (bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? bkt.startLabel : bkt.startLabel + "<br>to<br>" + bkt.endLabel) + 
+                (PV.subsets.finalized ? (i % 2 ? " (2)" : " (1)") : "");
+            uiElements += "<div class='pv-bucketview-overlay-bucket " + styleClass + "' id='pv-bucketview-overlay-bucket-" + i + "' style='width: " +
                 (Math.floor(this.columnWidth) - 4) + "px; height:" + (this.height - 2) + "px; left:" + ((i * this.columnWidth) - 2) + "px;'>";
-            uiElements[i] += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "px;'><div class='pv-bucket-countbox'>" +
+            uiElements += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "px;'><div class='pv-bucket-countbox'>" +
                 this.buckets[i].tiles.length + "<br>" + Math.round(this.buckets[i].tiles.length / this.filterList.length * 100) + "%</div>" + label + "</div></div>";
             if (this.bigCount < bkt.tiles.length) this.bigCount = bkt.tiles.length;
         }
 
-        var bucketviewOverlay = $('.pv-bucketview-overlay');
-        bucketviewOverlay.css('left', this.offsetX + 'px');
-        $('.pv-bucketview-overlay div').fadeOut('slow', function () { $(this).remove(); });
-        bucketviewOverlay.append(uiElements.join(''));
+        $(".pv-viewpanel-view").append("<div class='pv-bucketview-overlay'></div>");
+        $('.pv-bucketview-overlay').css('left', this.offsetX + 'px').append(uiElements);
         $('.pv-bucketview-overlay div').fadeIn('slow');
 
         for (var i = 0; i < this.tiles.length; i++) {
@@ -276,10 +186,6 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     deactivate: function () {
         this._super();
         $('.pv-bucketview-overlay div').fadeOut();
-    },
-    getUI: function() {
-        if (Modernizr.canvas) return "<div class='pv-bucketview-overlay'></div>";
-        else return this._super();
     },
     getButtonImage: function () {return 'images/bucketview.png';},
     getButtonImageSelected: function () {return 'images/bucketviewSelected.png';},
@@ -338,35 +244,46 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             }
         }
     },
-    bucketize: function (filterList, orderBy) {
-        var category = PivotCollection.getCategoryByName(orderBy);
-        if (filterList[0].item.getFacetByName(orderBy) == undefined) {
+    bucketize: function (filterList, sortCategory, maxBuckets) {
+        if (maxBuckets == undefined) maxBuckets = 10;
+        var category = PivotCollection.getCategoryByName(sortCategory);
+
+        if ($(".pv-facet[facet='" + PV.cleanName(sortCategory).toLowerCase() + "']").attr("mode") == "db") {
+            var buckets = DB.getBuckets(sortCategory);
+            PivotViewer.Utils.fillBuckets(buckets, filterList, sortCategory);
+            return buckets;
+        }
+
+        if (filterList[0].item.getFacetByName(sortCategory) == undefined) {
             var bkt = new PivotViewer.Models.Bucket("(no info)", "(no info)");
             bkt.addTile(filterList[0]);
             return bkt;
         }
-        var min = filterList[0].item.getFacetByName(orderBy).values[0].value;
+        var min = filterList[0].item.getFacetByName(sortCategory).values[0].value;
         for (var i = filterList.length - 1; i > 0; i--) {
-            if (filterList[i].item.getFacetByName(orderBy) != undefined) break;
+            if (filterList[i].item.getFacetByName(sortCategory) != undefined) break;
         }
-        var max = filterList[i].item.getFacetByName(orderBy).values[0].value;
+        var max = filterList[i].item.getFacetByName(sortCategory).values[0].value;
 
-        if (category.type == PivotViewer.Models.FacetType.DateTime) {
+        if (category.isDateTime()) {
             min = new Date(min); max = new Date(max);
-            return PivotViewer.Utils.getBuckets(filterList, orderBy, PivotViewer.Utils.getTimeValueFunction(min, max), PivotViewer.Utils.getTimeLabelFunction(min, max));
+            return PivotViewer.Utils.getBuckets(filterList, sortCategory, PivotViewer.Utils.getTimeValueFunction(min, max), PivotViewer.Utils.getTimeLabelFunction(min, max));
         }
-        else if (category.type == PivotViewer.Models.FacetType.Number) {
+        else if (category.isNumber()) {
             var bkts = [];
             bkts.ids = [];
             //Total range is proportional to the next highest power of ten.
-            var delta = max - min, bucketSize;
-            if (delta == 0) bucketSize = 1;
+            var delta = max - min, bucketSize, base, numBuckets;
+            if (delta == 0) { bucketSize = 1; base = min; numBuckets = 1;}
             else {
                 bucketSize = Math.pow(10, Math.ceil(Math.log(delta) / Math.log(10)) - 1);
                 if (category.integer && bucketSize <= 1) bucketSize = 1;
                 else if (delta <= (bucketSize * 5)) bucketSize /= 2;
-            }
-            var base = Math.floor(min / bucketSize) * bucketSize, numBuckets = Math.floor((max - base) / bucketSize) + 1;
+
+                base = Math.floor(min / bucketSize) * bucketSize, numBuckets = Math.floor((max - base) / bucketSize) + 1;
+
+                if (numBuckets > maxBuckets) { bucketSize *= 2; numBuckets = Math.ceil(numBuckets / 2);}
+            } 
 
             for (var i = 0; i < numBuckets; i++) {
                 var start = i * bucketSize + base;
@@ -376,7 +293,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             var i = 0;
             for (; i < filterList.length; i++) {
                 var item = filterList[i].item;
-                var facet = item.getFacetByName(orderBy);
+                var facet = item.getFacetByName(sortCategory);
                 if (facet == undefined) break;
                 for (var j = 0; j < facet.values.length; j++) {
                     var value = facet.values[j].value, bktNum = Math.floor((value - base) / bucketSize);
@@ -421,13 +338,13 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             }
             return bkts;
         }
-        else return PivotViewer.Utils.getBuckets(filterList, orderBy);
+        else return PivotViewer.Utils.getBuckets(filterList, sortCategory);
         //Got rid of multiple values for now
     },
     centerOnTile: function (tile) {
-        var item = tile.item, location = tile._locations[tile.selectedLoc];
+        var item = tile.item, location = tile._locations[0];
         var tileMaxWidth = this.rowscols.TileMaxWidth, padding = this.rowscols.PaddingX;
-        var bucket = this.buckets.ids[tile.item.id], bucketCols = this.rowscols.Columns;
+        var bucket = this.buckets.ids[item.id], bucketCols = this.rowscols.Columns;
         var bucketCol = Math.round(((location.x - this.currentOffsetX) - (bucket * (bucketCols * tileMaxWidth + padding))) / tileMaxWidth);
         var col = (bucket * bucketCols) + bucketCol;
         var row = Math.round((this.canvasHeightUIAdjusted - (location.y - this.currentOffsetY)) / tile.height) - 1;
@@ -437,7 +354,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
 
         // Find which is proportionally bigger, height or width
         var origProportion;
-        if (tile.height / canvasHeight > (tile.height / TileController._imageController.getRatio(tile.item.img)) / canvasWidth)
+        if (tile.height / canvasHeight > (tile.height / TileController._imageController.getRatio(item.img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
         if (this.selected == null) PV.zoom(Math.round((0.75 / origProportion) * 2));
@@ -446,36 +363,124 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         this.currentOffsetY = this.height / 2 - this.canvasHeightUIAdjusted + this.rowscols.TileHeight / 2 + row * this.rowscols.TileHeight;
         this.setTilePositions(this.rowscols, this.currentOffsetX, this.currentOffsetY, true, true);
     },
-    handleSelection: function (tile, clickX, clickY, selectedLoc) {
-        var found = false;
-        var dontFilter = false;
+    handleHover: function (evt) {
+        this.super_handleHover(evt);
 
+        $(".pv-tooltip").remove();
+        $(".pv-bucketview-overlay-bucket").removeClass("bucketview-bucket-hover");
+        var bktNum = this.getBucket(evt.x);
+        if (bktNum >= 0) {
+            var bucketDiv = $("#pv-bucketview-overlay-bucket-" + bktNum);
+            bucketDiv.addClass("bucketview-bucket-hover");
+        }
+        else return;
+            
+        if (this.scale > 1) return;
+        var box = $(".pv-bucketview-overlay-buckettitle").eq(bktNum), offset = box.offset();
+        if (evt.x >= offset.left && evt.x <= (offset.left + box.width()) &&
+            evt.y <= offset.top && evt.y >= (offset.top - box.height())) {
+            var bkt = this.buckets[bktNum], string = PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String;
+            var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>" + (bkt.startLabel == bkt.endLabel ? " Value: " +
+                (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
+                "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : " (inclusive)") + "  to " + (string ? "\"" : "") + bkt.endLabel +
+                (string ? "\"" : " (exclusive)") + "<br>") + bkt.tiles.length + " of " + this.filterList.length +
+                " items (" + Math.round(bkt.tiles.length / this.filterList.length * 100) + "%)" + (Settings.showMissing ? "</div>" :
+                "<br><i>(Some items may be missing values for this variable.)</i></div>");
+            $(".pv-bucketview-overlay").append(tooltip);
+            $(".pv-tooltip").offset({ left: offset.left, top: offset.top - box.height() + $(".pv-canvas").offset().top + 10})
+        }
+    },
+    handleClick: function (evt) {
+        if (this.hasSubsets() && !PV.subsets.finalized) { PV.subsets.finalized = true; PV.filterViews(); return; }
+        var tile = this._super(evt);
+        if (this.selected != null) this.selected.setSelected(false);
         if (tile != null) {
-            tile.Selected(true);
-            tile.selectedLoc = selectedLoc;
-            found = true;
+            if (this.selected != tile) {
+                tile.setSelected(true);
+                this.centerOnTile(tile);
+                this.setSelected(tile);
+                $('.pv-bucketview-overlay div').fadeOut('slow');
+            }
+            else {
+                tile = null;
+                this.setSelected(null);
+                PV.zoom(0);
+                $('.pv-bucketview-overlay div').fadeIn('slow');
+            }
         }
-
-        // If an item is selected then zoom out but don't set the filterList
-        // based on clicking in a bar in the graph.
-        if (this.selected != null && tile == null) dontFilter = true;
-
-        //zoom in on selected tile
-        if (tile != null && this.selected != tile) {
-            this.centerOnTile(tile);
-            $('.pv-bucketview-overlay div').fadeOut('slow');
-        }
-        else if (this.selected != null) {
-            //zoom out
-            this.selected = tile = null;
+        else {
+            this.setSelected(null);
             PV.zoom(0);
             $('.pv-bucketview-overlay div').fadeIn('slow');
+            var bktNum = this.getBucket(evt.x);
+            if (bktNum >= 0 && bktNum < this.buckets.length) {
+                var bkt = this.buckets[bktNum];
+                $.publish("/PivotViewer/Views/Item/Filtered", [{ category: this.sortCategory, min: bkt.startRange, max: bkt.endRange, values: bkt.values, clearFilters: true }]);
+            }
         }
         $.publish("/PivotViewer/Views/Item/Selected", [{item: tile}]);
-
-        if (!found && !dontFilter) {
-            var bucket = this.buckets[this.getBucket(clickX)];
-            $.publish("/PivotViewer/Views/Item/Filtered", [{ Facet: this.sortFacet, Item: bucket.startRange, MaxRange: bucket.endRange, Values: bucket.values, ClearFacetFilters:true}]);
+    },
+    handleContextMenu: function (evt) {
+        if (PV.subsets.finalized) return;
+        var bktNum = this.getBucket(evt.x), bkt = $("#pv-bucketview-overlay-bucket-" + bktNum);
+        if (this.addSubset(this.buckets[bktNum])) bkt.addClass("pv-bucketview-subset");
+        else bkt.removeClass("pv-bucketview-subset");
+    },
+    addSubset: function (bkt) {
+        if (bkt.tiles.length == 0) return false;
+        PV.subsets.finalized = false;
+        var subset = this.getSubset(bkt.tiles[0].item.id);
+        if (subset != -1) {
+            if (subset == 0) PV.subsets[0] = PV.subsets[1];
+            PV.subsets[1] = null;
+            if (PV.subsets[0] == null) this.clearSubsets();
+            return false;
         }
+        else {
+            if (PV.subsets[1] != null) return false;
+            if (PV.subsets[0] == null) {
+                $(".pv-filterpanel-clearall").after("<div class='pv-subset-clear'>Subset</div>");
+                var that = this;
+                $(".pv-subset-clear").css("visibility", "visible").on("click.subset", function () { that.clearSubsets() });
+                $(".pv-filterpanel-clearall").css("visibility", "visible").on("click.subset", function () { that.clearSubsets() });
+                PV.subsets[0] = bkt;
+            }
+            else PV.subsets[1] = bkt;
+            return true;
+        }
+    },
+    subset: function (filterList, sortCategory) {
+        var newFilterList = [];
+        for (var i = 0; i < filterList.length; i++) {
+            var tile = filterList[i];
+            if (PV.subsets[1] == null || this.getSubset(tile.item.id) != -1) newFilterList.push(tile);
+        }
+
+        var bkts = this.bucketize(newFilterList, sortCategory, 5), newBkts = []; //bucketize on only those in subset
+        newBkts.ids = [];
+
+        for (var i = 0; i < bkts.length; i++) {
+            var bkt = bkts[i];
+            newBkts[2 * i] = new PivotViewer.Models.Bucket(bkt.startRange, bkt.startLabel, bkt.endRange, bkt.endLabel);
+            newBkts[2 * i + 1] = new PivotViewer.Models.Bucket(bkt.startRange, bkt.startLabel, bkt.endRange, bkt.endLabel);
+            for (var j = 0; j < bkt.tiles.length; j++) {
+                var tile = bkt.tiles[j], id = tile.item.id, k = 2 * i + (PV.subsets[0].ids[id] ? 0 : 1);
+                newBkts[k].addTile(tile);
+                newBkts.ids[id] = k;
+            }
+            for (var j = 0; j < bkt.values.length; j++) { newBkts[k].addValue(bkt.values[j]);}
+        }
+
+        return newBkts;
+    },
+    getSubset: function (id) { return PV.subsets[0] == null ? -1: PV.subsets[0].ids[id] ? 0 : PV.subsets[1] != null && PV.subsets[1].ids[id] ? 1 : -1; },
+    hasSubsets: function () { return PV.subsets[0] != null; },
+    clearSubsets: function () {
+        PV.subsets[0] = PV.subsets[1] = null;
+        PV.subsets.finalized = false;
+        PV.filterViews();
+        $(".pv-subset-clear").remove();
+        $(".pv-filterpanel-clearall").off("click.subset");
+        if (this.tiles.length == this.filterList.length) $(".pv-filterpanel-clearall").css("visibility", "hidden");
     }
 });

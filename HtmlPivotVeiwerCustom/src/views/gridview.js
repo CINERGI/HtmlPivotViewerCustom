@@ -22,31 +22,6 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
         this.numMissing = 0;
         var that = this;
 
-        $.subscribe("/PivotViewer/Views/Canvas/Click", function (evt) {
-            if (!that.isActive) return;
-
-            var selectedTile = null;
-            for (var i = 0; i < that.filterList.length; i++) {
-                var loc = that.filterList[i].contains(evt.x, evt.y);
-                if (loc >= 0) {
-                    selectedTile = that.filterList[i];
-                }
-                else that.filterList[i].Selected(false);
-            }
-	        that.handleSelection(selectedTile);
-	    });
-
-        $.subscribe("/PivotViewer/Views/Canvas/Hover", function (evt) {
-            if (!that.isActive || that.selected != null)
-                return;
-
-            for (var i = 0; i < that.filterList.length; i++) {
-                var loc = that.filterList[i].contains(evt.x, evt.y); 
-                if ( loc >= 0 ) that.filterList[i].Selected(true);
-                else that.filterList[i].Selected(false);
-            }
-        });
-
         $.subscribe("/PivotViewer/Views/Canvas/Zoom", function (evt) {
             if (!that.isActive) return;
 
@@ -102,56 +77,11 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
             //deselect tiles if zooming back to min size
             if (that.scale == 1 && oldScale != 1) {
                 for (var i = 0; i < that.tiles.length; i++) {
-                    that.tiles[i].Selected(false);
+                    that.tiles[i].setSelected(false);
                 }
                 that.selected = null;
                 $.publish("/PivotViewer/Views/Item/Selected", [{item: that.selected, bkt: 0}]);
             }
-        });
-
-        $.subscribe("/PivotViewer/Views/Canvas/Drag", function (evt) {
-            if (!that.isActive) return;
-
-            var dragX = evt.x;
-            var dragY = evt.y;
-            var noChangeX = false, noChangeY = false;
-            that.currentOffsetX += dragX;
-            that.currentOffsetY += dragY;
-
-            //LHS bounds check
-            if (dragX > 0 && that.currentOffsetX > that.offsetX) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            //Top bounds check
-            if (dragY > 0 && that.currentOffsetY > that.offsetY) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-            //RHS bounds check
-            //if the current offset is smaller than the default offset and the zoom scale == 1 then stop drag
-            if (that.currentOffsetX < that.offsetX && that.currentWidth == that.width) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            if (dragX < 0 && (that.currentOffsetX) < -1 * (that.currentWidth - that.width)) {
-                that.currentOffsetX -= dragX;
-                noChangeX = true;
-            }
-            //bottom bounds check
-            if (that.currentOffsetY < that.offsetY && that.currentHeight == that.height) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-            if (dragY < 0 && (that.currentOffsetY - that.offsetY) < -1 * (that.currentHeight - that.height)) {
-                that.currentOffsetY -= dragY;
-                noChangeY = true;
-            }
-
-            if (noChangeX && noChangeY) return;
-            if (noChangeX) that.offsetTiles(0, dragY);
-            else if (noChangeY) that.offsetTiles(dragX, 0);
-            else that.offsetTiles(dragX, dragY);
         });
     },
     resetUISettings: function () { this.rowscols = this.calculateDimensions(this.currentWidth - this.offsetX, this.currentHeight - this.offsetY, this.maxRatio, this.filterList.length - this.numMissing); },
@@ -173,17 +103,10 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
 
         this._super();
 
-        if (this.filtered) this.filter(this.filterEvt.tiles, this.filterEvt.filterList);
-
         // Clear all the multiple images that are used in the grid view
-        for (var l = 0; l < this.tiles.length; l++) {
-            while (this.tiles[l]._locations.length > 1)
-                this.tiles[l]._locations.pop();
-        }
+        for (var l = 0; l < this.tiles.length; l++) this.tiles[l]._locations = [this.tiles[l]._locations[0]];
         // Ensure any selected location is zero
-        for (var i = 0; i < this.tiles.length; i++) {
-            this.tiles[i].selectedLoc = 0;
-        }
+        for (var i = 0; i < this.tiles.length; i++) this.tiles[i].selectedLoc = 0;
 
         var pt1Timeout = 0;
         //zoom out first
@@ -249,11 +172,6 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
 
         }, pt1Timeout);
     },
-    filter: function (tiles, filterList) {
-        this.tiles = tiles;
-        this.filterList = filterList;
-        this.filtered = false;
-    },
     getButtonImage: function () {return 'images/GridView.png';},
     getButtonImageSelected: function () {return 'images/GridViewSelected.png';},
     getViewName: function () { return 'Grid View'; },
@@ -308,8 +226,9 @@ PivotViewer.Views.GridView = PivotViewer.Views.TileBasedView.subClass({
         this.currentOffsetY = (this.rowscols.TileHeight * -row) + (this.height / 2) - (this.rowscols.TileHeight / 2);
         this.setTilePositions(this.rowscols, this.filterList, this.currentOffsetX, this.currentOffsetY, true, true, 1000);
     },
-    handleSelection: function (tile) {
-        if (tile != null) tile.Selected(true);
+    handleClick: function (evt) {
+        var tile = this._super(evt);
+        if (tile != null) tile.setSelected(true);
 
         if(tile != null && this.selected != tile) this.centerOnTile(tile);
         else {

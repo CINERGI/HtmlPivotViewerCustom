@@ -60,10 +60,25 @@ PivotViewer.Models.Category = Object.subClass({
 		this.name = name;
 		this.type = type != null && type != undefined ? type : PivotViewer.Models.FacetType.String;
 		this.isFilterVisible = isFilterVisible != null && isFilterVisible != undefined ? isFilterVisible : true;
-		this.recount = true; this.uiInit = false;
+		this.recount = true; this.uiInit = false; this.doFilter = true;
 		this.datetimeBuckets = [];
 		this.customSort = null;
-	}
+		this.labels = [];
+	},
+	getValueLabel: function (value) {
+	    if (this.type == PivotViewer.Models.FacetType.Ordinal) {
+	        var label = this.labels[value];
+	        if (label == undefined) return value;
+	        else return label;
+	    }
+	    else return value;
+	},
+	isString: function () { return this.type == PivotViewer.Models.FacetType.String; },
+	isLongString: function() { return this.type == PivotViewer.Models.FacetType.LongString; },
+	isNumber: function () { return this.type == PivotViewer.Models.FacetType.Number; },
+	isOrdinal: function () { return this.type == PivotViewer.Models.FacetType.Ordinal; },
+	isDateTime: function () { return this.type == PivotViewer.Models.FacetType.DateTime; },
+	isLink: function () { return this.type == PivotViewer.Models.FacetType.Link;}
 });
 
 PivotViewer.Models.CategorySort = Object.subClass({
@@ -113,6 +128,26 @@ PivotViewer.Models.FacetValue = Object.subClass({
 		this.href = "";
 	}
 });
+
+PivotViewer.Models.Bucket = Object.subClass({
+    init: function (startRange, startLabel, endRange, endLabel) {
+        this.startRange = startRange; this.startLabel = startLabel;
+        this.endRange = endRange ? endRange : startRange;
+        this.endLabel = endLabel ? endLabel : startLabel;
+        this.ids = []; this.values = []; this.tiles = [];
+    },
+    addTile: function (tile) {
+        this.tiles.push(tile);
+        this.ids[tile.item.id] = true;
+    },
+    addValue: function (value) { this.values.push(value); },
+    getLabel: function () { return this.startLabel == this.endLabel ? this.startLabel : this.startLabel + " - " + this.endLabel; },
+    equals: function (bkt) {
+        return bkt != null && this.tiles.length != 0 && this.tiles.length == bkt.tiles.length && this.tiles[0].item.id == bkt.tiles[0].item.id &&
+            this.tiles[this.tiles.length - 1].item.id == bkt.tiles[bkt.tiles.length - 1].item.id;
+    }
+});
+
 
 PivotViewer.Models.DateTimeInfo = Object.subClass({
 	init: function (name, start, end) {

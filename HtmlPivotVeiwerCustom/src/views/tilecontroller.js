@@ -293,7 +293,7 @@ PivotViewer.Views.Tile = Object.subClass({
     item: null,
     firstFilterItemDone: false,
     selectedLoc: 0,
-    Selected: function (selected) { this._selected = selected }
+    setSelected: function (selected) { this._selected = selected }
 });
 ///
 /// Tile Location

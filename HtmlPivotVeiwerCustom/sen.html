@@ -45,7 +45,8 @@
     <script src="src/utils.js" type="text/javascript"></script>
     <script src="src/models.js" type="text/javascript"></script>
     <script src="src/collectionloader.js" type="text/javascript"></script>
-    <script src="src/csvloader_nodz.js" type="text/javascript"></script>
+    <script src="src/csvloader.js" type="text/javascript"></script>
+    <script src="src/csvloader_2.js" type="text/javascript"></script>
     <script src="src/localcsvloader.js" type="text/javascript"></script>
     <script src="src/views/ipivotviewerview.js" type="text/javascript"></script>
     <script src="src/views/tilebasedview.js" type="text/javascript"></script>
@@ -146,7 +147,7 @@
                  <img src="content/images/esri-transparent.png" height="100">
              </a>-->
             <p>
-                This app was designed and developed by Spatial Information System Lab <a href="http://spatial.sdsc.edu/">
+                This app was designed and developed by <a href="http://spatial.sdsc.edu/">Spatial Information System Lab </a>
                     at <a href="http://www.sdsc.edu/">
                         San Diego Supercomputer Center
                     </a>
@@ -184,7 +185,7 @@
             about();
             $('#pivotviewer').PivotViewer({
                 
-                Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1QQJaW15AfHwelthpgVFvEYbHCKIYsZtA0NfVK4Bx9vI&gid=464725857"),
+                Loader: new PivotViewer.Models.Loaders.CSVLoader2("sheetsProxy.ashx?key=1QQJaW15AfHwelthpgVFvEYbHCKIYsZtA0NfVK4Bx9vI&gid=464725857"),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/SEN CINERGI-ResourceInventoryTemplate - Basic Metadata Template.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",

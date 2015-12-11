@@ -14,7 +14,7 @@ PivotViewer.Models.Loaders.JSONLoader = PivotViewer.Models.Loaders.ICollectionLo
         else 
             this.JSONUri = JSONUri;
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         var collection = collection;
         this._super(collection);
 

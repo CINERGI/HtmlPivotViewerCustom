@@ -131,17 +131,17 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var item = this.collection.items[i], raw = this.data[i + 1][category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.name);
-            if (category.type == PivotViewer.Models.FacetType.Number || category.type == PivotViewer.Models.FacetType.Ordinal) {
+            if (category.isNumber() || category.isOrdinal()) {
                 var value = parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]);
                 f.addValue(new PivotViewer.Models.FacetValue(value, raw));
                 if (value != Math.floor(value)) integer = false;
+                if (category.isOrdinal()) category.labels[value] = raw;
             }
-            else if (category.type == PivotViewer.Models.FacetType.DateTime)
-                f.addValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
+            else if (category.isDateTime()) f.addValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
             else f.addValue(new PivotViewer.Models.FacetValue(raw));
             item.facets.push(f);
         }
-        if (category.type == PivotViewer.Models.FacetType.Number || category.type == PivotViewer.Models.FacetType.Ordinal) category.integer = integer;
+        if (category.isNumber() || category.isOrdinal()) category.integer = integer;
     },
     getRow: function (id) {
         var row = this.data[id], facets = [], dIndex;
@@ -149,11 +149,11 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             var index = Settings.visibleCategories[i], category = this.collection.categories[index], raw = row[category.column];
             if (raw.trim() == "") continue;
             var f = new PivotViewer.Models.Facet(category.name);
-            if (category.type == PivotViewer.Models.FacetType.Number || category.type == PivotViewer.Models.FacetType.Ordinal) 
+            if (category.isNumber() || category.isOrdinal()) 
                 f.addValue(new PivotViewer.Models.FacetValue(parseFloat(raw.replace(/,/g, "").match(/(?:-?\d+\.?\d*)|(?:-?\d*\.?\d+)/)[0]), raw));
-            else if (category.type == PivotViewer.Models.FacetType.DateTime)
+            else if (category.isDateTime())
                 f.addValue(new PivotViewer.Models.FacetValue(moment(raw, moment.parseFormat(raw))._d.toString(), raw));
-            else if (category.type == PivotViewer.Models.FacetType.Link) {
+            else if (category.isLink()) {
                 var value = new PivotViewer.Models.FacetValue(raw);
                 value.value = raw;
                 value.href = raw;

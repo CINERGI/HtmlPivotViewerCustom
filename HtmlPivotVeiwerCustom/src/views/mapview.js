@@ -303,8 +303,10 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
     },
     activate: function () {
         if (!Modernizr.canvas) return;
-
-        this._super();
+        if (this.mapService == "google" && this.map == null) {
+            PivotViewer.Utils.loadScript("https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.apiLoaded");
+        }
+        else this._super();
         $('.pv-toolbarpanel-info').fadeIn();
         $('.pv-altinfopanel').fadeIn();
         $('.pv-toolbarpanel-zoomcontrols').hide();
@@ -312,11 +314,6 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('#MAIN_BODY').css('overflow', 'auto');
         $('.pv-mapview-canvas').fadeIn();
         $('.pv-toolbarpanel-sort').fadeIn();
-
-        if (this.mapService == "google" && this.map == null) {
-            PivotViewer.Utils.loadScript("https://maps.googleapis.com/maps/api/js?key=" + this.APIKey + "&sensor=false&callback=mapView.apiLoaded");
-        }
-        else if (this.filtered) this.filter(this.filterEvt.tiles, this.filterEvt.filterList, this.filterEvt.sort);
     },
     deactivate: function () {
         this._super();
@@ -340,7 +337,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         }
         var max = filterList[i].item.getFacetByName(orderBy).values[0].value;
 
-        if (category.type == PivotViewer.Models.FacetType.DateTime) {
+        if (category.isDateTime()) {
             //Start with biggest time difference
             min = new Date(min); max = new Date(max);
             if (max.getFullYear() - min.getFullYear() + min.getFullYear() % 10 > 9) {
@@ -379,17 +376,11 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         return PivotViewer.Utils.getBuckets(filterList, orderBy);
         //Got rid of multiple values for now
     },
-    filter: function (tiles, filterList, sortFacet) { 
+    filter: function () { 
         var that = this;
         var g = 0;  //keeps track of the no. of geocode locations;
 
-        Debug.log('Map View Filtered: ' + filterList.length);
-
-        this.sortFacet = sortFacet;
-        this.filterList = filterList;
-        this.tiles = tiles;
-
-        this.buckets = this.bucketize(tiles, filterList, this.sortFacet);       
+        this.buckets = this.bucketize(this.tiles, this.filterList, this.sortCategory);       
 
         //Clear legend info in toolbar
         $('.pv-toolbarpanel-info').empty();
@@ -401,13 +392,13 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         for(var i = 0; i < PivotCollection.categories.length; i++) {
             var category = PivotCollection.categories[i];
             if (category.name.toUpperCase().indexOf("GEOMETRY") >= 0) {
-                for (j = 0; j < filterList.length; j++) {
-                    var facet = filterList[j].item.getFacetByName(category.name);
+                for (j = 0; j < this.filterList.length; j++) {
+                    var facet = this.filterList[j].item.getFacetByName(category.name);
                     if (facet == undefined) continue;
                     this.geometryValue = facet.values[0].value;
                     break;
                 }
-                if (j < filterList.length) break;
+                if (j < this.filterList.length) break;
             }
         }
 
@@ -415,10 +406,10 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         for (var i = 0; i < PivotCollection.categories.length; i++) {
             var category = PivotCollection.categories[i];
             if (category.name.toUpperCase().indexOf("AREA") >= 0) {
-                for (j = 0; j < filterList.length; j++) {
-                    var facet = filterList[j].item.getFacetByName(category.name);
+                for (j = 0; j < this.filterList.length; j++) {
+                    var facet = this.filterList[j].item.getFacetByName(category.name);
                     if (facet == undefined) continue;
-                    this.areaValues.push({ id: filterList[j].item.id, area: facet.values[0].value });
+                    this.areaValues.push({ id: this.filterList[j].item.id, area: facet.values[0].value });
                     break;
                 }
             }
@@ -428,20 +419,20 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         for (var i = 0; i < PivotCollection.categories.length; i++) {
             var category = PivotCollection.categories[i], name = category.name.toLowerCase();
             if (name.indexOf("location") >= 0) {
-                if (category.uiInit == false) PV.initUIFacet(category);
+                if (category.uiInit == false) PV.initUICategory(category);
                 break;
             }
             if (name.indexOf("latitude") >= 0) category1 = category;
             else if (name.indexOf("longitude") >= 0) category2 = category;
             if (category1 != null && category2 != null) {
-                if (category1.uiInit == false) PV.initUIFacet(category1);
-                if (category2.uiInit == false) PV.initUIFacet(category2);
+                if (category1.uiInit == false) PV.initUICategory(category1);
+                if (category2.uiInit == false) PV.initUICategory(category2);
                 break;
             }
         }
 
-        for (var i = 0; i < filterList.length; i++) {
-            var tile = filterList[i], c;
+        for (var i = 0; i < this.filterList.length; i++) {
+            var tile = this.filterList[i], c;
 
             if (!Settings.showMissing && tile.missing) continue;
 
@@ -531,7 +522,6 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         $('.pv-mapview-canvas').css('height', this.height - 12 + 'px');
         $('.pv-mapview-canvas').css('width', this.width - 415 + 'px');
         this.createMap();
-        this.filtered = false;
     },
     getButtonImage: function () {return 'images/MapView.png';},
     getButtonImageSelected: function () {return 'images/MapViewSelected.png';},
@@ -674,7 +664,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         this.createLegend();
     },
     createMarkers: function () {
-        this.clearMarkers();
+        if(this.clearMarkers) this.clearMarkers();
         for (i = 0; i < this.filterList.length; i++) {  
             var tile = this.filterList[i];
             if(tile.loc != undefined && (Settings.showMissing || !tile.missing)) this.newMarker(tile);
@@ -728,7 +718,7 @@ PivotViewer.Views.MapView = PivotViewer.Views.IPivotViewerView.subClass({
         // Get width of the info panel (width of icon image = 30 )
         var width = $('.pv-altinfopanel').width() - 32;
         $('.pv-altinfopanel').empty();
-        $('.pv-altinfopanel').append("<div class='pv-legend-heading' style='height:28px' title='" + this.sortFacet + "'>" + this.sortFacet + "</div>");
+        $('.pv-altinfopanel').append("<div class='pv-legend-heading' style='height:28px' title='" + this.sortCategory + "'>" + this.sortCategory + "</div>");
         var tableContent = "<table id='pv-legend-data' style='color:#484848;'>";
         for (var i = 0; i < this.buckets.length; i++) {
             var iconFile = this.mapService == "google" ? this.icons[i] : (new this.icons[i]).options.iconUrl;

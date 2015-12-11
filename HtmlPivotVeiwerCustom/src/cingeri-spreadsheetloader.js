@@ -22,7 +22,7 @@ PivotViewer.Models.Loaders.SpreadsheetLoader = PivotViewer.Models.Loaders.IColle
             this.SheetName = 'Basic Metadata Template';
         }
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         var collection = collection;
         this._super(collection);
 
