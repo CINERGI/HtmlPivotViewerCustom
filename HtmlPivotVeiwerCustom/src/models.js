@@ -13,120 +13,144 @@
 //
 PivotViewer.Models.Collection = Object.subClass({
 	init: function () {
-		var xmlns = "http://schemas.microsoft.com/collection/metadata/2009",
-		xmlnsp = "http://schemas.microsoft.com/livelabs/pivot/collection/2009";
-		this.CollectionName = "";
-		this.BrandImage = "";
-		this.FacetCategories = [];
-		this.FacetCategoriesByName = [];
-		this.Items = [];
-		this.ItemsByName = [];
-		this.ItemsById = [];
-		this.CollectionBase = "";
-		this.CollectionBaseNoProxy = "";
-		this.ImageBase = "";
-        this.CopyrightName = "";
-        this.CopyrightHref = "";
-        this.MaxRelatedLinks = 0;
+		this.name = "";
+		this.brandImage = "";
+		this.categories = [];
+		this.items = [];
+		this.base = "";
+		this.baseNoProxy = "";
+		this.imageBase = "";
+        this.copyrightName = "";
+        this.copyrightHref = "";
+        this.maxRelatedLinks = 0;
+
+        this._categoriesByName = [];
+        this._itemsById = [];
 
         var that = this;
         var _catIndex = 0;
         var _visIndex = 0;
-        this.FacetCategories.push = function (x) {
+        this.categories.push = function (x) {
             x.index = _catIndex++;
-            x.visIndex = x.IsFilterVisible ? _visIndex++ : -1;
-            this.__proto__.push.apply(that.FacetCategories, [x]);
-            that.FacetCategoriesByName[x.Name] = x;
-            that.FacetCategoriesByName[x.Name.toLowerCase()] = x;
+            x.visIndex = x.isFilterVisible ? _visIndex++ : -1;
+            this.__proto__.push.apply(that.categories, [x]);
+            that._categoriesByName[x.name] = x;
+            that._categoriesByName[x.name.toLowerCase()] = x;
         }
-        this.Items.push = function (x) {
-            this.__proto__.push.apply(that.Items, [x]);
-            that.ItemsByName[x.Name] = x;
-            that.ItemsById[x.Id] = x;
+        this.items.push = function (x) {
+            this.__proto__.push.apply(that.items, [x]);
+            that._itemsById[x.id] = x;
         }
 	},
-	GetItemById: function (id) {
-	    var item = this.ItemsById[id];
+	getItemById: function (id) {
+	    var item = this._itemsById[id];
 	    if (item == undefined) return null;
 	    return item;
 	},
-	GetItemByName: function (name) {
-	    var item = this.ItemsByName[name];
-	    if (item == undefined) return null;
-	    return item;
-	},
-	GetFacetCategoryByName: function (name) {
-	    var category = this.FacetCategoriesByName[name];
+	getCategoryByName: function (name) {
+	    var category = this._categoriesByName[name];
 	    if (category == undefined) return null;
 	    return category;
 	}
 });
 
 //PivotViewer.Models
-PivotViewer.Models.FacetCategory = Object.subClass({
-    init: function (Name, Type, IsFilterVisible, IsMetaDataVisible, IsSearchVisible) {
-		this.Name = Name;
-		this.Type = Type != null && Type != undefined ? Type : PivotViewer.Models.FacetType.String;
-		this.IsFilterVisible = IsFilterVisible != null && IsFilterVisible != undefined ? IsFilterVisible : true;
-		this.IsSearchVisible = IsSearchVisible != null && IsSearchVisible != undefined ? IsSearchVisible : true;
-		this.IsMetaDataVisible = IsMetaDataVisible != null && IsMetaDataVisible != undefined ? IsMetaDataVisible : true;;
-		this.recount = true; this.uiInit = false;
+PivotViewer.Models.Category = Object.subClass({
+    init: function (name, type, isFilterVisible, isSearchVisible, isMetaDataVisible) {
+		this.name = name;
+		this.type = type != null && type != undefined ? type : PivotViewer.Models.FacetType.String;
+		this.isFilterVisible = isFilterVisible != null && isFilterVisible != undefined ? isFilterVisible : true; // does it show up in the filter (left panel)
+		this.isSearchVisible = isSearchVisible != null && isSearchVisible != undefined ? isSearchVisible : true; // does it show up in the top menu
+		this.isMetaDataVisible = isMetaDataVisible != null && isMetaDataVisible != undefined ? isMetaDataVisible : true; // can you see it at all
+		this.recount = true; this.uiInit = false; this.doFilter = true;
 		this.datetimeBuckets = [];
-        this.uiInit = false;
-    }
+		this.customSort = null;
+		this.labels = [];
+        this.isMultipleItems = false; /// this facet can have more than one value
+    },
+	getValueLabel: function (value) {
+	    if (this.type == PivotViewer.Models.FacetType.Ordinal) {
+	        var label = this.labels[value];
+	        if (label == undefined) return value;
+	        else return label;
+	    }
+	    else return value;
+	},
+	isString: function () { return this.type == PivotViewer.Models.FacetType.String; },
+	isLongString: function() { return this.type == PivotViewer.Models.FacetType.LongString; },
+	isNumber: function () { return this.type == PivotViewer.Models.FacetType.Number; },
+	isOrdinal: function () { return this.type == PivotViewer.Models.FacetType.Ordinal; },
+	isDateTime: function () { return this.type == PivotViewer.Models.FacetType.DateTime; },
+	isLink: function () { return this.type == PivotViewer.Models.FacetType.Link;}
 });
 
-PivotViewer.Models.FacetCategorySort = Object.subClass({
-	init: function (Name) {
-		this.Name = Name;
-		this.SortValues = [];
+PivotViewer.Models.CategorySort = Object.subClass({
+	init: function (name) {
+		this.name = name;
+		this.sortValues = [];
 	}
 });
 
 PivotViewer.Models.Item = Object.subClass({
-    init: function (Img, Id, Href, Name) {
-		this.Img = Img,
-		this.Id = Id,
-		this.Href = Href,
-		this.Name = Name,
-		this.Description,
-		this.Facets = [];
-		this.FacetByName = [];
-		this.Links = [];
+    init: function (img, id, href, name) {
+        this.img = img; this.id = id; this.href = href; this.name = name; this.facets = [];
+		this._facetByName = [];
+		this.links = [];
 		var that = this;
-		this.Facets.push = function (x) {
-		    this.__proto__.push.apply(that.Facets, [x]);
-		    that.FacetByName[x.Name] = x;
+		this.facets.push = function (x) {
+		    this.__proto__.push.apply(that.facets, [x]);
+		    that._facetByName[x.name] = x;
 		}
-	}
-});
+    },
+    getFacetByName: function (name) { return this._facetByName[name] }
+}); 
 
 PivotViewer.Models.ItemLink = Object.subClass({
-	init: function (Name, Href) {
-        this.Name = Name;
-        this.Href = Href;
+	init: function (name, href) {
+        this.name = name;
+        this.href = href;
 	}
 });
 
 PivotViewer.Models.Facet = Object.subClass({
-	init: function (Name, Values) {
-	    this.Name = Name;
-        if (Values === undefined) this.FacetValues = [];
-        else this.FacetValues = Values;
+	init: function (name, values) {
+	    this.name = name;
+        if (values === undefined) this.values = [];
+        else this.values = values;
 	},
-	AddFacetValue: function (facetValue) {
-		this.FacetValues.push(facetValue);
+	addValue: function (value) {
+		this.values.push(value);
 	},
 });
 
 PivotViewer.Models.FacetValue = Object.subClass({
-	init: function (Value, Label) {
-	    this.Value = Value;
-	    if (Label == undefined) this.Label = Value;
-	    else this.Label = Label;
-		this.Href = "";
+	init: function (value, label) {
+	    this.value = value;
+	    if (label == undefined) this.label = value;
+	    else this.label = label;
+		this.href = "";
 	}
 });
+
+PivotViewer.Models.Bucket = Object.subClass({
+    init: function (startRange, startLabel, endRange, endLabel) {
+        this.startRange = startRange; this.startLabel = startLabel;
+        this.endRange = endRange ? endRange : startRange;
+        this.endLabel = endLabel ? endLabel : startLabel;
+        this.ids = []; this.values = []; this.tiles = [];
+    },
+    addTile: function (tile) {
+        this.tiles.push(tile);
+        this.ids[tile.item.id] = true;
+    },
+    addValue: function (value) { this.values.push(value); },
+    getLabel: function () { return this.startLabel == this.endLabel ? this.startLabel : this.startLabel + " - " + this.endLabel; },
+    equals: function (bkt) {
+        return bkt != null && this.tiles.length != 0 && this.tiles.length == bkt.tiles.length && this.tiles[0].item.id == bkt.tiles[0].item.id &&
+            this.tiles[this.tiles.length - 1].item.id == bkt.tiles[bkt.tiles.length - 1].item.id;
+    }
+});
+
 
 PivotViewer.Models.DateTimeInfo = Object.subClass({
 	init: function (name, start, end) {

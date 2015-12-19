@@ -12,122 +12,126 @@
 //  GNU General Public License v2 (see COPYING)
 //
 
-PivotViewer.Utils.loadScript("src/views/bucketview.js");
+PivotViewer.Utils.loadScript("src/views/bucketview.min.js");
 
 PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     init: function () {
         this._super();
         var that = this;
-        $("#pv-primsortcontrols").before("<div id='pv-altsortcontrols' class='pv-toolbarpanel-sortcontrols'></div>");
-        $("#pv-altsortcontrols").hide();
-        $("#pv-primsort").clone(true).attr("id", "pv-altsort").appendTo($("#pv-altsortcontrols"));
-        $("#pv-altsort").on("change", function (e) {
-            if (that.buckets2 == undefined) return; //initialzing
-            that.sortFacet2 = $("#pv-altsort option:selected").html();
-            var category = PivotCollection.GetFacetCategoryByName(that.sortFacet2);
-            if (!category.uiInit) PV.InitUIFacet(category);
-            var filter = that.filter.slice(0).sort(tileSortBy(that.sortFacet2));
-            if (settings.showMissing) that.filter2 = filter;
-            else {
-                that.filter2 = [];
-                for (var i = 0; i < filter.length; i++) {
-                    var tile = filter[i];
-                    if (tile.facetItem.FacetByName[that.sortFacet2] != undefined) that.filter2.push(tile);
+        if ($("#pv-altsortcontrols").length == 0) {
+            $("#pv-primsortcontrols").before("<div id='pv-altsortcontrols' class='pv-toolbarpanel-sortcontrols'></div>");
+            $("#pv-altsortcontrols").hide();
+            $("#pv-primsort").clone(true).attr("id", "pv-altsort").appendTo($("#pv-altsortcontrols"));
+            $("#pv-altsort").on("change", function (e) {
+                if (that.bucketsY == undefined) return; //initialzing
+                that.sortCategory2 = $("#pv-altsort option:selected").html();
+                var category = PivotCollection.getCategoryByName(that.sortCategory2);
+                if (!category.uiInit) PV.initUICategory(category);
+                var filterList = that.filterList.slice(0).sort(tileSortBy(that.sortCategory2));
+                if (Settings.showMissing) that.filterList2 = filterList;
+                else {
+                    that.filterList2 = [];
+                    for (var i = 0; i < filterList.length; i++) {
+                        var tile = filterList[i];
+                        if (tile.item.getFacetByName(that.sortCategory2) != undefined) that.filterList2.push(tile);
+                    }
                 }
-            }
-            that.buckets2 = that.Bucketize(that.filter2, that.sortFacet2);
-            that.SubBucketize();
-            that.Activate();     
-        });
-
+                that.bucketsY = that.bucketize(that.filterList2, that.sortCategory2);
+                that.subbucketize();
+                that.activate();
+            });
+        }
     },
-    GetBucket: function (x) { return Math.floor((x - this.offsetX - this.columnWidth) / this.columnWidth); },
-    GetBucket2: function (y) { return this.buckets2.length - Math.floor(y / this.rowHeight) - 1},
-    RecalibrateUISettings: function () {
-        this.rowscols = this.GetTileDimensions((this.origColumnWidth - 4) * this.scale, (this.rowHeight - 4) * this.scale,
+    getBucket: function (x) { return Math.floor((x - this.offsetX - this.columnWidth) / this.columnWidth); },
+    getBucketY: function (y) { return this.bucketsY.length - Math.floor(y / this.rowHeight) - 1},
+    recalibrateUISettings: function () {
+        this.rowscols = this.getTileDimensions((this.origColumnWidth - 4) * this.scale, (this.rowHeight - 4) * this.scale,
             this.maxRatio, this.bigCount, this.rowscols);
     },
-    ResetUISettings: function () {
-        this.rowscols = this.GetRowsAndColumns((this.origColumnWidth - 4) * this.scale, (this.rowHeight - 4) * this.scale,
+    resetUISettings: function () {
+        this.rowscols = this.calculateDimensions((this.origColumnWidth - 4) * this.scale, (this.rowHeight - 4) * this.scale,
             this.maxRatio, this.bigCount);
     },
-    SubBucketize: function () {
+    subbucketize: function () {
         for (var i = 0; i < this.buckets.length; i++) {
-            var bucket = this.buckets[i];
-            bucket.subBuckets = [];
-            bucket.colCount = 0;
-            for (var j = 0; j < this.buckets2.length; j++) {
-                var bucket2 = this.buckets2[j];
-                bucket.subBuckets.push({ startRange: bucket2.startRange, endRange: bucket2.endRange, tiles:[], ids:[], startLabel: bucket2.startLabel, endLabel: bucket2.endLabel })
+            var bkt = this.buckets[i];
+            bkt.subBuckets = [];
+            bkt.colCount = 0;
+            for (var j = 0; j < this.bucketsY.length; j++) {
+                var bkt2 = this.bucketsY[j];
+                bkt.subBuckets.push(new PivotViewer.Models.Bucket(bkt2.startRange, bkt2.startLabel, bkt2.endRange, bkt2.endLabel));
             }
         }
 
-        for (var i = 0; i < this.filter.length; i++) {
-            var tile = this.filter[i], id = tile.facetItem.Id;
-            var j = this.buckets.ids[id], k = this.buckets2.ids[id];
+        for (var i = 0; i < this.filterList.length; i++) {
+            var tile = this.filterList[i], id = tile.item.id;
+            var j = this.buckets.ids[id], k = this.bucketsY.ids[id];
             if (j == undefined || k == undefined) continue;
-            var bkt = this.buckets[j].subBuckets[k];
-            bkt.tiles.push(tile);
-            bkt.ids[id] = true;
+            this.buckets[j].subBuckets[k].addTile(tile);
             this.buckets[j].colCount++;
         }
     },
-    Filter: function (tiles, filter, sort) {
-        this._super(tiles, filter, sort);
-        if (this.buckets2 == undefined) {
-            this.sortFacet2 = $("#pv-primsort option:selected").html();
+    filterY: function () {
+        if (this.bucketsY == undefined) {
+            this.sortCategory2 = $("#pv-primsort option:selected").html();
             $("#pv-altsort").val($("#pv-primsort").val());
-            this.buckets2 = this.buckets;
-            this.filter2 = this.filter;
+            this.bucketsY = this.buckets;
+            this.filterList2 = this.filterList;
         }
         else { //efficient resort
-            var newFilter2 = [];
-            if (filter.length < this.filter2.length) {              
-                for (var i = 0; i < this.filter2.length; i++) {
-                    var tile = this.filter2[i];
-                    if (this.buckets.ids[tile.facetItem.Id] != undefined) newFilter2.push(tile);
+            var newFilterList2 = [];
+            if (this.filterList.length < this.filterList2.length) {              
+                for (var i = 0; i < this.filterList2.length; i++) {
+                    var tile = this.filterList2[i];
+                    if (this.buckets.ids[tile.item.id] != undefined) newFilterList2.push(tile);
                 }              
             }
             else {
-                var addFilter2 = [], category = PivotCollection.GetFacetCategoryByName(this.sortFacet2);
-                for (var i = 0; i < filter.length; i++) {
-                    var tile = this.filter[i];
-                    if (this.buckets2.ids[tile.facetItem.Id] == undefined &&
-                        (settings.showMissing || tile.facetItem.FacetByName[this.sortFacet2] != undefined)) addFilter2.push(tile);
+                var addFilterList2 = [], category = PivotCollection.getCategoryByName(this.sortCategory2);
+                for (var i = 0; i < this.filterList.length; i++) {
+                    var tile = this.filterList[i];
+                    if (this.bucketsY.ids[tile.item.id] == undefined &&
+                        (Settings.showMissing || tile.item.getFacetByName(this.sortCategory2) != undefined)) addFilterList2.push(tile);
                 }
-                addFilter2.sort(tileSortBy(this.sortFacet2));
+                addFilterList2.sort(tileSortBy(this.sortCategory2));
 
                 var i = 0, j = 0;
-                while (i < this.filter2.length && j < addFilter2.length) {
-                    var tile1 = this.filter2[i], tile2 = addFilter2[j], value1, value2;
-                    var facet1 = tile1.facetItem.FacetByName[this.sortFacet2], facet2 = tile2.facetItem.FacetByName[this.sortFacet2];
-                    if (facet1 == undefined) { newFilter2.push(tile2); j++; continue; }
-                    else if (facet2 == undefined) { newFilter2.push(tile1); i++; continue; }
-                    if (category.type == PivotViewer.Models.FacetType.DateTime) {
-                        value1 = new Date(facet1.FacetValues[0].Value);
-                        value2 = new Date(facet2.FacetValues[0].Value);
+                while (i < this.filterList2.length && j < addFilterList2.length) {
+                    var tile1 = this.filterList2[i], tile2 = addFilterList2[j], value1, value2;
+                    var facet1 = tile1.item.getFacetByName(this.sortCategory2), facet2 = tile2.item.getFacetByName(this.sortCategory2);
+                    if (facet1 == undefined) { newFilterList2.push(tile2); j++; continue; }
+                    else if (facet2 == undefined) { newFilterList2.push(tile1); i++; continue; }
+                    if (category.isDateTime()) {
+                        value1 = new Date(facet1.values[0].value);
+                        value2 = new Date(facet2.values[0].value);
                     }
                     else {
-                        value1 = facet1.FacetValues[0].Value;
-                        value2 = facet2.FacetValues[0].Value;
+                        value1 = facet1.values[0].value;
+                        value2 = facet2.values[0].value;
                     }
-                    if (value1 < value2) {newFilter2.push(tile1); i++;}
-                    else {newFilter2.push(tile2); j++;}
+                    if (value1 < value2) {newFilterList2.push(tile1); i++;}
+                    else {newFilterList2.push(tile2); j++;}
                 }
 
-                while (i < this.filter2.length) newFilter2.push(this.filter2[i++]);
-                while (j < addFilter2.length) newFilter2.push(addFilter2[j++]);
+                while (i < this.filterList2.length) newFilterList2.push(this.filterList2[i++]);
+                while (j < addFilterList2.length) newFilterList2.push(addFilterList2[j++]);
             }
-            this.filter2 = newFilter2;
-            this.buckets2 = this.Bucketize(this.filter2, this.sortFacet2);
+            this.filterList2 = newFilterList2;
+
+            if ($(".pv-facet[facet='" + PV.cleanName(this.sortCategory2).toLowerCase() + "']").attr("mode") == "db") {
+                this.bucketsY = DB.getBuckets(this.sortCategory2);
+                PivotViewer.Utils.fillBuckets(this.bucketsY, this.filterList2, this.sortCategory2);
+            }
+            else this.bucketsY = this.bucketize(this.filterList2, this.sortCategory2);
         }
-        this.SubBucketize();
+        this.subbucketize();
     },
-    CreateUI: function () {
-
+    filter: function() {
+        this.buckets = this.bucketize(this.filterList, this.sortCategory);
+        this.filterY();
+    },
+    createUI: function () {
         $("#pv-altsortcontrols").show();
-
-        if (this.filtered) this.Filter(this.filterEvt.tiles, this.filterEvt.filter, this.filterEvt.sort);
 
         this.columnWidth = this.origColumnWidth = (this.width - this.offsetX) / (this.buckets.length + 1);
         this.canvasHeightUIAdjusted = this.height - this.offsetY - this.titleSpace;
@@ -137,57 +141,38 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         var uiElements = "<div class='pv-bucketview-overlay-bucket' style='width: " + (this.columnWidth - 4) + "px; height:" +
             this.height + "px;''>";
         this.bigCount = 0;
-        var chi2 = 0, bkt;
-        for (var i = 0; i < this.buckets.length; i++) {
-            bkt = this.buckets[i];
-            if (bkt.tiles.length == 0) continue;
-            for (var j = 0; j < this.buckets2.length; j++) {
-                var bkt2 = this.buckets2[j];
-                if (bkt2.tiles.length == 0) continue;
-                var e = (bkt.tiles.length * bkt2.tiles.length / this.filter.length), n = e - bkt.subBuckets[j].tiles.length;
-                chi2 += n * n / e;
-            }
-        }
-        chi2 = Math.floor(chi2 * 100) / 100;
-        var prob = pochisq(chi2, this.buckets.length, bkt.subBuckets.length), star = "";
-        if (prob < 0.001) star = "***";
-        else if (prob < 0.01) star = "**";
-        else if (prob < 0.05) star = "*";
 
-        for (var i = 0; i < this.buckets2.length; i++) {
-            var bkt = this.buckets2[i];
+        for (var i = 0; i < this.bucketsY.length; i++) {
+            var bkt = this.bucketsY[i];
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = bkt.startLabel : bkt.startLabel + " to " + bkt.endLabel;
-            uiElements += "<div class='pv-bucketview-overlay-buckettitle-left' style='top: " + ((this.buckets2.length - 1 - i) * this.rowHeight) +
+            uiElements += "<div class='pv-bucketview-overlay-buckettitle-left' style='top: " + ((this.bucketsY.length - 1 - i) * this.rowHeight) +
                 "px; height: " + (this.rowHeight - 4) + "px; width: " + (this.columnWidth - 4) + "px'><div class='pv-bucket-countbox'>" +
-                this.buckets2[i].tiles.length + "<br>" + Math.round(this.buckets2[i].tiles.length / this.filter2.length * 100) + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
+                this.bucketsY[i].tiles.length + "<br>" + Math.round(this.bucketsY[i].tiles.length / this.filterList2.length * 100) + "%</div><div class='pv-bucket-label'>" + label + "</div></div>";
         }
-        uiElements += "<div style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
-                (i * this.rowHeight) + "px;'><div style='text-align:center'>" + this.sortFacet2 +
-                "</div><div class='pv-bucket-countbox'>X<sup>2</sup><br>" + chi2 + star + "</div><div style='position:absolute; right:2px;'>" + this.sortFacet + "</div></div></div>";
+        uiElements += this.getStatsBox() + "</div>";
         for (var i = 0; i < this.buckets.length; i++) {
             var bkt = this.buckets[i];
             uiElements += "<div class='pv-bucketview-overlay-bucket' style='width: " + (this.columnWidth - 4) + "px; left:" + ((i + 1) *
                 this.columnWidth) + "px; height:" + this.height + "px;'>";
-            for (var j = 0; j < bkt.subBuckets.length; j++) {
+            for (var j = bkt.subBuckets.length - 1; j >= 0; j--) {
                 var sub = bkt.subBuckets[j];
                 var styleClass = i % 2 == j % 2 ? "bucketview-bucket-dark" : "bucketview-bucket-light";
+                if (sub.equals(PV.subsets[0]) || sub.equals(PV.subsets[1])) styleClass += " pv-bucketview-subset";
                 uiElements += "<div style='height:" + this.rowHeight + "px; top:" + (j * this.rowHeight) +
-                "px;'><div class='" + styleClass + "' style='height:" + (this.rowHeight - 4) + "px; top: " + (j * this.rowHeight) + "px;'></div></div>";
+                "px;'><div class='pv-crosstabview-overlay-bucket " + styleClass + "' style='height:" + (this.rowHeight - 4) +
+                "px; top: " + (j * this.rowHeight) + "px;'></div></div>";
                 if (this.bigCount < sub.tiles.length) this.bigCount = sub.tiles.length;
             }
             var label = bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? label = "<div class='pv-bucket-label'>" + bkt.startLabel +
                 "</div>" : bkt.startLabel + "<br>to<br>" + bkt.endLabel;
             
             uiElements += "<div class='pv-bucketview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "';'><div class='pv-bucket-countbox'>" +
-                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filter2.length * 100) + "%</div>" + label + "</div></div></div>";
+                this.buckets[i].colCount + "<br>" + Math.round(this.buckets[i].colCount / this.filterList2.length * 100) + "%</div>" + label + "</div></div></div>";
 
         }
 
-        //remove previous elements
-        var bucketviewOverlay = $('.pv-bucketview-overlay');
-        bucketviewOverlay.css('left', this.offsetX + 'px');
-        $('.pv-bucketview-overlay div').fadeOut('slow', function () { $(this).remove(); });
-        bucketviewOverlay.append(uiElements);
+        $(".pv-viewpanel-view").append("<div class='pv-bucketview-overlay'></div>");
+        $('.pv-bucketview-overlay').css('left', this.offsetX + 'px').append(uiElements);
         $('.pv-bucketview-overlay div').fadeIn('slow');
 
         for (var i = 0; i < this.tiles.length; i++) {
@@ -198,7 +183,7 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             tile.startwidth = tile.width;
             tile.startheight = tile.height;
 
-            if (tile.filtered && (settings.showMissing || !tile.missing)) continue;
+            if (tile.filtered && (Settings.showMissing || !tile.missing)) continue;
             tile.start = PivotViewer.Utils.now();
             tile.end = tile.start + 1000;
             var theta = Math.atan2(location.y - (this.currentHeight / 2), location.x - (this.currentWidth / 2))
@@ -206,14 +191,14 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             location.destinationy = this.currentHeight * Math.sin(theta) + (this.currentHeight / 2);
         }
 
-        // recalculate max width of images in filter
-        this.maxRatio = TileController._imageController.GetRatio(this.tiles[0].facetItem.Img);
-        for (var i = 0; i < this.filter.length; i++) {
-            var ratio = TileController._imageController.GetRatio(this.filter[i].facetItem.Img);
+        // recalculate max width of images in filterList
+        this.maxRatio = TileController._imageController.getRatio(this.tiles[0].item.img);
+        for (var i = 0; i < this.filterList.length; i++) {
+            var ratio = TileController._imageController.getRatio(this.filterList[i].item.img);
             if (ratio < this.maxRatio) this.maxRatio = ratio;
         }
         
-        var pt2Timeout = this.filter.length == this.tiles.length ? 0 : 500, that = this;
+        var pt2Timeout = this.filterList.length == this.tiles.length ? 0 : 500, that = this;
         setTimeout(function () {
             // Clear selection
             var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
@@ -223,27 +208,27 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
                 that.currentOffsetX = that.offsetX;
                 that.currentOffsetY = that.offsetY;
 
-                that.ResetUISettings();
-                PV.Zoom(0);
+                that.resetUISettings();
+                PV.zoom(0);
             }
-            that.ResetUISettings();
+            that.resetUISettings();
             var controller = TileController._imageController
             for (var i = 0; i < that.tiles.length; i++) {
-                that.tiles[i].origwidth = that.rowscols.TileHeight / controller.GetRatio(that.tiles[i].facetItem.Img);
+                that.tiles[i].origwidth = that.rowscols.TileHeight / controller.getRatio(that.tiles[i].item.img);
                 that.tiles[i].origheight = that.rowscols.TileHeight;
                 that.tiles[i].destinationwidth = 1;
                 that.tiles[i].destinationheight = 1;
             }
-            that.SetVisibleTileGraphPositions(that.rowscols, that.offsetX, that.offsetY, false, false);
+            that.setTilePositions(that.rowscols, that.offsetX, that.offsetY, false, false);
 
         }, pt2Timeout);
     },
-    Deactivate: function () {
+    deactivate: function () {
         this._super();
         $("#pv-altsortcontrols").hide();
     },
-    GetViewName: function () {return 'Crosstab View';},
-    SetVisibleTileGraphPositions: function (rowscols, offsetX, offsetY, initTiles, keepColsRows) {
+    getViewName: function () {return "Crosstab View";},
+    setTilePositions: function (rowscols, offsetX, offsetY, initTiles, keepColsRows) {
         var columns = (keepColsRows && this.rowscols)  ? this.rowscols.Columns : rowscols.Columns;
         if (!keepColsRows) this.rowscols = rowscols;
 
@@ -303,15 +288,15 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
             }
         }
     },
-    CenterOnTile: function (tile) {
-        var location = tile._locations[tile.selectedLoc], item = tile.facetItem;;
+    centerOnTile: function (tile) {
+        var location = tile._locations[0], item = tile.item;;
         var cellCols = this.rowscols.Columns, cellRows = this.rowscols.Rows;
         var tileMaxWidth = this.rowscols.TileMaxWidth, tileHeight = this.rowscols.TileHeight;
-        var cellX = this.buckets.ids[item.Id], cellY = this.buckets2.ids[item.Id];
+        var cellX = this.buckets.ids[item.id], cellY = this.bucketsY.ids[item.id];
         var cellCol = Math.round((location.x - this.currentOffsetX - (cellX + 1) * this.columnWidth) / tileMaxWidth);
 
         //Tricky numerical precision
-        var cellRow = cellRows - Math.floor((location.y - this.currentOffsetY - (this.buckets2.length - cellY - 1) * this.rowHeight * this.scale - this.rowscols.PaddingY) / tileHeight);
+        var cellRow = cellRows - Math.floor((location.y - this.currentOffsetY - (this.bucketsY.length - cellY - 1) * this.rowHeight * this.scale - this.rowscols.PaddingY) / tileHeight);
         var bkt = this.buckets[cellX].subBuckets[cellY], index = cellRow * cellCols + cellCol;
         while ((index > bkt.tiles.length || bkt.tiles[index] != tile) && index >= 0) { cellRow--; index -= cellCols;}
 
@@ -320,65 +305,127 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
 
         // Find which is proportionally bigger, height or width
         var origProportion;
-        if (tile.height / canvasHeight > (tile.height / TileController._imageController.GetRatio(item.Img)) / canvasWidth)
+        if (tile.height / canvasHeight > (tile.height / TileController._imageController.getRatio(item.img)) / canvasWidth)
             origProportion = tile.origheight / canvasHeight;
         else origProportion = tile.origwidth / canvasWidth;
-        if (this.selected == null) PV.Zoom(Math.round((0.75 / origProportion) * 2));
+        if (this.selected == null) PV.zoom(Math.round((0.75 / origProportion) * 2));
         this.currentOffsetX = (this.width / 2) - (this.rowscols.TileMaxWidth / 2) - (cellX + 1) * this.columnWidth - cellCol * this.rowscols.TileMaxWidth;
         this.currentOffsetY = (this.height / 2) - this.canvasHeightUIAdjusted + (this.rowscols.TileHeight / 2) + cellY * this.rowHeight * this.scale +
             cellRow * this.rowscols.TileHeight + 10
 
-        this.SetVisibleTileGraphPositions(this.rowscols, this.currentOffsetX, this.currentOffsetY, true, true);
+        this.setTilePositions(this.rowscols, this.currentOffsetX, this.currentOffsetY, true, true);
     },
-    handleSelection: function (tile, clickX, clickY, selectedLoc) {
-        var found = false;
-        var dontFilter = false;
+    getStatsBox: function () {
+        var chi2 = 0, bkt;
+        for (var i = 0; i < this.buckets.length; i++) {
+            bkt = this.buckets[i];
+            if (bkt.tiles.length == 0) continue;
+            for (var j = 0; j < this.bucketsY.length; j++) {
+                var bkt2 = this.bucketsY[j];
+                if (bkt2.tiles.length == 0) continue;
+                var e = (bkt.tiles.length * bkt2.tiles.length / this.filterList.length), n = e - bkt.subBuckets[j].tiles.length;
+                chi2 += n * n / e;
+            }
+        }
+        chi2 = Math.floor(chi2 * 100) / 100;
+        var prob = pochisq(chi2, this.buckets.length, bkt.subBuckets.length), star = "";
+        if (prob < 0.001) star = "***";
+        else if (prob < 0.01) star = "**";
+        else if (prob < 0.05) star = "*";
+        return "<div class='pv-crosstabview-overlay-statsbox' style='position:absolute; width: " + (this.columnWidth - 4) + "px; height: 50px; top: " +
+                (this.bucketsY.length * this.rowHeight) + "px;'><div style='text-align:center'>" + this.sortCategory2 +
+                "</div><div class='pv-bucket-countbox' title='chi-squared'>X<sup>2</sup><br>" + chi2 + star +
+                "</div><div style='position:absolute; right:2px;'>" + this.sortCategory + "</div></div>";
+    },
+    handleHover: function (evt) {
+        this.super_handleHover(evt);
+        $(".pv-crosstabview-overlay-bucket").removeClass("bucketview-bucket-hover");
+        $(".pv-tooltip").remove();
 
+        if (this.scale > 1) return;
+
+        var bktNumX = this.getBucket(evt.x), bktNumY = this.getBucketY(evt.y);
+        if (bktNumX >= 0 && bktNumY >= 0) {
+            $(".pv-crosstabview-overlay-bucket").eq(bktNumX * this.bucketsY.length + (this.bucketsY.length - bktNumY - 1)).addClass("bucketview-bucket-hover");
+            return;
+        }
+
+        var box, bkt, bktNum, category, offset;
+        if (bktNumX < -1 || bktNumY < -1) return;
+        else if (bktNumX == -1) {
+            if (bktNumY == -1) {
+                $(".pv-bucketview-overlay").append("<div class='pv-tooltip'>chi-squared</div>");
+                $(".pv-tooltip").offset($(".pv-crosstabview-overlay-statsbox").offset());
+                return;
+            }
+            bktNum = bktNumY;
+            box = $(".pv-bucketview-overlay-buckettitle-left").eq(bktNum);
+            bkt = this.bucketsY[bktNum];
+            category = this.sortCategory2;
+        }
+        else if (bktNumY == -1) {
+            bktNum = bktNumX;
+            box = $(".pv-bucketview-overlay-buckettitle").eq(bktNum);
+            bkt = this.buckets[bktNum];
+            category = this.sortCategory;
+        }
+        else return;
+
+        var string = PivotCollection.getCategoryByName(category).isString();
+        var tooltip = "<div class='pv-tooltip'>" + category + " Bucket " + (bktNum + 1) + ":<br>" + (bkt.startLabel == bkt.endLabel ? " Value: " +
+            (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
+            "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : " (inclusive)") + "  to " + (string ? "\"" : "") + bkt.endLabel +
+            (string ? "\"" : " (exclusive)") + "<br>") + bkt.tiles.length + " of " + this.filterList2.length +
+            " items (" + Math.round(bkt.tiles.length / this.filterList2.length * 100) + "%)" + (Settings.showMissing ? "</div>" :
+            "<br><i>(Some items may be missing values for this variable.)</i></div>");
+        $(".pv-bucketview-overlay").append(tooltip);
+        $(".pv-tooltip").offset(box.offset());
+    },
+    handleClick: function (evt) {
+        if (this.hasSubsets() && !PV.subsets.finalized) { PV.subsets.finalized = true; PV.filterViews(); return; }
+        var tile = this.super_handleClick(evt);
+        if (this.selected != null) this.selected.setSelected(false);
         if (tile != null) {
-            tile.Selected(true);
-            tile.selectedLoc = selectedLoc;
-            found = true;
+            if (this.selected != tile) {
+                tile.setSelected(true);
+                this.centerOnTile(tile);
+                this.setSelected(tile);
+                $('.pv-bucketview-overlay div').fadeOut('slow');
+            }
+            else {
+                tile = null;
+                this.setSelected(null);
+                PV.zoom(0);
+                $('.pv-bucketview-overlay div').fadeIn('slow');
+            }
         }
-
-        // If an item is selected then zoom out but don't set the filter
-        // based on clicking in a bar in the graph.
-        if (this.selected != null && tile == null) dontFilter = true;
-
-        //zoom in on selected tile
-        if (tile != null && this.selected != tile) {
-            this.CenterOnTile(tile);
-            $('.pv-bucketview-overlay div').fadeOut('slow');
-        }
-        else if(this.selected != null) {
-            //zoom out
-            this.selected = tile = null;
-            PV.Zoom(0);
+        else {
+            this.setSelected(null);
+            PV.zoom(0);
             $('.pv-bucketview-overlay div').fadeIn('slow');
-        }
-        $.publish("/PivotViewer/Views/Item/Selected", [{item: tile}]);
-
-        if (!found && !dontFilter) {
-            var b1 = this.GetBucket(clickX), b2 = this.GetBucket2(clickY);
+            var b1 = this.getBucket(evt.x), b2 = this.getBucketY(evt.y);
             if (b1 >= 0) {
                 var bkt1 = this.buckets[b1];
                 if (b2 >= 0) {
-                    var bkt2 = this.buckets2[b2];
-                    
+                    var bkt2 = this.bucketsY[b2];
                     $.publish("/PivotViewer/Views/Item/Filtered", [[
-                        { Facet: this.sortFacet, Item: bkt1.startRange, MaxRange: bkt1.endRange, Values: bkt1.values },
-                        { Facet: this.sortFacet2, Item: bkt2.startRange, MaxRange: bkt2.endRange, Values: bkt2.values }
+                        { category: this.sortCategory, min: bkt1.startRange, max: bkt1.endRange, values: bkt1.values },
+                        { category: this.sortCategory2, min: bkt2.startRange, max: bkt2.endRange, values: bkt2.values }
                     ]]);
                 }
-                else $.publish("/PivotViewer/Views/Item/Filtered", [{
-                    Facet: this.sortFacet, Item: bkt1.startRange, MaxRange: bkt1.endRange, Values: bkt1.values
-                }]);
+                else $.publish("/PivotViewer/Views/Item/Filtered", [{category: this.sortCategory, min: bkt1.startRange, max: bkt1.endRange, values: bkt1.values}]);
             }
             else if (b2 >= 0) {
-                var bkt2 = this.buckets2[b2];
-                $.publish("/PivotViewer/Views/Item/Filtered", [{
-                    Facet: this.sortFacet2, Item: bkt2.startRange, MaxRange: bkt2.endRange, Values: bkt2.values
-                }]);
+                var bkt2 = this.bucketsY[b2];
+                $.publish("/PivotViewer/Views/Item/Filtered", [{category: this.sortCategory2, min: bkt2.startRange, max: bkt2.endRange, values: bkt2.values}]);
             }
         }
-    }
+        $.publish("/PivotViewer/Views/Item/Selected", [{ item: tile }]);
+    },
+    handleContextMenu: function (evt) {
+        var bktNumX = this.getBucket(evt.x), bktNumY = this.getBucketY(evt.y);
+        var bkt = $(".pv-crosstabview-overlay-bucket").eq(bktNumX * this.bucketsY.length + (this.bucketsY.length - bktNumY - 1));
+        if (this.addSubset(this.buckets[bktNumX].subBuckets[bktNumY])) bkt.addClass("pv-bucketview-subset");
+        else bkt.removeClass("pv-bucketview-subset");
+    },
 });

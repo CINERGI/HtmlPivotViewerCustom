@@ -18,7 +18,7 @@ PivotViewer.Models.Loaders.CSVSliceLoader = PivotViewer.Models.Loaders.CSVLoader
         this._super(CSVUri);
         this.sliceSize = sliceSize;
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         this.collection = collection;
         collection.CollectionBaseNoProxy = this.CSVUriNoProxy;
         collection.CollectionBase = this.CSVUri;

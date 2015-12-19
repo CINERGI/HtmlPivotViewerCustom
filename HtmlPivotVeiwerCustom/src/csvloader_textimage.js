@@ -19,7 +19,7 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
         if (proxy) this.CSVUri = proxy + CSVUri;
         else this.CSVUri = CSVUri;
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         this.collection = collection;
         this._super(collection);
 

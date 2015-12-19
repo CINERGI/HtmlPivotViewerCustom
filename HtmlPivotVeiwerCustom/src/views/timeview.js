@@ -75,7 +75,7 @@ PivotViewer.Views.TimeView = PivotViewer.Views.IPivotViewerView.subClass({
         });
 
         // Use first datetime category for the timeline data
-        var category = PivotCollection.getCategoryByName(this.timeFacets[this.selectedFacet].name);
+        var category = PivotCollection.GetFacetCategoryByName(this.timeFacets[this.selectedFacet].name);
         if (!category.uiInit) PV.InitUIFacet(category);
         var timeFacet =  this.timeFacets[this.selectedFacet];
         if(timeFacet.interval0 == undefined) {

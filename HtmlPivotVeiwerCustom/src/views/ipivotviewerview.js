@@ -16,34 +16,39 @@
 
 ///Views interface - all views must implement this
 PivotViewer.Views.IPivotViewerView = Object.subClass({
-	init: function () {
-		this.isActive = false;
-		this.filtered = true;
-		this.selected = null;
-		this.tiles = [];
-
-		var that = this;
-		$.subscribe("/PivotViewer/Views/Filtered", function (evt) {
-		    that.filtered = true;
-		    that.filterEvt = evt;
-		    if (that.isActive) {
-		        that.Filter(evt.tiles, evt.filter, evt.sort);
-		        that.Activate();
-		    }
-		});
-	},
-	Setup: function (width, height, offsetX, offsetY, tileMaxRatio) { },
-	SetOptions: function(options) {}, 
-	Filter: function (tiles, currentFilter) { },
-	GetUI: function () {
-	    if (Modernizr.canvas) return "";
-	    else return "<div class='pv-viewpanel-unabletodisplay'><h2>Unfortunately this view is unavailable as your browser does not support this functionality.</h2>Please try again with one of the following supported browsers: IE 9+, Chrome 4+, Firefox 2+, Safari 3.1+, iOS Safari 3.2+, Opera 9+<br/><a href='http://caniuse.com/#feat=canvas'>http://caniuse.com/#feat=canvas</a></div>";
-	},
-	GetButtonImage: function () { return ''; },
-	GetButtonImageSelected: function () { return ''; },
-	GetViewName: function () { return ''; },
-	Activate: function () { this.isActive = true; },
-	Deactivate: function () { this.isActive = false; },
-	SetSelected: function (item) { this.selected = item; },
-	CenterOnTile: function (item) { return;}
+    init: function () {
+        this.isActive = false;
+        this.filtered = false;
+        this.selected = null;
+        this.tiles = [];
+        this.filterList = [];
+        this.sortCategory = null;
+    },
+    handleFilter: function (tiles, filterList, sortCategory) {
+        if (tiles != undefined) this.tiles = tiles; 
+        if (filterList != undefined) this.filterList = filterList; 
+        if(sortCategory != undefined) this.sortCategory = sortCategory;
+        this.filtered = true;
+        if (this.isActive) this.activate();
+    },
+    setup: function (width, height, offsetX, offsetY, tileMaxRatio) { },
+    setOptions: function(options) {}, 
+    getButtonImage: function () { return ''; },
+    getButtonImageSelected: function () { return ''; },
+    getViewName: function () { return ''; },
+    filter: function () {},
+    activate: function () {
+        this.isActive = true;
+        $('.pv-viewpanel-view').empty();
+        if (this.filtered) {
+            this.filter();
+            this.filtered = false;
+        }
+    },
+    deactivate: function () { this.isActive = false; },
+	setSelected: function (tile) { this.selected = tile; },
+	centerOnTile: function (tile) { return; },
+	handleClick: function (evt) { return null; },
+	handleHover: function (evt) { return null; },
+    handleContextMenu: function(evt) {return null; }
 });

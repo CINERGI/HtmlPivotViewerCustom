@@ -18,8 +18,7 @@
 /// Grid view
 ///
 PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
-    init: function (collection) {
-        this.collection = collection;
+    init: function () {
         this.Scale = 1;
         this._super();
         this.dontZoom = false;
@@ -91,7 +90,8 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
                 that.Scale = 1;
                 // Reset the slider to zero 
                 that.dontZoom = true;
-                $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                PV.Zoom(0);
             }
             else {
                 //adjust position to base scale - then scale out to new scale
@@ -202,7 +202,8 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
             this.currentOffsetX = this.offsetX;
             this.currentOffsetY = this.offsetY;
             // Zoom using the slider event
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 1);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 1);
+            PV.Zoom(1);
             var clearFilter = []; 
             for (var i = 0; i < this.tiles.length; i++) {
                 this.tiles[i].origwidth = this.TileHeight / TileController._imageController.GetRatio(this.tiles[i].facetItem.Img);
@@ -304,7 +305,7 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
         if (this.selected != selectedTile) {
             if (this.selected == null){
                 var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-                if (value != 0) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+                if (value != 0) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
             }
         }
 
@@ -325,7 +326,7 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
             else origProportion = tileOrigWidth / canvasWidth;
 
             // Zoom using the slider event
-            if (this.selected == null) $('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
+            if (this.selected == null) PV.Zoom(0); //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', Math.round((0.75 / origProportion) * 2));
 
             this.selected = selectedTile;
             this.CenterOnSelectedTile(selectedTile);
@@ -336,7 +337,8 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
             this.currentOffsetX = this.offsetX;
             this.currentOffsetY = this.offsetY;
             // Zoom using the slider event
-            $('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
+            PV.Zoom(0);
+            //$('.pv-toolbarpanel-zoomslider').slider('option', 'value', 0);
         }
 
         $.publish("/PivotViewer/Views/Item/Selected", [{item: selectedTile, bkt: 0}]);

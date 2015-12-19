@@ -86,6 +86,48 @@ PivotViewer.Utils.getHistogram = function (values) {
     return { histogram: histogram, min: min, max: max };
 };
 
+//http://stackoverflow.com/questions/19348528/jquery-ui-slider-how-to-add-values
+(function ($) {
+    $.widget("suave.modSlider", $.ui.slider, {
+        clearValues: function() {
+            this.options.values = [this.options.min, this.options.max];
+            this._refresh();
+        },
+        changeValues: function(values) {
+            for (var i = 0; i < values.length; i++) values[i] = Math.floor(values[i] / this.options.step) * this.options.step;
+            this.options.values = values;
+            this._refresh();
+        },
+        addValue: function (val) {
+            val = Math.floor(val / this.options.step) * this.options.step;
+            this.options.values.push(val);
+            this.options.values.sort();
+            this._refresh();
+        },
+        removeValue: function (index) {
+            this.options.values.splice(index, 1);
+            this._refresh();
+        }
+    });
+})(jQuery);
+
+//http://stackoverflow.com/questions/2360655/jquery-event-handlers-always-execute-in-order-they-were-bound-any-way-around-t
+$.fn.bindFirst = function (name) {
+    // bind as you normally would
+    // don't want to miss out on any jQuery magic
+    this.on.apply(this, arguments);
+
+    // Thanks to a comment by @Martin, adding support for
+    // namespaced events too.
+    this.each(function () {
+        var handlers = $._data(this, 'events')[name.split('.')[0]];
+        // take out the handler we just inserted from the end
+        var handler = handlers.pop();
+        // move it at the beginning
+        handlers.splice(0, 0, handler);
+    });
+};
+
 // A simple class creation library.
 // From Secrets of the JavaScript Ninja
 // Inspired by base2 and Prototype
@@ -168,33 +210,33 @@ if (!Number.isInteger) {
 
 http://stackoverflow.com/questions/979256/sorting-an-array-of-javascript-objects
 var tileSortBy = function (field, reverse, filterValues) {
-    var key, category = PivotCollection.GetFacetCategoryByName(field);
+    var key, category = PivotCollection.getCategoryByName(field);
     var filterSet = [];
     if (filterValues != undefined)
         for (var i = 0; i < filterValues.length; i++) filterSet[filterValues[i]] = true;
-    if(category.type == PivotViewer.Models.FacetType.Number || category.type == PivotViewer.Models.FacetType.Ordinal) {
+    if(category.isNumber() || category.isOrdinal()) {
         key = function (a) {
-            var facet = a.facetItem.FacetByName[field];
+            var facet = a.item.getFacetByName(field);
             if(facet == undefined) return Infinity;
-            else return facet.FacetValues[0].value;
+            else return facet.values[0].value;
         }
     }
-    else if (category.type == PivotViewer.Models.FacetType.DateTime) {
+    else if (category.isDateTime()) {
         key = function (a) {
-            var facet = a.facetItem.FacetByName[field];
+            var facet = a.item.getFacetByName(field);
             if (facet == undefined) return new Date(8640000000000000); //max date
-            return new Date(facet.FacetValues[0].value);
+            return new Date(facet.values[0].value);
         }
     }
     else key = function (a) {
-        var facet = a.facetItem.FacetByName[field];
+        var facet = a.item.getFacetByName(field);
         if(facet == undefined) return "ZZZZZZZ";
         else {
-            var values = facet.FacetValues;
+            var values = facet.values;
             for(var j = 0; j < values.Length; j++) {
-                if (filterSet[values[j]]) return values[j].Value.toUpperCase();
+                if(filterSet[values[j]]) return values[j].value.toUpperCase();
             }
-            return values[0].Value.toUpperCase();
+            return values[0].value.toUpperCase();
         }
     }
     reverse = reverse == undefined ? -1 : [-1, 1][+!!reverse];
@@ -234,7 +276,7 @@ PivotViewer.Utils.getMeridian = function(date) {
     else return "AM";
 }
 
-PivotViewer.Utils.getTimeValueFunction = function (min, max) {
+PivotViewer.Utils.getTimeValueFn = function (min, max) {
     if (max.getFullYear() - min.getFullYear() + min.getFullYear() % 10 > 9)
         return function (value) { var year = new Date(value.value).getFullYear(); return (year - year % 10); };
     else if (max.getFullYear() > min.getFullYear()) return function (value) { return new Date(value.value).getFullYear(); };
@@ -245,7 +287,7 @@ PivotViewer.Utils.getTimeValueFunction = function (min, max) {
     else return function (value) { return new Date(value.value).getSeconds(); };
 }
 
-PivotViewer.Utils.getTimeLabelFunction = function (min, max) {
+PivotViewer.Utils.getTimeLabelFn = function (min, max) {
     if (max.getFullYear() - min.getFullYear() + min.getFullYear() % 10 > 9) 
         return function (value) { var year = new Date(value.value).getFullYear(); return (year - year % 10) + "s"; };
     else if (max.getFullYear() > min.getFullYear()) return function (value) { return new Date(value.value).getFullYear().toString(); };
@@ -269,46 +311,60 @@ PivotViewer.Utils.getTimeLabelFunction = function (min, max) {
     };
 }
 
-PivotViewer.Models.Bucket = Object.subClass({
-    init: function (startRange, startLabel, endRange, endLabel) {
-        this.startRange = startRange; this.startLabel = startLabel;
-        this.endRange = endRange ? endRange : startRange;
-        this.endLabel = endLabel ? endLabel : startLabel;
-        this.ids = []; this.values = []; this.tiles = [];
-    },
-    addTile: function (tile) {
-        this.tiles.push(tile);
-        this.ids[tile.facetItem.Id] = true;
-    },
-    addValue: function (value) { this.values.push(value); },
-    getLabel: function () { return this.startLabel == this.endLabel ? this.startLabel : this.startLabel + " - " + this.endLabel;}
-});
+PivotViewer.Utils.fillBuckets = function (bkts, filterList, category, valueFn) {
+    if (valueFn == undefined) valueFn = function (value) { return value.value; }
+    bkts.ids = [];
+    var category = PivotCollection.getCategoryByName(category);
+    if (category.isNumber() || category.isOrdinal()) {
+        for (var i = 0, j = 0; i < filterList.length; i++) {
+            var tile = filterList[i], facet = tile.item.getFacetByName(category.name);
+            if (facet == undefined) break;
+            if (tile.missing) continue;
+            
+            var value = facet.values[0];
+            if (valueFn(value) >= bkts[j].endRange && j < bkts.length - 1) j++;
+            bkts[j].addTile(tile);
+            bkts.ids[tile.item.id] = j;
+        }
+    }
+    else {
+        var valueBkts = [];
 
-PivotViewer.Utils.getBuckets = function (filterList, facet, valueFunction, labelFunction) {
-    if (valueFunction == undefined) valueFunction = function (value) { return value.Value; }
-    if (labelFunction == undefined) labelFunction = function (value) { return value.Label.toString();}
+        for (var i = 0; i < filterList.length; i++) {
+            var tile = filterList[i], facet = tile.item.getFacetByName(category.name);
+            if (facet == undefined) break;
+            if (tile.missing) continue;
+            var j = bkts.values[valueFn(facet.values[0])];
+            bkts[j].addTile(tile);
+            bkts.ids[tile.item.id] = j;
+        }
+    }
+}
 
-    // var bkts = [], value1 = filterList[0].item.FacetByName(facet).values[0], value = valueFunction(value1), label = labelFunction(value1);
-    var bkts = [], value1 = filterList[0].facetItem.FacetByName[facet].FacetValues[0], value = valueFunction(value1), label = labelFunction(value1);
-    var bkt = new PivotViewer.Models.Bucket(value1.Value, label);
+PivotViewer.Utils.getBuckets = function (filterList, category, valueFn, labelFn) {
+    if (valueFn == undefined) valueFn = function (value) { return value.value; }
+    if (labelFn == undefined) labelFn = function (value) { return value.label.toString();}
+
+    var bkts = [], value1 = filterList[0].item.getFacetByName(category).values[0], value = valueFn(value1), label = labelFn(value1);
+    var bkt = new PivotViewer.Models.Bucket(value1.value, label);
     bkt.addTile(filterList[0]); bkt.addValue(value);
     bkts.push(bkt);
 
     var i = 1, j = 0;
     for (; i < filterList.length; i++) {
-        var tile = filterList[i], item = tile.facetItem;
-        if (item.FacetByName[facet] == undefined) break;
+        var tile = filterList[i], facet = tile.item.getFacetByName(category);
+        if (facet == undefined) break;
         if (tile.missing) continue;
-        var value2 = item.FacetByName[facet].FacetValues[0];
-        if(valueFunction(value2) > value) {
+        var value2 = facet.values[0];
+        if(valueFn(value2) > value) {
             value1 = value2;
-            var label = labelFunction(value2), value = valueFunction(value2);
-            bkts[++j] = new PivotViewer.Models.Bucket(value2.Value, label);
-            bkts[j].addTile(tile); bkt.addValue(value);
+            var label = labelFn(value2), value = valueFn(value2);
+            bkts[++j] = new PivotViewer.Models.Bucket(value2.value, label);
+            bkts[j].addTile(tile); bkts[j].addValue(value);
         }
         else {
             bkts[j].addTile(tile);
-            bkts[j].endRange = value2.Value;
+            bkts[j].endRange = value2.value;
         }
     }
 

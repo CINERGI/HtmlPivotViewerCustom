@@ -15,7 +15,7 @@ PivotViewer.Models.Loaders.SpreadsheetLoader = PivotViewer.Models.Loaders.IColle
         else 
             this.SheetUri = SheetUri;
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         var collection = collection;
         this._super(collection);
 
@@ -131,7 +131,7 @@ PivotViewer.Models.Loaders.SpreadsheetLoader = PivotViewer.Models.Loaders.IColle
         }
     },
     //LoadColumn: function (category) { },
-   // GetRow: function (id) {return PivotCollection.getItemById(id).Facets;}
+   // GetRow: function (id) {return PivotCollection.GetItemById(id).Facets;}
 }
 );
 // items

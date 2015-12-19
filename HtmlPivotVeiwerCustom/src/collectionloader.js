@@ -15,7 +15,7 @@
 ///  Collection loader interface - used so that different types of data sources can be used
 PivotViewer.Models.Loaders.ICollectionLoader = Object.subClass({
     init: function () { },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         if (!collection instanceof PivotViewer.Models.Collection) {
             throw "collection not an instance of PivotViewer.Models.Collection.";
         }
@@ -24,33 +24,33 @@ PivotViewer.Models.Loaders.ICollectionLoader = Object.subClass({
 
 //CXML loader
 PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLoader.subClass({
-    init: function (CXMLUri, proxy) {
-        this.CXMLUriNoProxy = CXMLUri;
-        if (proxy) this.CXMLUri = proxy + CXMLUri;
-        else this.CXMLUri = CXMLUri;
+    init: function (cxmlUri, proxy) {
+        this.cxmlUriNoProxy = cxmlUri;
+        if (proxy) this.cxmlUri = proxy + cxmlUri;
+        else this.cxmlUri = cxmlUri;
     },
-    LoadCollection: function (collection) {
+    loadCollection: function (collection) {
         var collection = collection;
         this._super(collection);
 
-        collection.CollectionBaseNoProxy = this.CXMLUriNoProxy;
-        collection.CollectionBase = this.CXMLUri;
+        collection.baseNoProxy = this.cxmlUriNoProxy;
+        collection.base = this.cxmlUri;
 
         var that = this;
-        if (this.CXMLUri.endsWith(".zip")) {
-            jBinary.loadData(this.CXMLUri).then(function (binary) {
+        if (this.cxmlUri.endsWith(".zip")) {
+            jBinary.loadData(this.cxmlUri).then(function (binary) {
                 var zip = new JSZip();
                 zip.load(binary);
                 var xmlDoc = zip.file(/.cxml/)[0].asText();
-                that.LoadXML(collection, $.parseXML(xmlDoc.substring(xmlDoc.indexOf(">") + 1)));
+                that.loadXML(collection, $.parseXML(xmlDoc.substring(xmlDoc.indexOf(">") + 1)));
             });
         }
         else {
             $.ajax({
                 type: "GET",
-                url: this.CXMLUri,
+                url: this.cxmlUri,
                 dataType: "xml",
-                success: (function(collection) {return function (xml) {that.LoadXML(collection, xml);}})(collection),
+                success: (function(collection) {return function (xml) {that.loadXML(collection, xml);}})(collection),
                 error: function (jqXHR, textStatus, errorThrown) {
                     //Make sure throbber is removed else everyone thinks the app is still running
                     $('.pv-loading').remove();
@@ -67,8 +67,7 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
             });
         }
     },
-    LoadXML: function (collection, xml) {
-        Debug.Log('CXML loaded');
+   loadXML: function (collection, xml) {
         var collectionRoot = $(xml).find("Collection")[0];
         var maxRelatedLinksLength = 0;
         //get namespace local name
@@ -92,8 +91,8 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 break;
             }
         }
-        collection.CollectionName = $(collectionRoot).attr("Name");
-        collection.BrandImage = $(collectionRoot).attr(namespacePrefix + ":BrandImage") != undefined ? $(collectionRoot).attr(namespacePrefix + ":BrandImage") : "";
+        collection.name = $(collectionRoot).attr("Name");
+        collection.brandImage = $(collectionRoot).attr(namespacePrefix + ":BrandImage") != undefined ? $(collectionRoot).attr(namespacePrefix + ":BrandImage") : "";
 
         //FacetCategory
         var facetCategories = $(xml).find("FacetCategory");
@@ -109,9 +108,8 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 }
             }
 
-            var facetCategory = new PivotViewer.Models.FacetCategory(facetElement.attr("Name"), facetElement.attr("Type"),
-                facetElement.attr(namespacePrefix + ":IsFilterVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsFilterVisible").toLowerCase() == "true" ? true : false) : true,
-                 facetElement.attr(namespacePrefix + ":IsMetaDataVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsMetaDataVisible").toLowerCase() == "true" ? true : false) : true);
+            var facetCategory = new PivotViewer.Models.Category(facetElement.attr("Name"), facetElement.attr("Type"),
+                facetElement.attr(namespacePrefix + ":IsFilterVisible") != undefined ? (facetElement.attr(namespacePrefix + ":IsFilterVisible").toLowerCase() == "true" ? true : false) : true);
 
             //Add custom sort order
             var sortOrder = facetElement.find(namespacePrefix + "\\:SortOrder");
@@ -124,21 +122,21 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
             }
 
             if (sortOrder.length == 1) {
-                var customSort = new PivotViewer.Models.FacetCategorySort(sortOrder.attr("Name"));
+                var customSort = new PivotViewer.Models.CategorySort(sortOrder.attr("Name"));
                 for (var j = 0; j < sortValues.length; j++) {
-                    customSort.SortValues.push($(sortValues[j]).attr("Value"));
+                    customSort.sortValues.push($(sortValues[j]).attr("Value"));
                 }
-                facetCategory.CustomSort = customSort;
+                facetCategory.customSort = customSort;
             }
-            collection.FacetCategories.push(facetCategory);
+            collection.categories.push(facetCategory);
             namespacePrefix = savedNamespacePrefix;
         }
         //Items
-        var facetItems = $(xml).find("Items");
-        if (facetItems.length == 1) {
-            var facetItem = $(facetItems[0]).find("Item");
-            collection.ImageBase = $(facetItems[0]).attr("ImgBase");
-            if (facetItem.length == 0) {
+        var items = $(xml).find("Items");
+        if (items.length == 1) {
+            var cxmlItem = $(items[0]).find("Item");
+            collection.imageBase = $(items[0]).attr("ImgBase");
+            if (cxmlItem.length == 0) {
                 //Make sure throbber is removed else everyone thinks the app is still running
                 $('.pv-loading').remove();
 
@@ -148,17 +146,17 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 setTimeout(function () { window.open("#pv-empty-collection-error", "_self") }, 1000)
             }
             else {
-                for (var i = 0; i < facetItem.length; i++) {
+                for (var i = 0; i < cxmlItem.length; i++) {
                     var item = new PivotViewer.Models.Item(
-                        $(facetItem[i]).attr("Img").replace("#", ""),
-                        $(facetItem[i]).attr("Id"),
-                        $(facetItem[i]).attr("Href"),
-                        $(facetItem[i]).attr("Name")
+                        $(cxmlItem[i]).attr("Img").replace("#", ""),
+                        $(cxmlItem[i]).attr("Id"),
+                        $(cxmlItem[i]).attr("Href"),
+                        $(cxmlItem[i]).attr("Name")
                     );
-                    var description = $(facetItem[i]).find("Description");
+                    var description = $(cxmlItem[i]).find("Description");
                     if (description.length == 1 && description[0].childNodes.length)
-                        item.Description = PivotViewer.Utils.HtmlSpecialChars(description[0].childNodes[0].nodeValue);
-                    var facets = $(facetItem[i]).find("Facet");
+                        item.description = PivotViewer.Utils.htmlSpecialChars(description[0].childNodes[0].nodeValue);
+                    var facets = $(cxmlItem[i]).find("Facet");
                     for (var j = 0; j < facets.length; j++) {
                         var f = new PivotViewer.Models.Facet($(facets[j]).attr("Name"));
 
@@ -169,35 +167,34 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                                 if (v == null || v == "") {
                                     if (facetChildren[k].nodeName == "Link") {
                                         if ($(facetChildren[k]).attr("Href") == "" || $(facetChildren[k]).attr("Href") == null) {
-                                            var fValue = new PivotViewer.Models.FacetValue(PivotViewer.Utils.HtmlSpecialChars("(empty Link)"));
-                                            f.AddFacetValue(fValue);
+                                            var fValue = new PivotViewer.Models.FacetValue(PivotViewer.Utils.htmlSpecialChars("(empty Link)"));
+                                            f.addValue(fValue);
 
                                         }
                                         else if ($(facetChildren[k]).attr("Name") == "" || $(facetChildren[k]).attr("Name") == null) {
                                             var fValue = new PivotViewer.Models.FacetValue("(unnamed Link)");
-                                            fValue.Href = $(facetChildren[k]).attr("Href");
-                                            f.AddFacetValue(fValue);
+                                            fValue.href = $(facetChildren[k]).attr("Href");
+                                            f.addValue(fValue);
                                         }
                                         else {
                                             var fValue = new PivotViewer.Models.FacetValue($(facetChildren[k]).attr("Name"));
-                                            fValue.Href = $(facetChildren[k]).attr("Href");
-                                            f.AddFacetValue(fValue);
+                                            fValue.href = $(facetChildren[k]).attr("Href");
+                                            f.addValue(fValue);
                                         }
                                     }
                                     else {
-                                        var fValue = new PivotViewer.Models.FacetValue(PivotViewer.Utils.HtmlSpecialChars("(empty " + facetChildren[k].nodeName + ")"));
-                                        f.AddFacetValue(fValue);
+                                        var fValue = new PivotViewer.Models.FacetValue(PivotViewer.Utils.htmlSpecialChars("(empty " + facetChildren[k].nodeName + ")"));
+                                        f.addValue(fValue);
                                     }
                                 }
-                                else if (facetChildren[k].nodeName == "Number")
-                                    f.AddFacetValue(new PivotViewer.Models.FacetValue(parseFloat(v)));
-                                else f.AddFacetValue(new PivotViewer.Models.FacetValue(PivotViewer.Utils.HtmlSpecialChars(v)));
+                                else if (facetChildren[k].nodeName == "Number") f.addValue(new PivotViewer.Models.FacetValue(parseFloat(v)));
+                                else f.addValue(new PivotViewer.Models.FacetValue(PivotViewer.Utils.htmlSpecialChars(v)));
 
                             }
                         }
-                        item.Facets.push(f);
+                        item.facets.push(f);
                     }
-                    var itemExtension = $(facetItem[i]).find("Extension");
+                    var itemExtension = $(cxmlItem[i]).find("Extension");
                     if (itemExtension.length == 1) {
                         var savedNamespacePrefix = namespacePrefix;
 
@@ -222,17 +219,17 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                                     linkHref = location.origin + location.pathname + "?url=" + linkHref;
                                 }
                                 var link = new PivotViewer.Models.ItemLink(linkName, linkHref);
-                                item.Links.push(link);
+                                item.links.push(link);
                             }
                             if (links.length > maxRelatedLinksLength) maxRelatedLinksLength = links.length;
                         }
                         namespacePrefix = savedNamespacePrefix;
                     }
-                    collection.Items.push(item);
+                    collection.items.push(item);
                 }
             }
         }
-        collection.MaxRelatedLinks = maxRelatedLinksLength;
+        collection.maxRelatedLinks = maxRelatedLinksLength;
         //Extensions
         var extension = $(xml).find("Extension");
         if (extension.length > 1) {
@@ -248,16 +245,16 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 //var collectionCopyright = $(extension[x]).find('d1p1\\:Copyright, Copyright');
                 var collectionCopyright = $(extension[x]).find(namespacePrefix + '\\:Copyright, Copyright');
                 if (collectionCopyright.length > 0) {
-                    collection.CopyrightName = $(collectionCopyright[0]).attr("Name");
-                    collection.CopyrightHref = $(collectionCopyright[0]).attr("Href");
+                    collection.copyrightName = $(collectionCopyright[0]).attr("Name");
+                    collection.copyrightHref = $(collectionCopyright[0]).attr("Href");
                     break;
                 }
                 namespacePrefix = savedNamespacePrefix;
             }
         }
 
-        if (facetItem.length > 0) $.publish("/PivotViewer/Models/Collection/Loaded", null);
+        if (cxmlItem.length > 0) $.publish("/PivotViewer/Models/Collection/Loaded", null);
     },
-    LoadColumn: function (category) { },
-    GetRow: function (id) {return PivotCollection.getItemById(id).Facets;}
+    loadColumn: function (category) { },
+    getRow: function (id) {return PivotCollection.getItemById(id).facets;}
 });

@@ -172,7 +172,7 @@ PivotViewer.Views.TableView = PivotViewer.Views.IPivotViewerView.subClass({
                             else if (sortKey == 'pv-value') sortKeyValue = value;
 
                             // Colour blue if in the filter
-                            if (PivotCollection.getCategoryByName(attribute).IsFilterVisible) {
+                            if (PivotCollection.GetFacetCategoryByName(attribute).IsFilterVisible) {
                                 // Link out image if item has href
                                 if (filter[i].facetItem.Href) {
                                     // Value is uri
@@ -219,7 +219,7 @@ PivotViewer.Views.TableView = PivotViewer.Views.IPivotViewerView.subClass({
                     else if (sortKey == 'pv-value') sortKeyValue = value;
 
                     // Colour blue if in the filter
-                    if (PivotCollection.getCategoryByName(selectedFacet).IsFilterVisible) {
+                    if (PivotCollection.GetFacetCategoryByName(selectedFacet).IsFilterVisible) {
                         // Link out image if item has href
                         if (filter[i].facetItem.Href) {
                             // Value is uri

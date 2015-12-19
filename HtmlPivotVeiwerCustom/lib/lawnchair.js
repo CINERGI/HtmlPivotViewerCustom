@@ -179,8 +179,11 @@ Lawnchair.adapter('window-name', (function() {
     // put simple strings in there - we should make sure not to cause a SyntaxError.
     var data = {}
     try {
-        data = JSON.parse(window.top.name)    
-    } catch (e) {}
+        var n = window.top.name;
+        data = JSON.parse(n);
+    } catch (e) {
+        data = {};
+    }
     
     
     return {
