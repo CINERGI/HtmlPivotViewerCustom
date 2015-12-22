@@ -181,7 +181,8 @@
             help();
             about();
             $('#pivotviewer').PivotViewer({
-                Loader: new PivotViewer.Models.Loaders.CSVLoaderSimpleImage("sheetsProxy.ashx?key=13fo2f3EyHTXauo71-EdoHzGzcF4f-OFnwo1izvl0lNg&gid=0"),
+                Loader: new PivotViewer.Models.Loaders.CSVLoaderSimpleImage("sheetsProxy.ashx?key=13fo2f3EyHTXauo71-EdoHzGzcF4f-OFnwo1izvl0lNg&gid=0"
+                    , undefined, imagecache),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/Copy of Databib.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",

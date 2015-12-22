@@ -35,7 +35,7 @@
         new SolrFacet('Other Constraints', 'apiso.OtherConstraints_ss', FACETTYPE.Info, true),
        new SolrFacet('Metadata Link', 'url.metadata_s', FACETTYPE.Link, true),
         new SolrFacet('Abstract', 'apiso:Abstract_t', FACETTYPE.Info, false),
-        new SolrFacet('location', 'envelope_geo', FACETTYPE.Geom, false), // must be location to be used in map
+       // new SolrFacet('location', 'envelope_geo', FACETTYPE.Geom, false), // must be location to be used in map
          new SolrFacet('CINERGI', 'sys.src.collections_ss', FACETTYPE.String, true),
 
         ];
