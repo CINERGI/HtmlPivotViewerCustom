@@ -93,7 +93,7 @@ PivotViewer.Models.CategorySort = Object.subClass({
 
 PivotViewer.Models.Item = Object.subClass({
     init: function (img, id, href, name) {
-        this.img = img; this.id = id; this.href = href; this.name = name; this.facets = [];
+        this.description = null;this.img = img; this.id = id; this.href = href; this.name = name; this.facets = [];
 		this._facetByName = [];
 		this.links = [];
 		var that = this;

@@ -30,6 +30,7 @@
     <Content Include="faqpage_files\question.png" />
     <Content Include="CResCy.html" />
     <Content Include="images\ajax-loader.gif" />
+    <Content Include="images\suavelogo3-small.png" />
     <Content Include="lib\jquery.slidereveal.js" />
     <Content Include="solr_test.html" />
     <Content Include="lib\evolvingweb-ajax-solr\core\AbstractFacetWidget.js" />

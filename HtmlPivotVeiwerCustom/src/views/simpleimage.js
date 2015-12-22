@@ -19,11 +19,11 @@
 /// Retrieves and caches images
 ///
 PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.subClass({
-    init: function () {
+    init: function (baseUrl) {
 
         this._items = [];
         this._collageItems = [];
-        this._baseUrl = "";
+        this._baseUrl = baseUrl;
         this._collageMaxLevel = 0;
         this._tileSize = 256;
         this._format = "";
@@ -41,7 +41,7 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
     },
     setup: function (baseUrl) {
         //get base URL
-        this._baseUrl = baseUrl;
+        this._baseUrl = baseUrl;// we've set this in the init stage.
         var that = this;
 
         // get list of image files
@@ -57,8 +57,10 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
                             that._items[i].Height = this.height;
                             that._loadedCount++;
                         }
-                        if (that._loadedCount == that._items.length)
+                        if (that._loadedCount == that._items.length && !that._loadedPublishCalled) {
                             $.publish("/PivotViewer/ImageController/Collection/Loaded", null);
+                            that._loadedPublishCalled = true;
+                        }
                     }
                 }
                 img.src = that._baseUrl + "/" + images.ImageFiles[i];
@@ -83,14 +85,20 @@ PivotViewer.Views.SimpleImageController = PivotViewer.Views.IImageController.sub
     // Simple images just ignore the level - same image is used whatever the zoom
     getImages: function (id, width, height) {
         // Only return image if size is big enough 
-      if (width > 8 && height > 8) {
-          for (var i = 0; i < this._items.length; i++) {
-          if (this._items[i].ImageId == id) {
-            return this._items[i].Images; 
-          }
+        if (width > 8 && height > 8) {
+
+            for (var i = 0; i < this._items.length; i++) {
+                if (this._items[i].ImageId == id) {
+                    return this._items[i].Images;
+                }
+            }
+            return this._items[0].Images;// none, return the first one
         }
-      }
-      return null;
+        return function (facetItem, context, x, y, width, height) {
+            context.beginPath();
+            context.fillStyle = "Black";
+            context.fillRect(x, y, width, height);
+        };
     },
     getWidthForImage: function( id, height ) {
         for (var i = 0; i < this._items.length; i++) {

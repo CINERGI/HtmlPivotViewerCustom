@@ -43,7 +43,7 @@
     <script src="lib/jquery.cookie.min.js"></script>
     <script src="lib/jquery.slidereveal.js"></script>
 
-    <script src="src/namespaces.min.js" type="text/javascript"></script>
+    <script src="src/namespaces.js" type="text/javascript"></script>
     <script src="src/pubsub.js" type="text/javascript"></script>
     <script src="src/utils.js" type="text/javascript"></script>
     <script src="src/models.js" type="text/javascript"></script>
@@ -99,7 +99,7 @@
 <body>
     <div id="wrap">
         <div id="header">
-            
+
             <h1>PiviotViewer Solr Integration Demonstration</h1>
             <h2>CINERGI Metadata Records</h2>
         </div>
@@ -116,41 +116,42 @@
             </div>
         </div>
 
-  <div  class="left"> 
+        <div class="left">
 
-           <!-- <div class="handle">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </div> -->    
-                <h2>Show Pivot</h2>
-                <div id="pivotButton"></div>
+            <!-- <div class="handle">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </div> -->
+            <h2>Show Pivot</h2>
+            <div id="pivotButton"></div>
 
-                <h2>Current Selection</h2>
-                <ul id="selection"></ul>
+            <h2>Current Selection</h2>
+            <ul id="selection"></ul>
 
-                <h2>Search</h2>
-                <span id="search_help">(press ESC to close suggestions)</span>
-                <div id="search">
-                    <input type="text" id="query" name="query" autocomplete="off" />
-                </div>
-      <!--        var fields = ['keywords_ss', 'contact.organizations_ss', 'apiso.Subject_t','apiso.TopicCategory_ss','apiso.Type_s']; -->
-                <h2>Top Keywords</h2>
-                <div class="tagcloud" id="keywords_ss"></div>
+            <h2>Search</h2>
+            <span id="search_help">(press ESC to close suggestions)</span>
+            <div id="search">
+                <input type="text" id="query" name="query" autocomplete="off" />
+            </div>
+            <!-- var fields = ['keywords_ss', 'contact.organizations_ss', 'apiso.Subject_t','apiso.TopicCategory_ss','apiso.Type_s']; -->
+            <h2>Top Keywords</h2>
+            <div class="tagcloud" id="keywords_ss"></div>
 
-                <h2>Top Organisations</h2>
-                <div class="tagcloud" id="contactorganizations_ss"></div>
+            <h2>Top Organisations</h2>
+            <div class="tagcloud" id="contactorganizations_ss"></div>
 
-                <h2>Top Subjects</h2>
-                <div class="tagcloud" id="apisoSubject_t"></div>
+            <h2>Top Subjects</h2>
+            <div class="tagcloud" id="apisoSubject_t"></div>
 
 
-      <!--              <h2>By Date</h2>
-                <div id="calendar"></div>
+            <!-- <h2>By Date</h2>
+            <div id="calendar"></div>
 
-                <div class="clear"></div>
-            </div> 
-          -->
-        <div class="clear"></div>
+            <div class="clear"></div>
+            </div>
+            -->
+            <div class="clear"></div>
 
+        </div>
     </div>
     <script type="text/javascript">
         $(function () {

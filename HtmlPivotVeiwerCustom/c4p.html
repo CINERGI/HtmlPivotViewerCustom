@@ -187,7 +187,7 @@
             help();
             about(); $('#pivotviewer').PivotViewer({
                 //Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
-                Loader: new PivotViewer.Models.Loaders.CSVLoader2("sheetsProxy.ashx?key=1A3_NYGBfD8r8lGXZzwupNA1OZwld7dQdb0Gmd36_hEQ&gid=486248522"),
+                Loader: new PivotViewer.Models.Loaders.CSVLoaderSimpleImage("sheetsProxy.ashx?key=1A3_NYGBfD8r8lGXZzwupNA1OZwld7dQdb0Gmd36_hEQ&gid=486248522", undefined, imagecache),
                 //Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/c4p from excel - PaleoResource 07-21-2014.csv'),
                 GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
                 MapService: "Google",

@@ -12,7 +12,7 @@
 //  GNU General Public License v2 (see COPYING)
 //
 
-PivotViewer.Utils.loadScript("src/views/bucketview.min.js");
+PivotViewer.Utils.loadScript("src/views/bucketview.js");
 
 PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
     init: function () {

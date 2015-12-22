@@ -79,10 +79,10 @@ solrpivot = function () {
                 isInfoVisible = true;
                 SearchVisible = false;
             }
-            var category = new PivotViewer.Models.FacetCategory(name, type, visible, isInfoVisible, SearchVisible);
+            var category = new PivotViewer.Models.Category(name, type, visible, isInfoVisible, SearchVisible);
             //category.column = i;
             category.isMultipleItems = f.isMultipleItems;
-            globalPivotCollection.FacetCategories.push(category);
+            globalPivotCollection.categories.push(category);
             
 
         }
@@ -99,18 +99,18 @@ solrpivot = function () {
             var item = new PivotViewer.Models.Item(img, id, href, name);
 
             if (doc.description != undefined) {
-                item.Description = doc.description;
+                item.description = doc.description;
             }
             if (doc['links'] != undefined) {
                 for (var link in doc['links']) {
                     var lv = new PivotViewer.Models.ItemLink(link, link);
-                    item.Links.push(lv)
+                    item.links.push(lv);
                 }
 
             }
             //var facetNames = mainManager.response.facet_counts['facet_fields'];
             //for (var f in facetNames) {
-            var fields = mainManager.widgets.pivot.fields
+            var fields = mainManager.widgets.pivot.fields;
             for (var f in fields) {
                // pvF = new PivotViewer.Models.Facet(f);
                 pvF = new PivotViewer.Models.Facet(fields[f].name);
@@ -118,24 +118,24 @@ solrpivot = function () {
                     if (fields[f].field.indexOf("_ss") > -1) {
                         for (var fval in doc[fields[f].field]) {
                             var fv = new PivotViewer.Models.FacetValue(doc[fields[f].field][fval]);
-                            pvF.AddFacetValue(fv);
+                            pvF.addValue(fv);
                         }
                     } else {
                         var fv = new PivotViewer.Models.FacetValue(doc[fields[f].field]);
-                        pvF.AddFacetValue(fv);
+                        pvF.addValue(fv);
                     }
 
-                    item.Facets.push(pvF);
+                    item.facets.push(pvF);
                 }
 
 
             }
-            collection.Items.push(item);
+            collection.items.push(item);
         });
         var cl = window.location;
         var basepath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
         var imagecache = cl.protocol + "//" + cl.host + '/' + basepath + 'projects/images/panomedia';
-        globalPivotCollection.ImgBase = imagecache;
+        globalPivotCollection.imageBase = imagecache;
         $('#pivotviewer').css({
             position: 'fixed',
             top: '0px',

@@ -18,25 +18,32 @@ PivotViewer.Models.Loaders.ObjectLoader = PivotViewer.Models.Loaders.ICollection
         if (collectionObject instanceof PivotViewer.Models.Collection)
             this.CollObj = collectionObject;
     },
-    LoadCollection: function (collection) {
-
+    loadCollection: function (collection) {
+              
         this._super(collection);
 
-        
-        collection.CollectionBaseNoProxy = this.CollObj.CollectionBaseNoProxy;
-        collection.CollectionBase = this.CollObj.CollectionBase;
-        collection.FacetCategories = this.CollObj.FacetCategories;
-        collection.FacetCategoriesByName = this.CollObj.FacetCategoriesByName;
-        collection.Items = this.CollObj.Items;
-        collection.ItemsByName = this.CollObj.ItemsByName;
-        collection.ItemsById = this.CollObj.ItemsById;
-        collection.CollectionName = this.CollObj.CollectionName;
-        collection.ImageBase = this.CollObj.ImageBase;
-        collection.BrandImage = this.CollObj.BrandImage;
-        collection.CopyrightName = this.CollObj.CopyrightName;
 
-        $.publish("/PivotViewer/Models/Collection/Loaded", null);
+        collection.collectionBaseNoProxy = this.CollObj.collectionBaseNoProxy;
+        collection.collectionBase = this.CollObj.collectionBase;
+       // collection.categories = this.CollObj.categories;
+  
+       // collection.itemsByName = this.CollObj.itemsByName;
+       // collection.itemsById = this.CollObj.itemsById;
+        collection.collectionName = this.CollObj.collectionName;
+        collection.imageBase = this.CollObj.imageBase;
+        collection.brandImage = this.CollObj.brandImage;
+        collection.copyrightName = this.CollObj.copyrightName;
+        //funky stuff happens in the push.
+        _.each(this.CollObj.categories, function(cat) {
+            collection.categories.push(cat);
+        });
+
+        _.each(this.CollObj.items, function(item) {
+            collection.items.push(item);
+        });
+
+       $.publish("/PivotViewer/Models/Collection/Loaded", null);
     },
-    LoadColumn: function (category) { },
-    GetRow: function (id) {return PivotCollection.GetItemById(id).Facets;}
+    loadColumn: function (category) { },
+    getRow: function (id) {return PivotCollection.getItemById(id).facets;}
 });

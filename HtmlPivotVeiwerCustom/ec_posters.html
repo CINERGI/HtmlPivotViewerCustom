@@ -46,12 +46,13 @@
     <script src="lib/semaphore.min.js"></script>
     <script src="lib/jquery.cookie.min.js"></script>
 
-    <script src="src/namespaces.min.js" type="text/javascript"></script>
+    <script src="src/namespaces.js" type="text/javascript"></script>
     <script src="src/pubsub.js" type="text/javascript"></script>
     <script src="src/utils.js" type="text/javascript"></script>
     <script src="src/models.js" type="text/javascript"></script>
     <script src="src/collectionloader.js" type="text/javascript"></script>
-    <script src="src/csvloader_nodz.js" type="text/javascript"></script>
+    <script src="src/csvloader.js" type="text/javascript"></script>
+    <script src="src/csvloader_2.js" type="text/javascript"></script>
     <script src="src/localcsvloader.js" type="text/javascript"></script>
     <script src="src/views/ipivotviewerview.js" type="text/javascript"></script>
     <script src="src/views/tilebasedview.js" type="text/javascript"></script>
@@ -217,7 +218,9 @@
 
                     $('#pivotviewer').PivotViewer({
                         //  Loader: new PivotViewer.Models.Loaders.LocalCSVLoader('projects/googlesheet/CIComponentReview - Components.csv'),
-                        Loader: new PivotViewer.Models.Loaders.CSVLoader("sheetsProxy.ashx?key=1ofGU4fqH2_pOHRrKVQ1WQLhsbn0Zap6vhLIXyKBY01g&gid=0"),
+                        Loader: new PivotViewer.Models.Loaders.CSVLoaderSimpleImage(
+                            "sheetsProxy.ashx?key=1ofGU4fqH2_pOHRrKVQ1WQLhsbn0Zap6vhLIXyKBY01g&gid=0"
+                            , undefined, imagecache),
 
                         // Loader: new PivotViewer.Models.Loaders.CSVLoader('projects/googlesheets/CIComponentReview - Components.csv'),
                         GoogleAPIKey: "AIzaSyAnPWLPKMYKQZa2g1p11d_vllwwT7CFdQg",
