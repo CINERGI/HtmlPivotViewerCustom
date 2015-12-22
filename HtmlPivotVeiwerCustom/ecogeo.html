@@ -182,6 +182,13 @@
         $(document).ready(function () {
             help();
             about();
+            $('#pivotviewer').css({
+              //  position: 'fixed',
+             //   top: '0px',
+                left: '0px',
+                width: $(window).width() ,
+                height: $(window).height() - $('#top').height()
+            });
             $('#pivotviewer').PivotViewer({
                 Loader: new PivotViewer.Models.Loaders.CSVLoaderSimpleImage("sheetsProxy.ashx?key=1jlybj09_nJ-jb7Shb-U9Xm0NYooSI0qEJTxfm4CEi3E&gid=2041766188"
                     , undefined, imagecache),

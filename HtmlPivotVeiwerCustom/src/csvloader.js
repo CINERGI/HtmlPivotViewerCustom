@@ -187,7 +187,8 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             else if (category.isString()) {
                 //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
                 if (category.isMultipleItems == true) {
-                    var split = raw.split(',');
+                    var split = raw.split('|');
+                    if (split.length < 2) split = raw.split(',');
                     for (var sp = 0 ; sp < split.length; sp++) {
                         f.addValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
                     }
@@ -219,7 +220,8 @@ PivotViewer.Models.Loaders.CSVLoader = PivotViewer.Models.Loaders.ICollectionLoa
             if (category.isString()) {
                 //f.AddFacetValue(new PivotViewer.Models.FacetValue(raw));
                 if (category.isMultipleItems == true) {
-                    var split = raw.split(',');
+                    var split = raw.split('|');
+                    if (split.length < 2) split = raw.split(',');
                     for (var sp = 0 ; sp < split.length; sp++) {
                         f.addValue(new PivotViewer.Models.FacetValue(split[sp].trim()));
                     }

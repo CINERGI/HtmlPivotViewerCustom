@@ -11,6 +11,10 @@
 //  This software is licensed under the terms of the
 //  GNU General Public License v2 (see COPYING)
 //
+// set the pivotviewer hieght prior to calling if you have a header div (eg id='top')
+//  $('#pivotviewer').css({
+//    height: $(window).height() - $('#top').height()
+//  });
 
 ///PivotViewer jQuery extension
 var PV = {};
@@ -131,9 +135,9 @@ var Settings = {
             for (var i = 0; i < array1.length; i++) {
                 var index = i + 1;
                 facetControls[index] = "<li class='pv-filterpanel-accordion-facet-list-item'  id='pv-facet-value-" + PV.cleanName(facetName) + "__" + PV.cleanName(array1[i].name.toString()) + "'>";
-                facetControls[index] += "<input itemvalue='" + PV.cleanName(array1[i].name.toString()) + "' itemfacet='" + PV.cleanName(facetName.toString()) + "' startdate='" + array1[i].start.toISOString() + "' enddate='" + array1[i].end.toISOString() + "' class='pv-facet-value' type='checkbox' />"
+                facetControls[index] += "<input itemvalue='" + PV.cleanName(array1[i].name.toString()) + "' itemfacet='" + PV.cleanName(facetName.toString()) + "' startdate='" + array1[i].start.toISOString() + "' enddate='" + array1[i].end.toISOString() + "' class='pv-facet-value' type='checkbox' />";
                 facetControls[index] += "<span class='pv-facet-value-label'>" +  array1[i].name + "</span>";
-                facetControls[index] += "<span class='pv-facet-value-count'>0</span>"
+                facetControls[index] += "<span class='pv-facet-value-count'>0</span>";
                 facetControls[index] += "</li>";
             }
         }
@@ -146,9 +150,9 @@ var Settings = {
             for (var i = 0; i < array2.length; i++) {
                 var index = i + 4 + array1.length;
                 facetControls[index] = "<li class='pv-filterpanel-accordion-facet-list-item'  id='pv-facet-value-" + PV.cleanName(facetName) + "__" + PV.cleanName(array2[i].name.toString()) + "'>";
-                facetControls[index] += "<input itemvalue='" + PV.cleanName(array2[i].name.toString()) + "' itemfacet='" + PV.cleanName(facetName.toString()) + "' startdate='" + array2[i].start.toISOString() + "' enddate='" + array2[i].end.toISOString() +  "' class='pv-facet-value' type='checkbox' />"
+                facetControls[index] += "<input itemvalue='" + PV.cleanName(array2[i].name.toString()) + "' itemfacet='" + PV.cleanName(facetName.toString()) + "' startdate='" + array2[i].start.toISOString() + "' enddate='" + array2[i].end.toISOString() + "' class='pv-facet-value' type='checkbox' />";
                 facetControls[index] += "<span class='pv-facet-value-label'>" +  array2[i].name + "</span>";
-                facetControls[index] += "<span class='pv-facet-value-count'>0</span>"
+                facetControls[index] += "<span class='pv-facet-value-count'>0</span>";
                 facetControls[index] += "</li>";
             }
         }
@@ -160,17 +164,17 @@ var Settings = {
     var _createCustomRange = function (facetName) {
         var facetControls = ["<ul class='pv-filterpanel-accordion-facet-list'>"];
         facetControls[1] = "<li class='pv-filterpanel-accordion-facet-list-item'  id='pv-facet-value-" + PV.cleanName(facetName) + "__CustomRange'>";
-        facetControls[1] += "<input itemvalue='CustomRange' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />"
+        facetControls[1] += "<input itemvalue='CustomRange' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />";
         facetControls[1] += "<span class='pv-facet-value-label'>Custom Range</span>";
         facetControls[1] += "</li>";
         facetControls[1] += "<ul class='pv-filterpanel-accordion-facet-list'>"
-        facetControls[1] += "<li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-" + PV.cleanName(facetName) + "__Start' style='visibility:hidden;float:right'>"
+        facetControls[1] += "<li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-" + PV.cleanName(facetName) + "__Start' style='visibility:hidden;float:right'>";
         facetControls[1] += "<span class='pv-facet-customrange-label'>Start:</span>"
-        facetControls[1] += "<input itemvalue='CustomRangeStart' itemfacet='" + PV.cleanName(facetName) + "' id='pv-custom-range-" + PV.cleanName(facetName) + "__StartDate' class='pv-facet-customrange' type='text'/>"
+        facetControls[1] += "<input itemvalue='CustomRangeStart' itemfacet='" + PV.cleanName(facetName) + "' id='pv-custom-range-" + PV.cleanName(facetName) + "__StartDate' class='pv-facet-customrange' type='text'/>";
         facetControls[1] += "</li>";
-        facetControls[1] += "<li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-" + PV.cleanName(facetName) + "__Finish' style='visibility:hidden;float:right'>"
+        facetControls[1] += "<li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-" + PV.cleanName(facetName) + "__Finish' style='visibility:hidden;float:right'>";
         facetControls[1] += "<span class='pv-facet-customrange-label'>End:</span>"
-        facetControls[1] += "<input itemvalue='CustomRangeFinish' itemfacet='" + PV.cleanName(facetName) + "' id='pv-custom-range-" + PV.cleanName(facetName) + "__FinishDate' class='pv-facet-customrange' type='text'/>"
+        facetControls[1] += "<input itemvalue='CustomRangeFinish' itemfacet='" + PV.cleanName(facetName) + "' id='pv-custom-range-" + PV.cleanName(facetName) + "__FinishDate' class='pv-facet-customrange' type='text'/>";
         facetControls[1] += "</li>";
         facetControls[facetControls.length] = "</ul>";
         return facetControls.join('');
@@ -183,9 +187,9 @@ var Settings = {
         var facetControls = "<ul class='pv-filterpanel-accordion-facet-list'>";
         if(total != undefined) {
             facetControls += "<li class='pv-filterpanel-accordion-facet-list-item'  id='" + total.id + "'>";
-            facetControls += "<input itemvalue='" + PV.cleanName(total.value) + "' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />"
+            facetControls += "<input itemvalue='" + PV.cleanName(total.value) + "' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />";
             facetControls += "<span class='pv-facet-value-label'>" + total.value + "</span>";
-            facetControls += "<span class='pv-facet-value-count'>0</span>"
+            facetControls += "<span class='pv-facet-value-count'>0</span>";
             facetControls += "</li>";
         }
         facetControls += "<li class='pv-filterpanel-accordion-facet-list-item'  style='border-bottom:thin solid #E2E2E2;'></li>";
@@ -200,9 +204,9 @@ var Settings = {
         for (var value in values.values) {
             var total = values.values[value];
             facetControls[i] = "<li class='pv-filterpanel-accordion-facet-list-item'  id='" + total.id + "'>";
-            facetControls[i] += "<input itemvalue='" + PV.cleanName(total.value) + "' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />"
+            facetControls[i] += "<input itemvalue='" + PV.cleanName(total.value) + "' itemfacet='" + PV.cleanName(facetName) + "' class='pv-facet-value' type='checkbox' />";
             facetControls[i] += "<span class='pv-facet-value-label'>" + total.value + "</span>";
-            facetControls[i] += "<span class='pv-facet-value-count'>0</span>"
+            facetControls[i] += "<span class='pv-facet-value-count'>0</span>";
             facetControls[i++] += "</li>";
         }
         facetControls[facetControls.length] = "</ul>";
@@ -1125,7 +1129,8 @@ var Settings = {
 
         //main panel
         _self.append("<div class='pv-mainpanel'></div>");
-        var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        // var mainPanelHeight = $(window).height() - $('.pv-toolbarpanel').height() - 30;
+        var mainPanelHeight = $('#pivotviewer').height() - $('.pv-toolbarpanel').height() - 30;
         $('.pv-mainpanel').css('height', mainPanelHeight + 'px');
         $('.pv-mainpanel').append("<div class='pv-filterpanel'></div>");
         $('.pv-mainpanel').append("<div class='pv-viewpanel'><canvas class='pv-canvas' width='" + _self.width() + "' height='" + mainPanelHeight + "px'></canvas></div>");
@@ -1134,7 +1139,7 @@ var Settings = {
         //filter panel
         var filterPanel = $('.pv-filterpanel');
         filterPanel.append("<div class='pv-filterpanel-clearall'>Clear All</div>")
-            .append("<input class='pv-filterpanel-search' type='text' placeholder='Search variables...' /><div class='pv-search-clear' id='pv-filterpanel-search-clear'>&nbsp;</div>")
+            .append("<input class='pv-filterpanel-search' type='text' placeholder='Search variable names...' /><div class='pv-search-clear' id='pv-filterpanel-search-clear'>&nbsp;</div>")
             .css('height', mainPanelHeight - 13 + 'px');
         $('.pv-filterpanel-search').css('width', filterPanel.width() - 15 + 'px');
 
