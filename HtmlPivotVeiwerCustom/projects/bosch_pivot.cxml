@@ -1,0 +1,2093 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Collection xmlns:p="http://schemas.microsoft.com/livelabs/pivot/collection/2009" SchemaVersion="1.0" Name="Bosch Paintings" xmlns="http://schemas.microsoft.com/collection/metadata/2009">
+  <FacetCategories>
+    <FacetCategory Name="Title" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Years" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Medium" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Museum" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="City" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Country" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Latitude" Type="Number" p:IsFilterVisible="true" p:IsWordWheelVisible="false" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Longitude" Type="Number" p:IsFilterVisible="true" p:IsWordWheelVisible="false" p:IsMetaDataVisible="true" />
+    <FacetCategory Name="Notes" Type="String" p:IsFilterVisible="true" p:IsWordWheelVisible="true" p:IsMetaDataVisible="true" />
+  </FacetCategories>
+  <Items ImgBase="bosch_pivot_files\1cvn2224.00n.xml" HrefBase="http://www.abcgallery.com/B/bosch/">
+    <Item Id="0" Img="#0" Name="Hieronymus Bosch. The Tree Man." Href="http://www.abcgallery.com/B/bosch/bosch1.html">
+      <Description>Hieronymus Bosch. The Tree Man. 1470s. Pen and bistre on paper. Albertina, Vienna, Austria.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Tree Man" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1470s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Albertina" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="1" Img="#1" Name="Hieronymus Bosch. Head of a Woman (fragment)." Href="http://www.abcgallery.com/B/bosch/bosch2.html">
+      <Description>Hieronymus Bosch. Head of a Woman (fragment). Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands. This is the only surviving part of what is presumed to be a larger painting.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Head of a Woman (fragment)" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="This is the only surviving part of what is presumed to be a larger painting" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="2" Img="#2" Name="Hieronymus Bosch. Head of a Halberdier." Href="http://www.abcgallery.com/B/bosch/bosch3.html">
+      <Description>Hieronymus Bosch. Head of a Halberdier. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Head of a Halberdier" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="3" Img="#3" Name="Hieronymus Bosch. Two Male Heads." Href="http://www.abcgallery.com/B/bosch/bosch4.html">
+      <Description>Hieronymus Bosch. Two Male Heads. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Two Male Heads" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="4" Img="#4" Name="Hieronymus Bosch. Two Caricatured Heads." Href="http://www.abcgallery.com/B/bosch/bosch5.html">
+      <Description>Hieronymus Bosch. Two Caricatured Heads. Pen and bistre on paper. Lehmann Collection, New York, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Two Caricatured Heads" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Lehmann Collection" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="New York" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.712784" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-74.005941" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="5" Img="#5" Name="Hieronymus Bosch. Epiphany." Href="http://www.abcgallery.com/B/bosch/bosch6.html">
+      <Description>Hieronymus Bosch. Epiphany. 1480-1490. Oil on panel. Philadelphia Museum of Art, Philadelphia, PA, USA. 1480-1490. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Epiphany" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1480-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Philadelphia Museum of Art" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Philadelphia - PA" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="39.952584" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-75.165222" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="6" Img="#6" Name="Hieronymus Bosch. Ecce Homo." Href="http://www.abcgallery.com/B/bosch/bosch7.html">
+      <Description>Hieronymus Bosch. Ecce Homo. 1490. Oil on panel. Stadelsches Kunstinstitut mit Stadtischer Galeria, Frankfurt am Main, Germany. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Ecce Homo" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Stadelsches Kunstinstitut mit Stadtischer Galeria" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Frankfurt am Main" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="50.110922" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="8.682127" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="7" Img="#7" Name="Hieronymus Bosch. Group of Male Figures." Href="http://www.abcgallery.com/B/bosch/bosch8.html">
+      <Description>Hieronymus Bosch. Group of Male Figures. Pen on paper. Pierpont Morgan Library, New York, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Group of Male Figures" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Pierpont Morgan Library" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="New York" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.712784" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-74.005941" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="8" Img="#8" Name="Hieronymus Bosch. Ecce Homo." Href="http://www.abcgallery.com/B/bosch/bosch9.html">
+      <Description>Hieronymus Bosch. Ecce Homo. 1485-1490. Oil on panel. Philadelphia Museum of Art, Philadelphia, PA, USA. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Ecce Homo" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Philadelphia Museum of Art" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Philadelphia - PA" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="39.952584" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-75.165222" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="9" Img="#9" Name="Hieronymus Bosch. The Entombment." Href="http://www.abcgallery.com/B/bosch/bosch10.html">
+      <Description>Hieronymus Bosch. The Entombment. 1507. Ink and grey wash on paper. British Museum, London, UK. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Entombment" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1507" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Ink and grey wash on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="British Museum" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="London" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="UK" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.507351" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-0.127758" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="10" Img="#10" Name="Hieronymus Bosch. Christ Carrying the Cross." Href="http://www.abcgallery.com/B/bosch/bosch11.html">
+      <Description>Hieronymus Bosch. Christ Carrying the Cross. 1485-1490. Oil on panel. Kunsthistorisches Museum, Vienna, Austria. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Carrying the Cross" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kunsthistorisches Museum" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="11" Img="#11" Name="Hieronymus Bosch. Christ Child with a Walking-Frame." Href="http://www.abcgallery.com/B/bosch/bosch12.html">
+      <Description>Hieronymus Bosch. Christ Child with a Walking-Frame. 1485-1490. Oil on panel. Kunsthistorisches Museum, Vienna, Austria.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Child with a Walking-Frame" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kunsthistorisches Museum" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Reverse of Christ Carrying the Cross" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="12" Img="#12" Name="Hieronymus Bosch. Beehive and Witches." Href="http://www.abcgallery.com/B/bosch/bosch13.html">
+      <Description>Hieronymus Bosch. Beehive and Witches. Pen and bistre on paper. Albertina, Vienna, Austria.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Beehive and Witches" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Albertina" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="13" Img="#13" Name="Hieronymus Bosch. The Conjuror." Href="http://www.abcgallery.com/B/bosch/bosch14.html">
+      <Description>Hieronymus Bosch. The Conjuror. 1500s. Oil on panel. Musee Municipal, Saint-Germain-en Laye, France.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Conjuror" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Musee Municipal" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Saint-Germain-en Laye" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="France" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.898908" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="2.093761" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="14" Img="#14" Name="Hieronymus Bosch. Marriage Feast at Cana." Href="http://www.abcgallery.com/B/bosch/bosch15.html">
+      <Description>Hieronymus Bosch. Marriage Feast at Cana. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Marriage Feast at Cana" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="15" Img="#15" Name="Hieronymus Bosch. Tabletop of the Seven Deadly Sins and the Four Last Things." Href="http://www.abcgallery.com/B/bosch/bosch16.html">
+      <Description>Hieronymus Bosch. Tabletop of the Seven Deadly Sins and the Four Last Things. 1485. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Tabletop of the Seven Deadly Sins and the Four Last Things" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="16" Img="#16" Name="Hieronymus Bosch. The Stone Operation." Href="http://www.abcgallery.com/B/bosch/bosch17.html">
+      <Description>Hieronymus Bosch. The Stone Operation. 1475-1480. Oil on panel. Museo del Prado, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Stone Operation" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1475-1480" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="17" Img="#17" Name="Hieronymus Bosch. The Ship of Fools." Href="http://www.abcgallery.com/B/bosch/bosch18.html">
+      <Description>Hieronymus Bosch. The Ship of Fools. 1490-1500. Oil on panel. Louvre, Paris, France. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Ship of Fools" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1490-1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Louvre" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Paris" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="France" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.856614" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="2.352222" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="18" Img="#18" Name="Hieronymus Bosch. Allegory of Gluttony and Lust." Href="http://www.abcgallery.com/B/bosch/bosch19.html">
+      <Description>Hieronymus Bosch. Allegory of Gluttony and Lust. 1490-1500. Oil on panel. Yale University Art Gallery, New Haven, MA, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Allegory of Gluttony and Lust" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1490-1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Yale University Art Gallery" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="New Haven - MA" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="35.323347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-119.092821" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="19" Img="#19" Name="Hieronymus Bosch. Death of the Miser." Href="http://www.abcgallery.com/B/bosch/bosch20.html">
+      <Description>Hieronymus Bosch. Death of the Miser. 1490. Oil on panel. National Gallery of Art, Washington, DC, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Death of the Miser" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="National Gallery of Art" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Washington - DC" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.907192" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-77.036871" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="20" Img="#20" Name="Hieronymus Bosch. St. James the Greater." Href="http://www.abcgallery.com/B/bosch/bosch21.html">
+      <Description>Hieronymus Bosch. St. James the Greater. 1500s. Grisaille on panel. Akademie der bildenden Kunste, Vienna, Austria. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. James the Greater" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Grisaille on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Akademie der bildenden Kunste" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left outer wing of the Last Judgement triptych." />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="21" Img="#21" Name="Hieronymus Bosch. Hell." Href="http://www.abcgallery.com/B/bosch/bosch23.html">
+      <Description>Hieronymus Bosch. Hell. 1500s. Oil on panel. Akademie der bildenden Kunste, Vienna, Austria.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Hell" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Akademie der bildenden Kunste" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Right wing of the Last Judgement triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="22" Img="#22" Name="Hieronymus Bosch. Paradise." Href="http://www.abcgallery.com/B/bosch/bosch24.html">
+      <Description>Hieronymus Bosch. Paradise. 1500s. Oil on panel. Akademie der bildenden Kunste, Vienna, Austria.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Paradise" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Akademie der bildenden Kunste" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing of the Last Judgement triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="23" Img="#23" Name="Hieronymus Bosch. Last Judgement." Href="http://www.abcgallery.com/B/bosch/bosch25.html">
+      <Description>Hieronymus Bosch. Last Judgement. 1500s. Oil on panel. Akademie der bildenden Kunste, Vienna, Austria. 1500's. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Last Judgement" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Akademie der bildenden Kunste" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Vienna" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Austria" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="48.208174" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="16.373819" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel of the Last Judgement triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="24" Img="#24" Name="Hieronymus Bosch. Terrestrial Paradise." Href="http://www.abcgallery.com/B/bosch/bosch26.html">
+      <Description>Hieronymus Bosch. Terrestrial Paradise. 1500s. Oil on panel. Palazzo Ducale, Venice, Italy.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Terrestrial Paradise" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="25" Img="#25" Name="Hieronymus Bosch. Ascent of the Blessed." Href="http://www.abcgallery.com/B/bosch/bosch27.html">
+      <Description>Hieronymus Bosch. Ascent of the Blessed. 1500s. Oil on panel. Palazzo Ducale, Venice, Italy.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Ascent of the Blessed" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="26" Img="#26" Name="Hieronymus Bosch. Hell." Href="http://www.abcgallery.com/B/bosch/bosch28.html">
+      <Description>Hieronymus Bosch. Hell. 1500s. Oil on panel. Palazzo Ducale, Venice, Italy.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Hell" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="27" Img="#27" Name="Hieronymus Bosch. Fall of the Damned." Href="http://www.abcgallery.com/B/bosch/bosch29.html">
+      <Description>Hieronymus Bosch. Fall of the Damned. 1500s. Oil on panel. Palazzo Ducale, Venice, Italy.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Fall of the Damned" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="28" Img="#28" Name="Hieronymus Bosch. Paradise." Href="http://www.abcgallery.com/B/bosch/bosch30.html">
+      <Description>Hieronymus Bosch. Paradise. Oil on panel. Private collection, New York, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Paradise" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Private collection" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="New York" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.712784" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-74.005941" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="29" Img="#29" Name="Hieronymus Bosch. Death of the Reprobate." Href="http://www.abcgallery.com/B/bosch/bosch31.html">
+      <Description>Hieronymus Bosch. Death of the Reprobate. Oil on panel. Private collection, New York, USA.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Death of the Reprobate" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Private collection" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="New York" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="USA" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.712784" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-74.005941" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="30" Img="#30" Name="Hieronymus Bosch. Haywain." Href="http://www.abcgallery.com/B/bosch/bosch32.html">
+      <Description>Hieronymus Bosch. Haywain. 1485-1490. Oil on panel. Museo del Prado, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Haywain" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="31" Img="#31" Name="Hieronymus Bosch. Paradise." Href="http://www.abcgallery.com/B/bosch/bosch33.html">
+      <Description>Hieronymus Bosch. Paradise. 1485-1490. Oil on panel. Monasterio de San Lorenzo, El Escorial, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Paradise" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Monasterio de San Lorenzo" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="El Escorial" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.583347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-4.127044" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="32" Img="#32" Name="Hieronymus Bosch. Hell." Href="http://www.abcgallery.com/B/bosch/bosch34.html">
+      <Description>Hieronymus Bosch. Hell. 1485-1490. Oil on panel. Monasterio de San Lorenzo, El Escorial, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Hell" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Monasterio de San Lorenzo" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="El Escorial" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.583347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-4.127044" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="33" Img="#33" Name="Hieronymus Bosch. Haywain." Href="http://www.abcgallery.com/B/bosch/bosch35.html">
+      <Description>Hieronymus Bosch. Haywain. 1485-1490. Oil on panel. Monasterio de San Lorenzo, El Escorial, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Haywain" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Monasterio de San Lorenzo" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="El Escorial" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.583347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-4.127044" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="34" Img="#34" Name="Hieronymus Bosch. Creation of the World." Href="http://www.abcgallery.com/B/bosch/bosch36.html">
+      <Description>Hieronymus Bosch. Creation of the World. c.1504-1510. Grisaille on panel. Museo del Prado, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Creation of the World" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1504-1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Grisaille on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="35" Img="#35" Name="Hieronymus Bosch. Paradise." Href="http://www.abcgallery.com/B/bosch/bosch37.html">
+      <Description>Hieronymus Bosch. Paradise. c.1504-1510. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Paradise" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1504-1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel of the Haywain Triptych" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="36" Img="#36" Name="Hieronymus Bosch. Hell." Href="http://www.abcgallery.com/B/bosch/bosch38.html">
+      <Description>Hieronymus Bosch. Hell. c.1504-1510. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Hell" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1504-1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing of the triptych The Garden of Earthly Delights" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="37" Img="#37" Name="Hieronymus Bosch. The Garden of Earthly Delights." Href="http://www.abcgallery.com/B/bosch/bosch39.html">
+      <Description>Hieronymus Bosch. The Garden of Earthly Delights. c.1504-1510. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Garden of Earthly Delights" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1504-1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Right wing of the triptych The Garden of Earthly Delights" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="38" Img="#38" Name="Hieronymus Bosch. Tortoise with Death's Head on its Carapace and Winged Demon." Href="http://www.abcgallery.com/B/bosch/bosch40.html">
+      <Description>Hieronymus Bosch. Tortoise with Death's Head on its Carapace and Winged Demon. Pen and bistre on paper. Kupferstichkabinett, Berlin, Germany.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Tortoise with Death's Head on its Carapace and Winged Demon" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kupferstichkabinett" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Berlin" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="52.520007" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.404954" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="39" Img="#39" Name="Hieronymus Bosch. Two Monsters." Href="http://www.abcgallery.com/B/bosch/bosch41.html">
+      <Description>Hieronymus Bosch. Two Monsters. Pen and bistre on paper. Kupferstichkabinett, Berlin, Germany.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Two Monsters" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kupferstichkabinett" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Berlin" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="52.520007" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.404954" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="40" Img="#40" Name="Hieronymus Bosch. The Wayfarer." Href="http://www.abcgallery.com/B/bosch/bosch42.html">
+      <Description>Hieronymus Bosch. The Wayfarer. 1500-1502. Oil on panel. Monasterio de San Lorenzo, El Escorial, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The Wayfarer" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500-1502" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Monasterio de San Lorenzo" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="El Escorial" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.583347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-4.127044" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Closed outer wings of the Haywain triptych." />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="41" Img="#41" Name="Hieronymus Bosch. The House of Ill Fame. Detail." Href="http://www.abcgallery.com/B/bosch/bosch43.html">
+      <Description>Hieronymus Bosch. The House of Ill Fame. Detail. 1500s. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The House of Ill Fame. Detail" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="42" Img="#42" Name="Hieronymus Bosch. The House of Ill Fame." Href="http://www.abcgallery.com/B/bosch/bosch44.html">
+      <Description>Hieronymus Bosch. The House of Ill Fame. 1500s. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="The House of Ill Fame" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="43" Img="#43" Name="Hieronymus Bosch. Fall of the Rebel Angels." Href="http://www.abcgallery.com/B/bosch/bosch45.html">
+      <Description>Hieronymus Bosch. Fall of the Rebel Angels. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Fall of the Rebel Angels" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Reverse of the left wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="44" Img="#44" Name="Hieronymus Bosch. Mankind Beset by Devils." Href="http://www.abcgallery.com/B/bosch/bosch46.html">
+      <Description>Hieronymus Bosch. Mankind Beset by Devils. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Mankind Beset by Devils" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Reverse of the left wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="45" Img="#45" Name="Hieronymus Bosch. Mankind Beset by Devils." Href="http://www.abcgallery.com/B/bosch/bosch47.html">
+      <Description>Hieronymus Bosch. Mankind Beset by Devils. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Mankind Beset by Devils" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Reverse of the right wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="46" Img="#46" Name="Hieronymus Bosch. Noah's Ark on Mount Ararat." Href="http://www.abcgallery.com/B/bosch/bosch48.html">
+      <Description>Hieronymus Bosch. Noah's Ark on Mount Ararat. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Noah's Ark on Mount Ararat" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Right wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="47" Img="#47" Name="Hieronymus Bosch. Christ on Cross with Donors and Saints." Href="http://www.abcgallery.com/B/bosch/bosch49.html">
+      <Description>Hieronymus Bosch. Christ on Cross with Donors and Saints. Oil on panel. Musee des Beaux-Arts, Brussels, Belgium. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ on Cross with Donors and Saints" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Musee des Beaux-Arts" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Brussels" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Belgium" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="50.85034" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.35171" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="48" Img="#48" Name="Hieronymus Bosch. Epiphany Triptych. " Href="http://www.abcgallery.com/B/bosch/bosch50.html">
+      <Description>Hieronymus Bosch. Epiphany Triptych. c.1510. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Epiphany Triptych" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing: The Donor with St. Peter and St. Joseph. Central panel: The Virgin and Child and the Three Magi. Right wing: The Donor with St. Agnes" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="49" Img="#49" Name="Hieronymus Bosch. Christ Carrying the Cross." Href="http://www.abcgallery.com/B/bosch/bosch52.html">
+      <Description>Hieronymus Bosch. Christ Carrying the Cross. Oil on panel. Palacio Real, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Carrying the Cross" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palacio Real" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="50" Img="#50" Name="Hieronymus Bosch. Christ Crowned with Thorns." Href="http://www.abcgallery.com/B/bosch/bosch53.html">
+      <Description>Hieronymus Bosch. Christ Crowned with Thorns. 1500s. Oil on panel. National Gallery, London, UK. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Crowned with Thorns" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="National Gallery" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="London" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="UK" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.507351" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-0.127758" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="51" Img="#51" Name="Hieronymus Bosch. Mary and St. John at the Foot of the Cross." Href="http://www.abcgallery.com/B/bosch/bosch54.html">
+      <Description>Hieronymus Bosch. Mary and St. John at the Foot of the Cross. Brush on paper. Kupferstichkabinett, Dresden, Germany. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Mary and St. John at the Foot of the Cross" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Brush on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kupferstichkabinett" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Dresden" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.050409" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.737262" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="52" Img="#52" Name="Hieronymus Bosch. Christ Crowned with Thorns." Href="http://www.abcgallery.com/B/bosch/bosch55.html">
+      <Description>Hieronymus Bosch. Christ Crowned with Thorns. 1500s. Oil on panel. Monasterio de San Lorenzo, El Escorial, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Crowned with Thorns" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Monasterio de San Lorenzo" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="El Escorial" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.583347" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-4.127044" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="53" Img="#53" Name="Hieronymus Bosch. Christ Carrying the Cross." Href="http://www.abcgallery.com/B/bosch/bosch56.html">
+      <Description>Hieronymus Bosch. Christ Carrying the Cross. 1490. Oil on panel. Musee des Beaux-Arts, Ghent, Belgium. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Carrying the Cross" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Musee des Beaux-Arts" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Ghent" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Belgium" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.054342" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="3.717424" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="54" Img="#54" Name="Hieronymus Bosch. Temptation of St. Anthony." Href="http://www.abcgallery.com/B/bosch/bosch57.html">
+      <Description>Hieronymus Bosch. Temptation of St. Anthony. Pen and bistre on paper. Kupferstichkabinett, Berlin, Germany.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Temptation of St. Anthony" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Kupferstichkabinett" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Berlin" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="52.520007" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.404954" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="55" Img="#55" Name="Hieronymus Bosch. St. Jerome." Href="http://www.abcgallery.com/B/bosch/bosch58.html">
+      <Description>Hieronymus Bosch. St. Jerome. Oil on panel. Palazzo Ducale, Venice, Italy. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. Jerome" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="56" Img="#56" Name="Hieronymus Bosch. St. Anthony. St. Giles." Href="http://www.abcgallery.com/B/bosch/bosch59.html">
+      <Description>Hieronymus Bosch. St. Anthony. St. Giles. Oil on panel. Palazzo Ducale, Venice, Italy. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. Anthony. St. Giles" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Palazzo Ducale" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Venice" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Italy" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="45.440847" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="12.315515" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left and right wings" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="57" Img="#57" Name="Hieronymus Bosch. St. Jerome at Prayer." Href="http://www.abcgallery.com/B/bosch/bosch60.html">
+      <Description>Hieronymus Bosch. St. Jerome at Prayer. 1500s. Oil on panel. Musee des Beaux-Arts, Ghent, Belgium. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. Jerome at Prayer" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Musee des Beaux-Arts" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Ghent" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Belgium" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.054342" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="3.717424" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="58" Img="#58" Name="Hieronymus Bosch. Garden of Earthly Delights (Triptych)." Href="http://www.abcgallery.com/B/bosch/bosch62.html">
+      <Description>Hieronymus Bosch. Garden of Earthly Delights (Triptych). c.1510. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Garden of Earthly Delights (Triptych)" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="c.1510" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="59" Img="#59" Name="Hieronymus Bosch. St. John the Baptist." Href="http://www.abcgallery.com/B/bosch/bosch63.html">
+      <Description>Hieronymus Bosch. St. John the Baptist. Oil on panel. Museo Lazaro Galdiano, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. John the Baptist" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo Lazaro Galdiano" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="60" Img="#60" Name="Hieronymus Bosch. Two Witches." Href="http://www.abcgallery.com/B/bosch/bosch64.html">
+      <Description>Hieronymus Bosch. Two Witches. Pen and bistre on paper. Museum Boymans-van Beuningen, Rotterdam, Netherlands.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Two Witches" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Pen and bistre on paper" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="61" Img="#61" Name="Hieronymus Bosch. St. Christopher Carrying the Christ Child." Href="http://www.abcgallery.com/B/bosch/bosch65.html">
+      <Description>Hieronymus Bosch. St. Christopher Carrying the Christ Child. 1480-1490. Oil on panel. Museum Boymans-van Beuningen, Rotterdam, Netherlands. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. Christopher Carrying the Christ Child" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1480-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museum Boymans-van Beuningen" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Rotterdam" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Netherlands" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="51.92442" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="4.477733" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="62" Img="#62" Name="Hieronymus Bosch. Scenes from the Passion of Christ and the Pelican with Her Young." Href="http://www.abcgallery.com/B/bosch/bosch66.html">
+      <Description>Hieronymus Bosch. Scenes from the Passion of Christ and the Pelican with Her Young. 1485. Oil on panel. Staatliche Museen zu Berlin, Gemaldegalerie, Berlin, Germany.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Scenes from the Passion of Christ and the Pelican with Her Young" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Staatliche Museen zu Berlin: Gemaldegalerie" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Berlin" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="52.520007" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.404954" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Reverse of St. John the Evangelist on Patmos." />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="63" Img="#63" Name="Hieronymus Bosch. St. John the Evangelist on Patmos." Href="http://www.abcgallery.com/B/bosch/bosch67.html">
+      <Description>Hieronymus Bosch. St. John the Evangelist on Patmos. 1485. Oil on panel. Staatliche Museen zu Berlin, Gemaldegalerie, Berlin, Germany. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. John the Evangelist on Patmos" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Staatliche Museen zu Berlin: Gemaldegalerie" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Berlin" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Germany" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="52.520007" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="13.404954" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="64" Img="#64" Name="Hieronymus Bosch. Temptation of St. Anthony." Href="http://www.abcgallery.com/B/bosch/bosch68.html">
+      <Description>Hieronymus Bosch. Temptation of St. Anthony. 1500s. Oil on panel. Museo del Prado, Madrid, Spain. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Temptation of St. Anthony" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500s" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="65" Img="#65" Name="Hieronymus Bosch. Christ Carrying the Cross." Href="http://www.abcgallery.com/B/bosch/bosch69.html">
+      <Description>Hieronymus Bosch. Christ Carrying the Cross. 1500. Grisaille on panel. Museu Nacional de Arte Antiga, Lisbon, Portugal. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Christ Carrying the Cross" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Grisaille on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museu Nacional de Arte Antiga" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Lisbon" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Portugal" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.722252" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-9.139337" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Outside of left wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="66" Img="#66" Name="Hieronymus Bosch. Arrest of Christ in the Garden of Gethsemane." Href="http://www.abcgallery.com/B/bosch/bosch70.html">
+      <Description>Hieronymus Bosch. Arrest of Christ in the Garden of Gethsemane. 1500. Grisaille on panel. Museu Nacional de Arte Antiga, Lisbon, Portugal. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Arrest of Christ in the Garden of Gethsemane" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Grisaille on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museu Nacional de Arte Antiga" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Lisbon" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Portugal" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.722252" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-9.139337" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Outside of right wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="67" Img="#67" Name="Hieronymus Bosch. Flight and Failure of St. Anthony." Href="http://www.abcgallery.com/B/bosch/bosch71.html">
+      <Description>Hieronymus Bosch. Flight and Failure of St. Anthony. 1500. Oil on panel. Museu Nacional de Arte Antiga, Lisbon, Portugal. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Flight and Failure of St. Anthony" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museu Nacional de Arte Antiga" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Lisbon" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Portugal" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.722252" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-9.139337" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Left wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="68" Img="#68" Name="Hieronymus Bosch. St. Anthony at Meditation." Href="http://www.abcgallery.com/B/bosch/bosch72.html">
+      <Description>Hieronymus Bosch. St. Anthony at Meditation. 1500. Oil on panel. Museu Nacional de Arte Antiga, Lisbon, Portugal. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="St. Anthony at Meditation" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museu Nacional de Arte Antiga" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Lisbon" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Portugal" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.722252" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-9.139337" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Right wing" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="69" Img="#69" Name="Hieronymus Bosch. Temptation of St. Anthony." Href="http://www.abcgallery.com/B/bosch/bosch73.html">
+      <Description>Hieronymus Bosch. Temptation of St. Anthony. 1500. Oil on panel. Museu Nacional de Arte Antiga, Lisbon, Portugal. </Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Temptation of St. Anthony" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1500" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museu Nacional de Arte Antiga" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Lisbon" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Portugal" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="38.722252" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-9.139337" />
+        </Facet>
+        <Facet Name="Notes">
+          <String Value="Central panel" />
+        </Facet>
+      </Facets>
+    </Item>
+    <Item Id="70" Img="#70" Name="Hieronymus Bosch. Haywain Triptych." Href="http://www.abcgallery.com/B/bosch/bosch74.html">
+      <Description>Hieronymus Bosch. Haywain Triptych. 1485-1490. Oil on panel. Museo del Prado, Madrid, Spain.</Description>
+      <Facets>
+        <Facet Name="Title">
+          <String Value="Haywain Triptych" />
+        </Facet>
+        <Facet Name="Years">
+          <String Value="1485-1490" />
+        </Facet>
+        <Facet Name="Medium">
+          <String Value="Oil on panel" />
+        </Facet>
+        <Facet Name="Museum">
+          <String Value="Museo del Prado" />
+        </Facet>
+        <Facet Name="City">
+          <String Value="Madrid" />
+        </Facet>
+        <Facet Name="Country">
+          <String Value="Spain" />
+        </Facet>
+        <Facet Name="Latitude">
+          <Number Value="40.416775" />
+        </Facet>
+        <Facet Name="Longitude">
+          <Number Value="-3.70379" />
+        </Facet>
+      </Facets>
+    </Item>
+  </Items>
+  <Extension>
+    <p:Copyright Name="SUAVE Project" />
+  </Extension>
+</Collection>

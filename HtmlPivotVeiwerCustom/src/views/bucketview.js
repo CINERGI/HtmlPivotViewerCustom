@@ -13,6 +13,9 @@
 //
 
 PivotViewer.Utils.loadScript("src/views/definebuckets.js");
+var oldBuckets;
+var oldSortCategory;
+var oldFilterList;
 
 PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     init: function () {
@@ -63,7 +66,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 that.columnWidth = that.origColumnWidth;
                 that.scale = 1;
                 $('.pv-bucketview-overlay div').fadeIn('slow');
-                // Reset the slider to zero 
+                // Reset the slider to zero
                 that.dontZoom = true;
                 PV.zoom(0);
                 that.recalibrateUISettings();
@@ -94,6 +97,16 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     getBucket: function(x) {return Math.floor((x - this.offsetX) / this.columnWidth)},
     recalibrateUISettings: function () { this.rowscols = this.getTileDimensions(this.columnWidth - 2, this.canvasHeightUIAdjusted - this.offsetY, this.maxRatio, this.bigCount, this.rowscols); },
     resetUISettings: function () { this.rowscols = this.calculateDimensions(this.columnWidth - 2, this.canvasHeightUIAdjusted - this.offsetY, this.maxRatio, this.bigCount); },
+    handleFilter: function (tiles, filterList, sortCategory) {
+        if (tiles != undefined) this.tiles = tiles;
+        if (filterList != undefined) this.filterList = filterList;
+        if(sortCategory != undefined) this.sortCategory = sortCategory;
+        //add old info
+        if(oldFilterList == undefined) oldFilterList = this.filterList;
+        if(oldSortCategory == undefined) oldSortCategory = this.sortCategory;
+        this.filtered = true;
+        if (this.isActive) this.activate();
+    },
     setup: function (width, height, offsetX, offsetY, tileMaxRatio) {
         this.width = width;
         this.height = height;
@@ -113,8 +126,15 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         this.createUI();
     },
     filter: function () {
-        if (PV.subsets.finalized) this.buckets = this.subset(this.filterList, this.sortCategory);
-        else this.buckets = this.bucketize(this.filterList, this.sortCategory);
+        if (PV.subsets.finalized){
+          this.buckets = this.subset(this.filterList, this.sortCategory);
+        }
+        else{
+           this.buckets = this.bucketize(this.filterList, this.sortCategory);
+        }
+        if(oldBuckets == undefined || oldSortCategory != this.sortCategory)
+          oldBuckets = this.buckets;
+          oldSortCategory = this.sortCategory;
     },
     createUI: function () {
         this.columnWidth = this.origColumnWidth = (this.width - this.offsetX) / this.buckets.length;
@@ -126,7 +146,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             var bkt = this.buckets[i];
             var styleClass = i % 2 == 0 ? "bucketview-bucket-dark" : "bucketview-bucket-light";
             if (bkt.equals(PV.subsets[0]) || bkt.equals(PV.subsets[1])) styleClass += " pv-bucketview-subset";
-            var label = (bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? bkt.startLabel : bkt.startLabel + "<br>to<br>" + bkt.endLabel) + 
+            var label = (bkt.startRange == bkt.endRange || bkt.startLabel == bkt.endLabel ? bkt.startLabel : bkt.startLabel + "<br>to<br>" + bkt.endLabel) +
                 (PV.subsets.finalized ? (i % 2 ? " (2)" : " (1)") : "");
             uiElements += "<div class='pv-bucketview-overlay-bucket " + styleClass + "' id='pv-bucketview-overlay-bucket-" + i + "' style='width: " +
                 (Math.floor(this.columnWidth) - 4) + "px; height:" + (this.height - 2) + "px; left:" + ((i * this.columnWidth) - 2) + "px;'>";
@@ -159,12 +179,12 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             var ratio = TileController._imageController.getRatio(this.filterList[i].item.img);
             if (ratio < this.maxRatio) this.maxRatio = ratio;
         }
-        
+
         var pt2Timeout = this.filterList.length == this.tiles.length ? 0 : 500, that = this;
         setTimeout(function () {
             // Clear selection
             var value = $('.pv-toolbarpanel-zoomslider').slider('option', 'value');
-            if (value > 0) { 
+            if (value > 0) {
                 that.selected = selectedTile = null;
                 that.currentOffsetX = that.offsetX;
                 that.currentOffsetY = that.offsetY;
@@ -200,12 +220,12 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         // Clear all tile locations greater than 1
         for (var l = 0; l < this.tiles.length; l++) {
             this.tiles[l].firstFilterItemDone = false;
-            this.tiles[l]._locations = [this.tiles[l]._locations[0]];   
+            this.tiles[l]._locations = [this.tiles[l]._locations[0]];
         }
 
         for (var b = 0; b < this.buckets.length; b++) {
             var bucket = this.buckets[b], currentColumn = 0, currentRow = 0;
-        
+
             for (var i = 0; i < bucket.tiles.length; i++) {
 
                 var tile = bucket.tiles[i];
@@ -217,7 +237,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                         tile.startwidth = tile.width;
                         tile.startheight = tile.height;
                     }
-                   
+
                     tile.destinationwidth = rowscols.TileMaxWidth;
                     tile.destinationheight = rowscols.TileHeight;
                     tile._locations[0].destinationx = (b * this.columnWidth) + (currentColumn * rowscols.TileMaxWidth) + offsetX;
@@ -267,7 +287,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
 
         if (category.isDateTime()) {
             min = new Date(min); max = new Date(max);
-            return PivotViewer.Utils.getBuckets(filterList, sortCategory, PivotViewer.Utils.getTimeValueFunction(min, max), PivotViewer.Utils.getTimeLabelFunction(min, max));
+            return PivotViewer.Utils.getBuckets(filterList, sortCategory, PivotViewer.Utils.getTimeValueFn(min, max), PivotViewer.Utils.getTimeLabelFn(min, max));
         }
         else if (category.isNumber()) {
             var bkts = [];
@@ -283,13 +303,13 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 base = Math.floor(min / bucketSize) * bucketSize, numBuckets = Math.floor((max - base) / bucketSize) + 1;
 
                 if (numBuckets > maxBuckets) { bucketSize *= 2; numBuckets = Math.ceil(numBuckets / 2);}
-            } 
+            }
 
             for (var i = 0; i < numBuckets; i++) {
                 var start = i * bucketSize + base;
                 var end = start + bucketSize;
                 bkts[i] = new PivotViewer.Models.Bucket(start, start, start.toString(), end.toString());
-            }   
+            }
             var i = 0;
             for (; i < filterList.length; i++) {
                 var item = filterList[i].item;
@@ -303,6 +323,15 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                     if (bkt.endRange < value) bkt.endRange = value;
                 }
             }
+
+            var epsilon = bucketSize;
+            for (var b = 0; b < bkts.length; b++) {
+                var bkt = bkts[b], newEp = bkt.startRange + bucketSize - bkt.endRange;
+                if (newEp < epsilon) epsilon = newEp;
+            }
+            epsilon = Math.pow(10, Math.floor(Math.log(epsilon) / Math.log(10))); bucketSize = bucketSize - (epsilon > 1 ? 1 : epsilon);
+            for (var b = 0; b < bkts.length; b++) bkts[b].endLabel = (bkts[b].startRange + bucketSize).toString();
+
             var empty = 0;
             for (var b = 0; b < bkts.length; b++) {
                 if (bkts[b].tiles.length == 0) empty++;
@@ -328,6 +357,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 }
                 bkts = newBkts;
             }
+
             if (i != filterList.length && Settings.showMissing) {
                 bkts.push(new PivotViewer.Models.Bucket("(no info)", "(no info)"));
                 var bktNum = bkts.length - 1, bkt = bkts[bktNum];
@@ -374,7 +404,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             bucketDiv.addClass("bucketview-bucket-hover");
         }
         else return;
-            
+
         if (this.scale > 1) return;
         var box = $(".pv-bucketview-overlay-buckettitle").eq(bktNum), offset = box.offset();
         if (evt.x >= offset.left && evt.x <= (offset.left + box.width()) &&
@@ -382,10 +412,11 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             var bkt = this.buckets[bktNum], string = PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String;
             var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>" + (bkt.startLabel == bkt.endLabel ? " Value: " +
                 (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
-                "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : " (inclusive)") + "  to " + (string ? "\"" : "") + bkt.endLabel +
-                (string ? "\"" : " (exclusive)") + "<br>") + bkt.tiles.length + " of " + this.filterList.length +
+                "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") + "  to " + (string ? "\"" : "") + bkt.endLabel +
+                (string ? "\"" : "") + "<br>") + bkt.tiles.length + " of " + this.filterList.length +
                 " items (" + Math.round(bkt.tiles.length / this.filterList.length * 100) + "%)" + (Settings.showMissing ? "</div>" :
-                "<br><i>(Some items may be missing values for this variable.)</i></div>");
+                "<br><i>(Some items may be missing values for this variable.)</i>")+
+                "<br><i>"+ oldBuckets[bktNum].tiles.length +" of "+oldFilterList.length+" item</i></div>";
             $(".pv-bucketview-overlay").append(tooltip);
             $(".pv-tooltip").offset({ left: offset.left, top: offset.top - box.height() + $(".pv-canvas").offset().top + 10})
         }

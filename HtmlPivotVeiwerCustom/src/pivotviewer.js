@@ -42,7 +42,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         _self = null,
         _nameMapping = [],
         _options = {};
-        
+
     var methods = {
         // PivotViewer can be initialized with these options:
         // Loader: a loader that inherits from ICollectionLoader must be specified. It takes the URL of the collection as a parameter.
@@ -67,7 +67,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 else if (options.ImageController instanceof PivotViewer.Views.IImageController)
                     _imageController = options.ImageController;
                 else throw "Image Controller does not inherit from PivotViewer.Views.IImageController.";
-                
+
                 if (options.Loader == undefined) {
                     $('.pv-wrapper').append("<div id='pv-file-selection' class='pv-modal-dialog modal-lg'><div><div id='pv-modal-text'><p>Use Existing Project:<br><select id='pv-server-file' class='pv-server-file'><option>Select a file</option></select><p>Create New Project:<br><input id='pv-load-file' class='pv-load-file' type=file accept='.csv'></div></div></div>");
 
@@ -106,7 +106,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
     };
 
-    
+
 
      var _initCollectionLoader = function (options) {
         //PV = this;
@@ -275,10 +275,11 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
         else number = view;
 
-        PV.deselectInfoPanel();
+        //keep info panel selected
+        //PV.deselectInfoPanel();
         $('#pv-viewpanel-view-' + _currentView + '-image').attr('src', _views[_currentView].getButtonImage());
         _views[_currentView].deactivate();
- 
+
         $('#pv-viewpanel-view-' + number + '-image').attr('src', _views[number].getButtonImageSelected());
         _views[number].activate();
 
@@ -302,14 +303,14 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 var compB = $(b).children().first().attr("itemvalue");
                 return (compA < compB) ? 1 : (compA > compB) ? -1 : 0;
             });
-        } 
+        }
         else if (sortType == "Quantity") {
             items.sort(function (a, b) {
                 var compA = parseInt($(a).children(".pv-facet-value-count").text());
                 var compB = parseInt($(b).children(".pv-facet-value-count").text());
                 return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
             });
-        } 
+        }
         else {
             var category = PivotCollection.getCategoryByName(facetName);
             if (category.customSort != undefined) {
@@ -517,7 +518,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                             var parsed = parseFloat(facet.values[m].value);
                             facet = numericFilters[category.name];
                             if (!isNaN(parsed) && parsed >= facet.selectedMin && parsed <= facet.selectedMax)
-                                break; // found                        
+                                break; // found
                         }
                         if (m == _mLen) { tile.filtered = false; continue; }
                     }
@@ -588,7 +589,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 for (var m = 0, _mLen = facet.values.length; m < _mLen; m++) {
                     var parsed = parseFloat(facet.values[m].value);
                     if (!isNaN(parsed) && parsed >= numericFilters[k].selectedMin && parsed <= numericFilters[k].selectedMax)
-                        break; // found                        
+                        break; // found
                 }
                 if (m == _mLen) break; //not found
             }
@@ -621,7 +622,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             }
             if (k < _kLen) { //not found
                 tile.filtered = false;
-                continue; 
+                continue;
             }
 
             tile.filtered = true;
@@ -637,7 +638,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 	    if (_longstringFilters !=null || _numericFilters.length != 0 || _stringFilters.length != 0 || _datetimeFilters.length != 0) $('.pv-filterpanel-clearall').css('visibility', 'visible');
 	    else $('.pv-filterpanel-clearall').css('visibility', 'hidden');
 
-	    for (var i = 0; i < PivotCollection.categories.length; i++) 
+	    for (var i = 0; i < PivotCollection.categories.length; i++)
 	        PivotCollection.categories[i].recount = true;
 
         //Filter the facet counts and remove empty facets
@@ -717,7 +718,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                             var values = _itemTotals[facet.name];
                             if (values == undefined) values = _itemTotals[facet.name] = { values: [], facet: facet.name, filtered: true };
                             var total = values.values[value];
-                            if (total == undefined) 
+                            if (total == undefined)
                                 values.values[value] = ({ id: id, value: value, count: 1 });
                             else total.count++;
                         }
@@ -837,9 +838,9 @@ var Settings = { showMissing: false, visibleCategories: undefined };
     var _filterCategory = function (name) {
         var category = PivotCollection.getCategoryByName(_nameMapping[name.attr("facet")]);
         if (!category.isFilterVisible || !category.recount) return;
-        
+
         if (!category.uiInit) PV.initUICategory(category);
-        
+
         LoadSem.acquire(function (release) {
             var checkList = [];
             if (_filterList.length * 2 < _tiles.length) checkList = _filterList;
@@ -1010,7 +1011,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 
     PV.cleanName = function (uncleanName) {
         var name = uncleanName.replace(/[^\w]/gi, '_');
-        _nameMapping[name] = uncleanName;      
+        _nameMapping[name] = uncleanName;
         return name;
     }
 
@@ -1214,9 +1215,8 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 
         $(".pv-filterpanel-accordion").accordion({ icons: false});
         $('#pv-primsortcontrols').append('<select id="pv-primsort" class="pv-toolbarpanel-sort">' + sort.join('') + '</select>');
-
         $(".pv-filterpanel-accordion").accordion("option", "active", activeNumber);
-        
+
         var viewPanel = $('.pv-viewpanel');
         var width = _self.width();
         var height = $('.pv-mainpanel').height();
@@ -1243,10 +1243,19 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             }
         }
 
+        //add model view
+        $('.pv-toolbarpanel-viewcontrols').append("<div class='pv-toolbarpanel-view'id='pv-toolbarpanel-view-10' title='Statistical Model'><a href='#pv-open-Model'> <img id='pv-toolbarpanel-view-10-image' src='images/modelView.png'></a></div>");
+        $('.pv-toolbarpanel-viewcontrols').append(
+        '<div class="modal fade" id="myModal" role="dialog" style="z-index:100000;"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">'+
+        '<h4 class="modal-title">R result</h4></div>'+
+        '<div class="modal-body" ><code><pre id="pv-model-result" style="position: relative; \
+        "></pre></code></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>');
         //loading completed
+        $('.pv-toolbarpanel-viewcontrols').append("<div id='pv-open-Model' class='pv-modal-dialog modal-xl'><div><h2>Statistical Model</h2><div id='pv-model-text'>&nbsp;</div></div></div>");
+
         $('.pv-loading').remove();
 
-        //Set the width for displaying breadcrumbs as we now know the control sizes 
+        //Set the width for displaying breadcrumbs as we now know the control sizes
         var controlsWidth = $('.pv-toolbarpanel').innerWidth() - ($('.pv-toolbarpanel-brandimage').outerWidth(true) + 25 + $('.pv-toolbarpanel-name').outerWidth(true) + 30 + $('.pv-toolbarpanel-zoomcontrols').outerWidth(true) + _views.length * 29 + 2 * $('.pv-toolbarpanel-sortcontrols').outerWidth(true));
         $('.pv-toolbarpanel-breadcrumb').css('width', controlsWidth + 'px');
 
@@ -1273,6 +1282,27 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             "id='pv-column-deselect-all'>Deselect All</button><p><button id='pv-settings-submit'>Submit</button><p><button " +
             "id='pv-Settings-cancel'>Cancel</button></td></table>";
         $("#pv-options-text").html(html);
+
+        //inflate model select view
+        var modelHtml = "<p><h3>Press ctrl(Windows)/command(Mac) to select independent variables</h3><p>";
+        modelHtml += "<table><tr><th>Dependent Variable:</th><th>Independent Variables:</th><tr><td><select id='pv-all-variables1' style='width:250px' size=20>";
+        for (var i = 0; i < PivotCollection.categories.length; i++) {
+            var category = PivotCollection.categories[i];
+            modelHtml += "<option value=" + i + " search='" + PV.cleanName(category.name.toLowerCase()) + "'>" + category.name + "</option>";
+        }
+        modelHtml += "</select></td><td><select id='pv-all-variables2' multiple style='width:250px' size=20>";
+        for (var i = 0; i < PivotCollection.categories.length; i++) {
+            var category = PivotCollection.categories[i];
+            modelHtml += "<option value=" + i + " search='" + PV.cleanName(category.name.toLowerCase()) + "'>" + category.name + "</option>";
+        }
+
+        modelHtml += "</select></td><td width=200><p><select id='pv-select-model'><option>Select Model</option><option>Logit</option><option>Probit</option><option>Log Linear</option></select><p>"+
+            "<input id='pv-variables-search' placeholder='Search For Variable...' type='text' size=20><div " +
+            "class='pv-search-clear' id='pv-variables-search-clear'>&nbsp;</div><p><button id='pv-model-submit'>Submit</button></p><p><button " +
+            "id='pv-model-cancel'>Cancel</button></td></table>";
+        $("#pv-model-text").html(modelHtml);
+
+
         $("#pv-all-columns").dblclick(function (e) {
             if ($("#pv-all-columns option[value='-1']").length > 0) return;
             var value = parseFloat($("#pv-all-columns").val()), category = PivotCollection.categories[value];
@@ -1359,6 +1389,39 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             $('#pv-column-search-clear').css("visibility", "hidden");
         });
 
+        $("#pv-model-submit").click(function (e) {
+          $("#myModal").modal('toggle');
+          var iv = $('#pv-all-variables2').val();
+          var dv = $('#pv-all-variables1').val();
+          if(iv == undefined || dv == undefined){
+            alert("Please select at least one dependent variable, and one independent variable");
+          }
+          var formulaStr = "V"+dv+"~"
+          var length = iv.length;
+          for(var i = 0; i < length; i++){
+              if(i != 0){
+                formulaStr = formulaStr + "+";
+              }
+              formulaStr = formulaStr + "V" + iv[i];
+          }
+          var model = $('#pv-select-model').val();
+          if(model == "Select Model"){
+            alert("Please select a statistical model");
+          }
+          getModel(model, formulaStr);
+        });
+
+        $("#pv-model-cancel").click(function (e) {
+            window.open("#pv-modal-dialog-close", "_self");
+            //$("#show-missing").prop("checked", settings.showMissing);
+            if ($("#pv-all-variables1 option").eq(0).val() == -1) $("#pv-all-variables1 option").remove();
+            _initAllSelect("#pv-all-variables1");
+            if ($("#pv-all-variables2 option").eq(0).val() == -1) $("#pv-all-variables2 option").remove();
+            _initAllSelect("#pv-all-variables2");
+            $("#pv-variables-search").val("");
+            $('#pv-variables-search-clear').css("visibility", "hidden");
+        });
+
         $("#pv-column-search").on("keyup", function (e) {
             var input = this.value.toLowerCase();
             if (input != "") {
@@ -1371,7 +1434,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             else {
                 $("#pv-column-search-clear").css("visibility", "hidden");
                 _initAllSelect("#pv-all-columns");
-            }          
+            }
         });
 
         $('#pv-column-search-clear').click(function (e) {
@@ -1381,10 +1444,44 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             _initAllSelect("#pv-all-columns");
         });
 
+        //Statistical model search
+        $("#pv-variables-search").on("keyup", function (e) {
+            //var input = this.value.toLowerCase();
+            var input = e.target.value.toLowerCase();
+            if (input != "") {
+                if ($("#pv-all-variables1 option").eq(0).val() == -1) $("#pv-all-variables1 option").remove();
+                _initAllSelect("#pv-all-variables1", input);
+                if ($("#pv-all-variables2 option").eq(0).val() == -1) $("#pv-all-variables2 option").remove();
+                _initAllSelect("#pv-all-variables2", input);
+                $("#pv-variables-search-clear").css("visibility", "visible");
+                if ($("#pv-all-variables1 option").length == 0)
+                    $("#pv-all-variables1").append("<option value='-1' css:'display: block'>No matching variables.</option>");
+                if ($("#pv-all-variables2 option").length == 0)
+                    $("#pv-all-variables2").append("<option value='-1' css:'display: block'>No matching variables.</option>");
+            }
+            else {
+                $("#pv-variables-search-clear").css("visibility", "hidden");
+                _initAllSelect("#pv-all-variables1");
+                _initAllSelect("#pv-all-variables2");
+            }
+        });
+
+        $('#pv-variables-search-clear').click(function (e) {
+            $("#pv-variables-search").val("");
+            $('#pv-variables-search-clear').css("visibility", "hidden");
+            if ($("#pv-all-variables1 option").eq(0).val() == -1) $("#pv-all-variables1 option").remove();
+            _initAllSelect("#pv-all-variables1");
+            if ($("#pv-all-variables2 option").eq(0).val() == -1) $("#pv-all-variables2 option").remove();
+            _initAllSelect("#pv-all-variables2");
+        });
+
+
         $('.pv-toolbarpanel-view').click(function (e) {
             var viewId = this.id.substring(this.id.lastIndexOf('-') + 1, this.id.length);
-            if (viewId != null) PV.selectView(parseInt(viewId));
+            if (viewId != null && viewId != 10)
+                PV.selectView(parseInt(viewId));
         });
+
         $('#pv-primsort').on('change', function (e) {
             _sortCategory = $('#pv-primsort option:selected').html();
             var category = PivotCollection.getCategoryByName(_sortCategory);
@@ -1395,8 +1492,11 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 for (var i = 0; i < _tiles.length; i++) {
                     var tile = _tiles[i];
                     tile.missing = !Settings.showMissing && tile.item.getFacetByName(_sortCategory) == undefined;
-                    if (tile.filtered) _filterList.push(_tiles[i]);
+                    if (tile.filtered)
+                      _filterList.push(_tiles[i]);
+
                 }
+                console.log(_stringFilters);
                 PV.filterViews();
                 release();
             });
@@ -1491,7 +1591,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                         return PV.cleanName($(this).children().eq(0).attr('itemvalue').toLowerCase()).indexOf(input) >= 0 && $(this).children().eq(2).html() > 0;
                     });
                     search.show();
-                    
+
                 }
             }
             else $('.pv-filterpanel-accordion-facet-list-item').show();
@@ -1513,7 +1613,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 $("#pv-long-search-cat").attr("dirty", 1);
                 $("#pv-long-search-cat").val($("#pv-long-search-cat option[value*='" + input + "']").eq(0).val());
 
-                $(".pv-facet:not([facet*='" + input + "'][visible='visible'])").hide();            
+                $(".pv-facet:not([facet*='" + input + "'][visible='visible'])").hide();
                 $("#pv-filterpanel-search-clear").css("visibility", "visible");
                 if (search.length > 0) {
                     var category = PivotCollection.getCategoryByName(_nameMapping[search.eq(0).attr("facet")]);
@@ -1701,6 +1801,21 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
     }
 
+    var _initAllVisible = function (id, search) {
+        if (search == undefined) search = "";
+        var select = $(id);
+        for (var i = 0; i < select.length; i++) {
+            var selValue = select.eq(i).val();
+            select.eq(i).children().remove();
+            for (var j = 0; j < PivotCollection.categories.length; j++) {
+                var category = PivotCollection.categories[j];
+                if (j == selValue || category.name.toLowerCase().indexOf(search) != -1)
+                    select.eq(i).append("<option value=" + j + " search='" + PV.cleanName(category.name.toLowerCase()) + "'>" + category.name + "</option>");
+            }
+            select.eq(i).val(selValue);
+        }
+    }
+
     var _initVisibleSelect = function (id, showFilterInvisible, search) { //hack to avoid .hide() in IE
         if (search == undefined) search = "";
         if (showFilterInvisible == undefined) showFilterInvisible = false;
@@ -1709,7 +1824,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             var selValue = select.eq(i).val();
             select.eq(i).children().remove();
             for (var j = 0; j < Settings.visibleCategories.length; j++) {
-                var index = Settings.visibleCategories[j], category = PivotCollection.categories[index];   
+                var index = Settings.visibleCategories[j], category = PivotCollection.categories[index];
                 if (((category.isFilterVisible && !category.isLongString()) || showFilterInvisible) &&
                     (index == selValue || PV.cleanName(category.name).toLowerCase().indexOf(search) != -1))
                     select.eq(i).append("<option value=" + Settings.visibleCategories[j] + " search='" + PV.cleanName(category.name.toLowerCase()) + "'>" + category.name + "</option>");
@@ -1765,7 +1880,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                 detailDOM[i] = "<div class='pv-infopanel-detail " + (alternate ? "detail-dark" : "detail-light") + "'><div class='pv-infopanel-detail-item detail-item-title' pv-detail-item-title='" + category.name + "'>" + category.name + "</div>";
                 for (var j = 0; j < facets[i].values.length; j++) {
                     var value = facets[i].values[j];
-                    detailDOM[i] += "<div pv-detail-item-value='" + value.value + 
+                    detailDOM[i] += "<div pv-detail-item-value='" + value.value +
                         "' class='pv-infopanel-detail-item detail-item-value" + (category.isFilterVisible ? " detail-item-value-filter" : "") + "'>";
                     if (value.href != null && value.href != "")
                         detailDOM[i] += "<a class='detail-item-link' href='" + value.href + "'>" + value.label + "</a>";
@@ -1790,7 +1905,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 
             _selectedItem = selectedItem;
 
-            _views[_currentView].setSelected(_selectedItem); 
+            _views[_currentView].setSelected(_selectedItem);
         }
 
     });
@@ -1863,7 +1978,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 
     PV.clickValue = function (checkbox) {
         var category = PivotCollection.getCategoryByName(_nameMapping[$(checkbox).attr('itemfacet')]);
-        var value = _nameMapping[$(checkbox).attr('itemvalue')], enlarge, clear; 
+        var value = _nameMapping[$(checkbox).attr('itemvalue')], enlarge, clear;
         if ($(checkbox).prop('checked')) {
             $(checkbox).parent().parent().parent().prev().find('.pv-filterpanel-accordion-heading-clear').css('visibility', 'visible');
             if ($(checkbox).attr('itemvalue') == "CustomRange"){
@@ -1974,12 +2089,12 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         if (hasHours) category.datetimeBuckets["hour"] = category.datetimeBuckets[k++];
         if (hasMinutes) category.datetimeBuckets["minute"] = category.datetimeBuckets[k++];
         if (hasSeconds) category.datetimeBuckets["second"] = category.datetimeBuckets[k];
-        
+
     };
 
     var _hideCustomDateRange = function (facetName) {
-        $('#pv-custom-range-' + facetName + '__Start').css('visibility', 'hidden'); 
-        $('#pv-custom-range-' + facetName + '__Finish').css('visibility', 'hidden'); 
+        $('#pv-custom-range-' + facetName + '__Start').css('visibility', 'hidden');
+        $('#pv-custom-range-' + facetName + '__Finish').css('visibility', 'hidden');
         $('#pv-custom-range-' + facetName + '__StartDate').datepicker("setDate", null);
         $('#pv-custom-range-' + facetName + '__FinishDate').datepicker("setDate", null);
         $('#pv-custom-range-' + facetName + '__FinishDate').datepicker("option", "minDate", null);
@@ -1992,8 +2107,8 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         var facet = _nameMapping[facetName];
         var category = PivotCollection.getCategoryByName(facet);
         var maxYear, minYear, maxDate, minDate;
-        $('#pv-custom-range-' + facetName + '__Start').css('visibility', 'visible'); 
-        $('#pv-custom-range-' + facetName + '__Finish').css('visibility', 'visible'); 
+        $('#pv-custom-range-' + facetName + '__Start').css('visibility', 'visible');
+        $('#pv-custom-range-' + facetName + '__Finish').css('visibility', 'visible');
         $('#pv-custom-range-' + facetName + '__StartDate').datepicker({
             showOn: 'button',
             changeMonth: true,
@@ -2025,7 +2140,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
     };
 
     var _changeCustomRange = function (textbox) {
-        var start;        
+        var start;
         var end;
         if ($(textbox).attr('itemvalue') == "CustomRangeStart") {
             // Check we have value for matching end

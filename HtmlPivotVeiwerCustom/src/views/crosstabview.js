@@ -227,6 +227,8 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         this._super();
         $("#pv-altsortcontrols").hide();
     },
+    getButtonImage: function () {return 'images/CrossTabView.png';},
+    getButtonImageSelected: function () {return 'images/CrossTabViewSelected.png';},
     getViewName: function () {return "Crosstab View";},
     setTilePositions: function (rowscols, offsetX, offsetY, initTiles, keepColsRows) {
         var columns = (keepColsRows && this.rowscols)  ? this.rowscols.Columns : rowscols.Columns;
@@ -374,8 +376,8 @@ PivotViewer.Views.CrosstabView = PivotViewer.Views.BucketView.subClass({
         var string = PivotCollection.getCategoryByName(category).isString();
         var tooltip = "<div class='pv-tooltip'>" + category + " Bucket " + (bktNum + 1) + ":<br>" + (bkt.startLabel == bkt.endLabel ? " Value: " +
             (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
-            "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : " (inclusive)") + "  to " + (string ? "\"" : "") + bkt.endLabel +
-            (string ? "\"" : " (exclusive)") + "<br>") + bkt.tiles.length + " of " + this.filterList2.length +
+            "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") + "  to " + (string ? "\"" : "") + bkt.endLabel +
+            (string ? "\"" : "") + "<br>") + bkt.tiles.length + " of " + this.filterList2.length +
             " items (" + Math.round(bkt.tiles.length / this.filterList2.length * 100) + "%)" + (Settings.showMissing ? "</div>" :
             "<br><i>(Some items may be missing values for this variable.)</i></div>");
         $(".pv-bucketview-overlay").append(tooltip);

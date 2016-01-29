@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Collection xmlns:p="http://schemas.microsoft.com/livelabs/pivot/collection/2009" SchemaVersion="1.0" Name="Mexico Health Survey" xmlns="http://schemas.microsoft.com/collection/metadata/2009">
+  <Items ImgBase="LLC3_pivot1_2_files\eh3qspme.jlt.xml">
+    <Item Id="0" Img="#0" Name="Laborer" Href="#" />
+    <Item Id="1" Img="#1" Name="Unemployed" Href="#" />
+    <Item Id="2" Img="#2" Name="Unemployed" Href="#" />
+    <Item Id="3" Img="#3" Name="Independent worker/office worker" Href="#" />
+    <Item Id="4" Img="#4" Name="Vender" Href="#" />
+    <Item Id="5" Img="#5" Name="Laborer" Href="#" />
+    <Item Id="6" Img="#6" Name="Unemployed" Href="#" />
+    <Item Id="7" Img="#7" Name="Homemaker" Href="#" />
+    <Item Id="8" Img="#8" Name="Independent worker/office worker" Href="#" />
+    <Item Id="9" Img="#9" Name="Vender" Href="#" />
+    <Item Id="10" Img="#10" Name="Homemaker" Href="#" />
+    <Item Id="11" Img="#11" Name="Homemaker" Href="#" />
+    <Item Id="12" Img="#12" Name="Homemaker" Href="#" />
+    <Item Id="13" Img="#13" Name="Homemaker" Href="#" />
+    <Item Id="14" Img="#14" Name="Vender" Href="#" />
+    <Item Id="15" Img="#15" Name="Unemployed" Href="#" />
+    <Item Id="16" Img="#16" Name="Unemployed" Href="#" />
+    <Item Id="17" Img="#17" Name="Unemployed" Href="#" />
+    <Item Id="18" Img="#18" Name="Independent worker/office worker" Href="#" />
+    <Item Id="19" Img="#19" Name="Independent worker/office worker" Href="#" />
+    <Item Id="20" Img="#20" Name="Vender" Href="#" />
+    <Item Id="21" Img="#21" Name="Unemployed" Href="#" />
+    <Item Id="22" Img="#22" Name="Unemployed" Href="#" />
+    <Item Id="23" Img="#23" Name="Unemployed" Href="#" />
+    <Item Id="24" Img="#24" Name="Unemployed" Href="#" />
+    <Item Id="25" Img="#25" Name="Independent worker/office worker" Href="#" />
+    <Item Id="26" Img="#26" Name="Homemaker" Href="#" />
+    <Item Id="27" Img="#27" Name="Homemaker" Href="#" />
+    <Item Id="28" Img="#28" Name="Homemaker" Href="#" />
+    <Item Id="29" Img="#29" Name="Laborer" Href="#" />
+    <Item Id="30" Img="#30" Name="Unemployed" Href="#" />
+    <Item Id="31" Img="#31" Name="Homemaker" Href="#" />
+    <Item Id="32" Img="#32" Name="Homemaker" Href="#" />
+    <Item Id="33" Img="#33" Name="Professional" Href="#" />
+    <Item Id="34" Img="#34" Name="Laborer" Href="#" />
+    <Item Id="35" Img="#35" Name="Government Employee" Href="#" />
+    <Item Id="36" Img="#36" Name="Laborer" Href="#" />
+    <Item Id="37" Img="#37" Name="Homemaker" Href="#" />
+    <Item Id="38" Img="#38" Name="Vender" Href="#" />
+    <Item Id="39" Img="#39" Name="Vender" Href="#" />
+    <Item Id="40" Img="#40" Name="Laborer" Href="#" />
+    <Item Id="41" Img="#41" Name="Unemployed" Href="#" />
+    <Item Id="42" Img="#42" Name="Unemployed" Href="#" />
+    <Item Id="43" Img="#43" Name="Homemaker" Href="#" />
+    <Item Id="44" Img="#44" Name="Homemaker" Href="#" />
+    <Item Id="45" Img="#45" Name="Homemaker" Href="#" />
+    <Item Id="46" Img="#46" Name="Other" Href="#" />
+    <Item Id="47" Img="#47" Name="Laborer" Href="#" />
+    <Item Id="48" Img="#48" Name="Other" Href="#" />
+    <Item Id="49" Img="#49" Name="Laborer" Href="#" />
+    <Item Id="50" Img="#50" Name="Unemployed" Href="#" />
+    <Item Id="51" Img="#51" Name="Independent worker/office worker" Href="#" />
+    <Item Id="52" Img="#52" Name="Unemployed" Href="#" />
+    <Item Id="53" Img="#53" Name="Professional" Href="#" />
+    <Item Id="54" Img="#54" Name="Homemaker" Href="#" />
+    <Item Id="55" Img="#55" Name="Vender" Href="#" />
+    <Item Id="56" Img="#56" Name="Laborer" Href="#" />
+    <Item Id="57" Img="#57" Name="Unemployed" Href="#" />
+    <Item Id="58" Img="#58" Name="Homemaker" Href="#" />
+    <Item Id="59" Img="#59" Name="Unemployed" Href="#" />
+    <Item Id="60" Img="#60" Name="Laborer" Href="#" />
+    <Item Id="61" Img="#61" Name="Laborer" Href="#" />
+    <Item Id="62" Img="#62" Name="Unemployed" Href="#" />
+    <Item Id="63" Img="#63" Name="Homemaker" Href="#" />
+    <Item Id="64" Img="#64" Name="Homemaker" Href="#" />
+    <Item Id="65" Img="#65" Name="Independent worker/office worker" Href="#" />
+    <Item Id="66" Img="#66" Name="Professional" Href="#" />
+    <Item Id="67" Img="#67" Name="Homemaker" Href="#" />
+    <Item Id="68" Img="#68" Name="Homemaker" Href="#" />
+    <Item Id="69" Img="#69" Name="Vender" Href="#" />
+    <Item Id="70" Img="#70" Name="Homemaker" Href="#" />
+    <Item Id="71" Img="#71" Name="Independent worker/office worker" Href="#" />
+    <Item Id="72" Img="#72" Name="Independent worker/office worker" Href="#" />
+    <Item Id="73" Img="#73" Name="Vender" Href="#" />
+    <Item Id="74" Img="#74" Name="Government Employee" Href="#" />
+    <Item Id="75" Img="#75" Name="Homemaker" Href="#" />
+    <Item Id="76" Img="#76" Name="Government Employee" Href="#" />
+    <Item Id="77" Img="#77" Name="Unemployed" Href="#" />
+    <Item Id="78" Img="#78" Name="Laborer" Href="#" />
+    <Item Id="79" Img="#79" Name="Vender" Href="#" />
+    <Item Id="80" Img="#80" Name="Homemaker" Href="#" />
+    <Item Id="81" Img="#81" Name="Unemployed" Href="#" />
+    <Item Id="82" Img="#82" Name="Independent worker/office worker" Href="#" />
+    <Item Id="83" Img="#83" Name="Unemployed" Href="#" />
+    <Item Id="84" Img="#84" Name="Laborer" Href="#" />
+    <Item Id="85" Img="#85" Name="Laborer" Href="#" />
+    <Item Id="86" Img="#86" Name="Homemaker" Href="#" />
+    <Item Id="87" Img="#87" Name="Homemaker" Href="#" />
+    <Item Id="88" Img="#88" Name="Other" Href="#" />
+    <Item Id="89" Img="#89" Name="Laborer" Href="#" />
+    <Item Id="90" Img="#90" Name="Unemployed" Href="#" />
+    <Item Id="91" Img="#91" Name="Laborer" Href="#" />
+    <Item Id="92" Img="#92" Name="Vender" Href="#" />
+    <Item Id="93" Img="#93" Name="Unemployed" Href="#" />
+    <Item Id="94" Img="#94" Name="Laborer" Href="#" />
+    <Item Id="95" Img="#95" Name="Unemployed" Href="#" />
+    <Item Id="96" Img="#96" Name="Vender" Href="#" />
+    <Item Id="97" Img="#97" Name="Independent worker/office worker" Href="#" />
+    <Item Id="98" Img="#98" Name="Homemaker" Href="#" />
+    <Item Id="99" Img="#99" Name="Independent worker/office worker" Href="#" />
+    <Item Id="100" Img="#100" Name="Independent worker/office worker" Href="#" />
+    <Item Id="101" Img="#101" Name="Homemaker" Href="#" />
+    <Item Id="102" Img="#102" Name="Homemaker" Href="#" />
+    <Item Id="103" Img="#103" Name="Government Employee" Href="#" />
+    <Item Id="104" Img="#104" Name="Independent worker/office worker" Href="#" />
+    <Item Id="105" Img="#105" Name="Other" Href="#" />
+    <Item Id="106" Img="#106" Name="Homemaker" Href="#" />
+    <Item Id="107" Img="#107" Name="Independent worker/office worker" Href="#" />
+    <Item Id="108" Img="#108" Name="Government Employee" Href="#" />
+    <Item Id="109" Img="#109" Name="Homemaker" Href="#" />
+    <Item Id="110" Img="#110" Name="Independent worker/office worker" Href="#" />
+    <Item Id="111" Img="#111" Name="Vender" Href="#" />
+    <Item Id="112" Img="#112" Name="Homemaker" Href="#" />
+    <Item Id="113" Img="#113" Name="Homemaker" Href="#" />
+    <Item Id="114" Img="#114" Name="Professional" Href="#" />
+    <Item Id="115" Img="#115" Name="Independent worker/office worker" Href="#" />
+    <Item Id="116" Img="#116" Name="Vender" Href="#" />
+    <Item Id="117" Img="#117" Name="Vender" Href="#" />
+    <Item Id="118" Img="#118" Name="Professional" Href="#" />
+    <Item Id="119" Img="#119" Name="Independent worker/office worker" Href="#" />
+    <Item Id="120" Img="#120" Name="Homemaker" Href="#" />
+    <Item Id="121" Img="#121" Name="Vender" Href="#" />
+    <Item Id="122" Img="#122" Name="Homemaker" Href="#" />
+    <Item Id="123" Img="#123" Name="Vender" Href="#" />
+    <Item Id="124" Img="#124" Name="Laborer" Href="#" />
+    <Item Id="125" Img="#125" Name="Laborer" Href="#" />
+    <Item Id="126" Img="#126" Name="Homemaker" Href="#" />
+    <Item Id="127" Img="#127" Name="Homemaker" Href="#" />
+    <Item Id="128" Img="#128" Name="Homemaker" Href="#" />
+    <Item Id="129" Img="#129" Name="Homemaker" Href="#" />
+    <Item Id="130" Img="#130" Name="Unemployed" Href="#" />
+    <Item Id="131" Img="#131" Name="Laborer" Href="#" />
+    <Item Id="132" Img="#132" Name="Unemployed" Href="#" />
+    <Item Id="133" Img="#133" Name="Independent worker/office worker" Href="#" />
+    <Item Id="134" Img="#134" Name="Unemployed" Href="#" />
+    <Item Id="135" Img="#135" Name="Professional" Href="#" />
+    <Item Id="136" Img="#136" Name="Unemployed" Href="#" />
+    <Item Id="137" Img="#137" Name="Unemployed" Href="#" />
+    <Item Id="138" Img="#138" Name="Vender" Href="#" />
+    <Item Id="139" Img="#139" Name="Government Employee" Href="#" />
+    <Item Id="140" Img="#140" Name="Vender" Href="#" />
+    <Item Id="141" Img="#141" Name="Unemployed" Href="#" />
+    <Item Id="142" Img="#142" Name="Unemployed" Href="#" />
+    <Item Id="143" Img="#143" Name="Unemployed" Href="#" />
+    <Item Id="144" Img="#144" Name="Homemaker" Href="#" />
+    <Item Id="145" Img="#145" Name="Vender" Href="#" />
+    <Item Id="146" Img="#146" Name="Laborer" Href="#" />
+    <Item Id="147" Img="#147" Name="Laborer" Href="#" />
+    <Item Id="148" Img="#148" Name="Laborer" Href="#" />
+    <Item Id="149" Img="#149" Name="Homemaker" Href="#" />
+    <Item Id="150" Img="#150" Name="Professional" Href="#" />
+    <Item Id="151" Img="#151" Name="Professional" Href="#" />
+    <Item Id="152" Img="#152" Name="Unemployed" Href="#" />
+    <Item Id="153" Img="#153" Name="Unemployed" Href="#" />
+    <Item Id="154" Img="#154" Name="Technical Worker" Href="#" />
+    <Item Id="155" Img="#155" Name="Other" Href="#" />
+    <Item Id="156" Img="#156" Name="Homemaker" Href="#" />
+    <Item Id="157" Img="#157" Name="Professional" Href="#" />
+    <Item Id="158" Img="#158" Name="Homemaker" Href="#" />
+    <Item Id="159" Img="#159" Name="Independent worker/office worker" Href="#" />
+    <Item Id="160" Img="#160" Name="Homemaker" Href="#" />
+    <Item Id="161" Img="#161" Name="Unemployed" Href="#" />
+    <Item Id="162" Img="#162" Name="Homemaker" Href="#" />
+    <Item Id="163" Img="#163" Name="Professional" Href="#" />
+    <Item Id="164" Img="#164" Name="Unemployed" Href="#" />
+    <Item Id="165" Img="#165" Name="Professional" Href="#" />
+    <Item Id="166" Img="#166" Name="Vender" Href="#" />
+    <Item Id="167" Img="#167" Name="Technical Worker" Href="#" />
+    <Item Id="168" Img="#168" Name="Professional" Href="#" />
+    <Item Id="169" Img="#169" Name="Professional" Href="#" />
+    <Item Id="170" Img="#170" Name="Unemployed" Href="#" />
+    <Item Id="171" Img="#171" Name="Professional" Href="#" />
+    <Item Id="172" Img="#172" Name="Homemaker" Href="#" />
+    <Item Id="173" Img="#173" Name="Independent worker/office worker" Href="#" />
+    <Item Id="174" Img="#174" Name="Independent worker/office worker" Href="#" />
+    <Item Id="175" Img="#175" Name="Professional" Href="#" />
+    <Item Id="176" Img="#176" Name="Independent worker/office worker" Href="#" />
+    <Item Id="177" Img="#177" Name="Professional" Href="#" />
+    <Item Id="178" Img="#178" Name="Homemaker" Href="#" />
+    <Item Id="179" Img="#179" Name="Homemaker" Href="#" />
+    <Item Id="180" Img="#180" Name="Unemployed" Href="#" />
+    <Item Id="181" Img="#181" Name="Homemaker" Href="#" />
+    <Item Id="182" Img="#182" Name="Homemaker" Href="#" />
+    <Item Id="183" Img="#183" Name="Technical Worker" Href="#" />
+    <Item Id="184" Img="#184" Name="Technical Worker" Href="#" />
+    <Item Id="185" Img="#185" Name="Vender" Href="#" />
+    <Item Id="186" Img="#186" Name="Laborer" Href="#" />
+    <Item Id="187" Img="#187" Name="Unemployed" Href="#" />
+    <Item Id="188" Img="#188" Name="Laborer" Href="#" />
+    <Item Id="189" Img="#189" Name="Homemaker" Href="#" />
+    <Item Id="190" Img="#190" Name="Unemployed" Href="#" />
+    <Item Id="191" Img="#191" Name="Unemployed" Href="#" />
+    <Item Id="192" Img="#192" Name="Homemaker" Href="#" />
+    <Item Id="193" Img="#193" Name="Homemaker" Href="#" />
+    <Item Id="194" Img="#194" Name="Homemaker" Href="#" />
+    <Item Id="195" Img="#195" Name="Vender" Href="#" />
+    <Item Id="196" Img="#196" Name="Vender" Href="#" />
+    <Item Id="197" Img="#197" Name="Homemaker" Href="#" />
+    <Item Id="198" Img="#198" Name="Homemaker" Href="#" />
+    <Item Id="199" Img="#199" Name="Laborer" Href="#" />
+    <Item Id="200" Img="#200" Name="Homemaker" Href="#" />
+    <Item Id="201" Img="#201" Name="Technical Worker" Href="#" />
+    <Item Id="202" Img="#202" Name="Unemployed" Href="#" />
+    <Item Id="203" Img="#203" Name="Unemployed" Href="#" />
+    <Item Id="204" Img="#204" Name="Independent worker/office worker" Href="#" />
+    <Item Id="205" Img="#205" Name="Unemployed" Href="#" />
+    <Item Id="206" Img="#206" Name="Unemployed" Href="#" />
+    <Item Id="207" Img="#207" Name="Unemployed" Href="#" />
+    <Item Id="208" Img="#208" Name="Homemaker" Href="#" />
+    <Item Id="209" Img="#209" Name="Unemployed" Href="#" />
+    <Item Id="210" Img="#210" Name="Homemaker" Href="#" />
+    <Item Id="211" Img="#211" Name="Independent worker/office worker" Href="#" />
+    <Item Id="212" Img="#212" Name="Homemaker" Href="#" />
+    <Item Id="213" Img="#213" Name="Unemployed" Href="#" />
+    <Item Id="214" Img="#214" Name="Unemployed" Href="#" />
+    <Item Id="215" Img="#215" Name="Unemployed" Href="#" />
+    <Item Id="216" Img="#216" Name="Independent worker/office worker" Href="#" />
+    <Item Id="217" Img="#217" Name="Laborer" Href="#" />
+    <Item Id="218" Img="#218" Name="Laborer" Href="#" />
+    <Item Id="219" Img="#219" Name="Unemployed" Href="#" />
+    <Item Id="220" Img="#220" Name="Homemaker" Href="#" />
+    <Item Id="221" Img="#221" Name="Laborer" Href="#" />
+    <Item Id="222" Img="#222" Name="Homemaker" Href="#" />
+    <Item Id="223" Img="#223" Name="Homemaker" Href="#" />
+    <Item Id="224" Img="#224" Name="Homemaker" Href="#" />
+    <Item Id="225" Img="#225" Name="Independent worker/office worker" Href="#" />
+    <Item Id="226" Img="#226" Name="Government Employee" Href="#" />
+    <Item Id="227" Img="#227" Name="Homemaker" Href="#" />
+    <Item Id="228" Img="#228" Name="Independent worker/office worker" Href="#" />
+    <Item Id="229" Img="#229" Name="Homemaker" Href="#" />
+    <Item Id="230" Img="#230" Name="Unemployed" Href="#" />
+    <Item Id="231" Img="#231" Name="Unemployed" Href="#" />
+    <Item Id="232" Img="#232" Name="Independent worker/office worker" Href="#" />
+    <Item Id="233" Img="#233" Name="Homemaker" Href="#" />
+    <Item Id="234" Img="#234" Name="Government Employee" Href="#" />
+    <Item Id="235" Img="#235" Name="Independent worker/office worker" Href="#" />
+    <Item Id="236" Img="#236" Name="Unemployed" Href="#" />
+    <Item Id="237" Img="#237" Name="Homemaker" Href="#" />
+    <Item Id="238" Img="#238" Name="Unemployed" Href="#" />
+    <Item Id="239" Img="#239" Name="Homemaker" Href="#" />
+    <Item Id="240" Img="#240" Name="Homemaker" Href="#" />
+    <Item Id="241" Img="#241" Name="Homemaker" Href="#" />
+    <Item Id="242" Img="#242" Name="Vender" Href="#" />
+    <Item Id="243" Img="#243" Name="Government Employee" Href="#" />
+    <Item Id="244" Img="#244" Name="Other" Href="#" />
+    <Item Id="245" Img="#245" Name="Other" Href="#" />
+    <Item Id="246" Img="#246" Name="Professional" Href="#" />
+    <Item Id="247" Img="#247" Name="Laborer" Href="#" />
+    <Item Id="248" Img="#248" Name="Unemployed" Href="#" />
+    <Item Id="249" Img="#249" Name="Professional" Href="#" />
+    <Item Id="250" Img="#250" Name="Laborer" Href="#" />
+    <Item Id="251" Img="#251" Name="Vender" Href="#" />
+    <Item Id="252" Img="#252" Name="Independent worker/office worker" Href="#" />
+    <Item Id="253" Img="#253" Name="Homemaker" Href="#" />
+    <Item Id="254" Img="#254" Name="Homemaker" Href="#" />
+    <Item Id="255" Img="#255" Name="Professional" Href="#" />
+    <Item Id="256" Img="#256" Name="Vender" Href="#" />
+    <Item Id="257" Img="#257" Name="Government Employee" Href="#" />
+    <Item Id="258" Img="#258" Name="Vender" Href="#" />
+    <Item Id="259" Img="#259" Name="Homemaker" Href="#" />
+    <Item Id="260" Img="#260" Name="Laborer" Href="#" />
+    <Item Id="261" Img="#261" Name="Vender" Href="#" />
+    <Item Id="262" Img="#262" Name="Laborer" Href="#" />
+    <Item Id="263" Img="#263" Name="Unemployed" Href="#" />
+    <Item Id="264" Img="#264" Name="Government Employee" Href="#" />
+    <Item Id="265" Img="#265" Name="Independent worker/office worker" Href="#" />
+    <Item Id="266" Img="#266" Name="Unemployed" Href="#" />
+    <Item Id="267" Img="#267" Name="Government Employee" Href="#" />
+    <Item Id="268" Img="#268" Name="Independent worker/office worker" Href="#" />
+    <Item Id="269" Img="#269" Name="Independent worker/office worker" Href="#" />
+    <Item Id="270" Img="#270" Name="Independent worker/office worker" Href="#" />
+    <Item Id="271" Img="#271" Name="Professional" Href="#" />
+    <Item Id="272" Img="#272" Name="Professional" Href="#" />
+    <Item Id="273" Img="#273" Name="Homemaker" Href="#" />
+    <Item Id="274" Img="#274" Name="Homemaker" Href="#" />
+    <Item Id="275" Img="#275" Name="Independent worker/office worker" Href="#" />
+    <Item Id="276" Img="#276" Name="Homemaker" Href="#" />
+    <Item Id="277" Img="#277" Name="Professional" Href="#" />
+    <Item Id="278" Img="#278" Name="Homemaker" Href="#" />
+    <Item Id="279" Img="#279" Name="Homemaker" Href="#" />
+    <Item Id="280" Img="#280" Name="Laborer" Href="#" />
+    <Item Id="281" Img="#281" Name="Vender" Href="#" />
+    <Item Id="282" Img="#282" Name="Unemployed" Href="#" />
+    <Item Id="283" Img="#283" Name="Independent worker/office worker" Href="#" />
+    <Item Id="284" Img="#284" Name="Unemployed" Href="#" />
+    <Item Id="285" Img="#285" Name="Homemaker" Href="#" />
+    <Item Id="286" Img="#286" Name="Homemaker" Href="#" />
+    <Item Id="287" Img="#287" Name="Government Employee" Href="#" />
+    <Item Id="288" Img="#288" Name="Unemployed" Href="#" />
+    <Item Id="289" Img="#289" Name="Independent worker/office worker" Href="#" />
+    <Item Id="290" Img="#290" Name="Professional" Href="#" />
+    <Item Id="291" Img="#291" Name="Unemployed" Href="#" />
+    <Item Id="292" Img="#292" Name="Independent worker/office worker" Href="#" />
+    <Item Id="293" Img="#293" Name="Independent worker/office worker" Href="#" />
+    <Item Id="294" Img="#294" Name="Independent worker/office worker" Href="#" />
+    <Item Id="295" Img="#295" Name="Laborer" Href="#" />
+    <Item Id="296" Img="#296" Name="Homemaker" Href="#" />
+    <Item Id="297" Img="#297" Name="Government Employee" Href="#" />
+    <Item Id="298" Img="#298" Name="Homemaker" Href="#" />
+    <Item Id="299" Img="#299" Name="Professional" Href="#" />
+    <Item Id="300" Img="#300" Name="Homemaker" Href="#" />
+    <Item Id="301" Img="#301" Name="Vender" Href="#" />
+    <Item Id="302" Img="#302" Name="Independent worker/office worker" Href="#" />
+    <Item Id="303" Img="#303" Name="Homemaker" Href="#" />
+    <Item Id="304" Img="#304" Name="Homemaker" Href="#" />
+    <Item Id="305" Img="#305" Name="Independent worker/office worker" Href="#" />
+    <Item Id="306" Img="#306" Name="Vender" Href="#" />
+    <Item Id="307" Img="#307" Name="Laborer" Href="#" />
+    <Item Id="308" Img="#308" Name="Technical Worker" Href="#" />
+    <Item Id="309" Img="#309" Name="Homemaker" Href="#" />
+    <Item Id="310" Img="#310" Name="Vender" Href="#" />
+    <Item Id="311" Img="#311" Name="Professional" Href="#" />
+    <Item Id="312" Img="#312" Name="Unemployed" Href="#" />
+    <Item Id="313" Img="#313" Name="Unemployed" Href="#" />
+    <Item Id="314" Img="#314" Name="Unemployed" Href="#" />
+    <Item Id="315" Img="#315" Name="Independent worker/office worker" Href="#" />
+    <Item Id="316" Img="#316" Name="Unemployed" Href="#" />
+    <Item Id="317" Img="#317" Name="Homemaker" Href="#" />
+    <Item Id="318" Img="#318" Name="Independent worker/office worker" Href="#" />
+    <Item Id="319" Img="#319" Name="Unemployed" Href="#" />
+    <Item Id="320" Img="#320" Name="Homemaker" Href="#" />
+    <Item Id="321" Img="#321" Name="Independent worker/office worker" Href="#" />
+    <Item Id="322" Img="#322" Name="Independent worker/office worker" Href="#" />
+    <Item Id="323" Img="#323" Name="Homemaker" Href="#" />
+    <Item Id="324" Img="#324" Name="Unemployed" Href="#" />
+    <Item Id="325" Img="#325" Name="Vender" Href="#" />
+    <Item Id="326" Img="#326" Name="Homemaker" Href="#" />
+    <Item Id="327" Img="#327" Name="Independent worker/office worker" Href="#" />
+    <Item Id="328" Img="#328" Name="Homemaker" Href="#" />
+    <Item Id="329" Img="#329" Name="Technical Worker" Href="#" />
+    <Item Id="330" Img="#330" Name="Laborer" Href="#" />
+    <Item Id="331" Img="#331" Name="Homemaker" Href="#" />
+    <Item Id="332" Img="#332" Name="Homemaker" Href="#" />
+    <Item Id="333" Img="#333" Name="Technical Worker" Href="#" />
+    <Item Id="334" Img="#334" Name="Homemaker" Href="#" />
+    <Item Id="335" Img="#335" Name="Laborer" Href="#" />
+    <Item Id="336" Img="#336" Name="Homemaker" Href="#" />
+    <Item Id="337" Img="#337" Name="UnemployedUnemployedUnemployed" Href="#" />
+    <Item Id="338" Img="#338" Name="Vender" Href="#" />
+    <Item Id="339" Img="#339" Name="Laborer" Href="#" />
+    <Item Id="340" Img="#340" Name="Laborer" Href="#" />
+    <Item Id="341" Img="#341" Name="Laborer" Href="#" />
+    <Item Id="342" Img="#342" Name="Homemaker" Href="#" />
+    <Item Id="343" Img="#343" Name="Independent worker/office worker" Href="#" />
+    <Item Id="344" Img="#344" Name="Independent worker/office worker" Href="#" />
+    <Item Id="345" Img="#345" Name="Independent worker/office worker" Href="#" />
+    <Item Id="346" Img="#346" Name="Laborer" Href="#" />
+    <Item Id="347" Img="#347" Name="Laborer" Href="#" />
+    <Item Id="348" Img="#348" Name="Independent worker/office worker" Href="#" />
+    <Item Id="349" Img="#349" Name="Homemaker" Href="#" />
+    <Item Id="350" Img="#350" Name="Homemaker" Href="#" />
+    <Item Id="351" Img="#351" Name="Homemaker" Href="#" />
+    <Item Id="352" Img="#352" Name="Laborer" Href="#" />
+    <Item Id="353" Img="#353" Name="Independent worker/office worker" Href="#" />
+    <Item Id="354" Img="#354" Name="Homemaker" Href="#" />
+    <Item Id="355" Img="#355" Name="Laborer" Href="#" />
+    <Item Id="356" Img="#356" Name="Laborer" Href="#" />
+    <Item Id="357" Img="#357" Name="Vender" Href="#" />
+    <Item Id="358" Img="#358" Name="Independent worker/office worker" Href="#" />
+    <Item Id="359" Img="#359" Name="Vender" Href="#" />
+    <Item Id="360" Img="#360" Name="Independent worker/office worker" Href="#" />
+    <Item Id="361" Img="#361" Name="Independent worker/office worker" Href="#" />
+    <Item Id="362" Img="#362" Name="Unemployed" Href="#" />
+    <Item Id="363" Img="#363" Name="Laborer" Href="#" />
+    <Item Id="364" Img="#364" Name="Independent worker/office worker" Href="#" />
+    <Item Id="365" Img="#365" Name="Homemaker" Href="#" />
+    <Item Id="366" Img="#366" Name="Unemployed" Href="#" />
+    <Item Id="367" Img="#367" Name="Homemaker" Href="#" />
+    <Item Id="368" Img="#368" Name="Other" Href="#" />
+    <Item Id="369" Img="#369" Name="Other" Href="#" />
+    <Item Id="370" Img="#370" Name="Laborer" Href="#" />
+    <Item Id="371" Img="#371" Name="Laborer" Href="#" />
+    <Item Id="372" Img="#372" Name="Other" Href="#" />
+    <Item Id="373" Img="#373" Name="Laborer" Href="#" />
+    <Item Id="374" Img="#374" Name="Laborer" Href="#" />
+    <Item Id="375" Img="#375" Name="Unemployed" Href="#" />
+    <Item Id="376" Img="#376" Name="Homemaker" Href="#" />
+    <Item Id="377" Img="#377" Name="Homemaker" Href="#" />
+    <Item Id="378" Img="#378" Name="Unemployed" Href="#" />
+    <Item Id="379" Img="#379" Name="Independent worker/office worker" Href="#" />
+    <Item Id="380" Img="#380" Name="Homemaker" Href="#" />
+    <Item Id="381" Img="#381" Name="Homemaker" Href="#" />
+    <Item Id="382" Img="#382" Name="Unemployed" Href="#" />
+    <Item Id="383" Img="#383" Name="Other" Href="#" />
+    <Item Id="384" Img="#384" Name="Laborer" Href="#" />
+    <Item Id="385" Img="#385" Name="Independent worker/office worker" Href="#" />
+    <Item Id="386" Img="#386" Name="Laborer" Href="#" />
+    <Item Id="387" Img="#387" Name="Homemaker" Href="#" />
+  </Items>
+  <Extension>
+    <p:Copyright Name="RTC, Superfund Research Project, UCSD, 2014" />
+  </Extension>
+</Collection>

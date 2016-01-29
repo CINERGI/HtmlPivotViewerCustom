@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Collection MaxLevel="7" TileSize="256" Format="jpg" NextItemId="71" ServerFormat="Default" xmlns="http://schemas.microsoft.com/deepzoom/2009">
+  <Items>
+    <I Id="0" N="0" Source="images/bosch1.xml">
+      <Size Width="571" Height="750" />
+    </I>
+    <I Id="1" N="1" Source="images/bosch2.xml">
+      <Size Width="262" Height="681" />
+    </I>
+    <I Id="2" N="2" Source="images/bosch3.xml">
+      <Size Width="376" Height="551" />
+    </I>
+    <I Id="3" N="3" Source="images/bosch4.xml">
+      <Size Width="608" Height="769" />
+    </I>
+    <I Id="4" N="4" Source="images/bosch5.xml">
+      <Size Width="372" Height="466" />
+    </I>
+    <I Id="5" N="5" Source="images/bosch6.xml">
+      <Size Width="559" Height="788" />
+    </I>
+    <I Id="6" N="6" Source="images/bosch7.xml">
+      <Size Width="604" Height="759" />
+    </I>
+    <I Id="7" N="7" Source="images/bosch8.xml">
+      <Size Width="383" Height="397" />
+    </I>
+    <I Id="8" N="8" Source="images/bosch9.xml">
+      <Size Width="658" Height="647" />
+    </I>
+    <I Id="9" N="9" Source="images/bosch10.xml">
+      <Size Width="378" Height="338" />
+    </I>
+    <I Id="10" N="10" Source="images/bosch11.xml">
+      <Size Width="440" Height="836" />
+    </I>
+    <I Id="11" N="11" Source="images/bosch12.xml">
+      <Size Width="384" Height="411" />
+    </I>
+    <I Id="12" N="12" Source="images/bosch13.xml">
+      <Size Width="376" Height="299" />
+    </I>
+    <I Id="13" N="13" Source="images/bosch14.xml">
+      <Size Width="704" Height="602" />
+    </I>
+    <I Id="14" N="14" Source="images/bosch15.xml">
+      <Size Width="609" Height="858" />
+    </I>
+    <I Id="15" N="15" Source="images/bosch16.xml">
+      <Size Width="554" Height="502" />
+    </I>
+    <I Id="16" N="16" Source="images/bosch17.xml">
+      <Size Width="586" Height="857" />
+    </I>
+    <I Id="17" N="17" Source="images/bosch18.xml">
+      <Size Width="476" Height="921" />
+    </I>
+    <I Id="18" N="18" Source="images/bosch19.xml">
+      <Size Width="610" Height="701" />
+    </I>
+    <I Id="19" N="19" Source="images/bosch20.xml">
+      <Size Width="299" Height="795" />
+    </I>
+    <I Id="20" N="20" Source="images/bosch21.xml">
+      <Size Width="299" Height="917" />
+    </I>
+    <I Id="21" N="21" Source="images/bosch23.xml">
+      <Size Width="370" Height="1131" />
+    </I>
+    <I Id="22" N="22" Source="images/bosch24.xml">
+      <Size Width="370" Height="1132" />
+    </I>
+    <I Id="23" N="23" Source="images/bosch25.xml">
+      <Size Width="559" Height="788" />
+    </I>
+    <I Id="24" N="24" Source="images/bosch26.xml">
+      <Size Width="409" Height="982" />
+    </I>
+    <I Id="25" N="25" Source="images/bosch27.xml">
+      <Size Width="409" Height="981" />
+    </I>
+    <I Id="26" N="26" Source="images/bosch28.xml">
+      <Size Width="408" Height="981" />
+    </I>
+    <I Id="27" N="27" Source="images/bosch29.xml">
+      <Size Width="402" Height="980" />
+    </I>
+    <I Id="28" N="28" Source="images/bosch30.xml">
+      <Size Width="452" Height="808" />
+    </I>
+    <I Id="29" N="29" Source="images/bosch31.xml">
+      <Size Width="463" Height="808" />
+    </I>
+    <I Id="30" N="30" Source="images/bosch32.xml">
+      <Size Width="537" Height="758" />
+    </I>
+    <I Id="31" N="31" Source="images/bosch33.xml">
+      <Size Width="335" Height="1131" />
+    </I>
+    <I Id="32" N="32" Source="images/bosch34.xml">
+      <Size Width="337" Height="1129" />
+    </I>
+    <I Id="33" N="33" Source="images/bosch35.xml">
+      <Size Width="525" Height="760" />
+    </I>
+    <I Id="34" N="34" Source="images/bosch36.xml">
+      <Size Width="611" Height="683" />
+    </I>
+    <I Id="35" N="35" Source="images/bosch37.xml">
+      <Size Width="397" Height="1043" />
+    </I>
+    <I Id="36" N="36" Source="images/bosch38.xml">
+      <Size Width="401" Height="1045" />
+    </I>
+    <I Id="37" N="37" Source="images/bosch39.xml">
+      <Size Width="610" Height="684" />
+    </I>
+    <I Id="38" N="38" Source="images/bosch40.xml">
+      <Size Width="370" Height="542" />
+    </I>
+    <I Id="39" N="39" Source="images/bosch41.xml">
+      <Size Width="372" Height="544" />
+    </I>
+    <I Id="40" N="40" Source="images/bosch42.xml">
+      <Size Width="561" Height="788" />
+    </I>
+    <I Id="41" N="41" Source="images/bosch43.xml">
+      <Size Width="488" Height="698" />
+    </I>
+    <I Id="42" N="42" Source="images/bosch44.xml">
+      <Size Width="663" Height="682" />
+    </I>
+    <I Id="43" N="43" Source="images/bosch45.xml">
+      <Size Width="430" Height="859" />
+    </I>
+    <I Id="44" N="44" Source="images/bosch46.xml">
+      <Size Width="420" Height="860" />
+    </I>
+    <I Id="45" N="45" Source="images/bosch47.xml">
+      <Size Width="442" Height="857" />
+    </I>
+    <I Id="46" N="46" Source="images/bosch48.xml">
+      <Size Width="448" Height="858" />
+    </I>
+    <I Id="47" N="47" Source="images/bosch49.xml">
+      <Size Width="559" Height="763" />
+    </I>
+    <I Id="48" N="48" Source="images/bosch51.xml">
+      <Size Width="581" Height="707" />
+    </I>
+    <I Id="49" N="49" Source="images/bosch52.xml">
+      <Size Width="540" Height="757" />
+    </I>
+    <I Id="50" N="50" Source="images/bosch53.xml">
+      <Size Width="553" Height="736" />
+    </I>
+    <I Id="51" N="51" Source="images/bosch54.xml">
+      <Size Width="374" Height="688" />
+    </I>
+    <I Id="52" N="52" Source="images/bosch55.xml">
+      <Size Width="702" Height="602" />
+    </I>
+    <I Id="53" N="53" Source="images/bosch56.xml">
+      <Size Width="655" Height="619" />
+    </I>
+    <I Id="54" N="54" Source="images/bosch57.xml">
+      <Size Width="385" Height="574" />
+    </I>
+    <I Id="55" N="55" Source="images/bosch58.xml">
+      <Size Width="532" Height="766" />
+    </I>
+    <I Id="56" N="56" Source="images/bosch59.xml">
+      <Size Width="371" Height="563" />
+    </I>
+    <I Id="57" N="57" Source="images/bosch60.xml">
+      <Size Width="555" Height="786" />
+    </I>
+    <I Id="58" N="58" Source="images/bosch62.xml">
+      <Size Width="880" Height="516" />
+    </I>
+    <I Id="59" N="59" Source="images/bosch63.xml">
+      <Size Width="581" Height="761" />
+    </I>
+    <I Id="60" N="60" Source="images/bosch64.xml">
+      <Size Width="375" Height="549" />
+    </I>
+    <I Id="61" N="61" Source="images/bosch65.xml">
+      <Size Width="494" Height="821" />
+    </I>
+    <I Id="62" N="62" Source="images/bosch66.xml">
+      <Size Width="660" Height="684" />
+    </I>
+    <I Id="63" N="63" Source="images/bosch67.xml">
+      <Size Width="484" Height="761" />
+    </I>
+    <I Id="64" N="64" Source="images/bosch68.xml">
+      <Size Width="548" Height="788" />
+    </I>
+    <I Id="65" N="65" Source="images/bosch69.xml">
+      <Size Width="457" Height="853" />
+    </I>
+    <I Id="66" N="66" Source="images/bosch70.xml">
+      <Size Width="456" Height="853" />
+    </I>
+    <I Id="67" N="67" Source="images/bosch71.xml">
+      <Size Width="392" Height="1037" />
+    </I>
+    <I Id="68" N="68" Source="images/bosch72.xml">
+      <Size Width="388" Height="1036" />
+    </I>
+    <I Id="69" N="69" Source="images/bosch73.xml">
+      <Size Width="597" Height="698" />
+    </I>
+    <I Id="70" N="70" Source="images/bosch74.xml">
+      <Size Width="749" Height="542" />
+    </I>
+  </Items>
+</Collection>

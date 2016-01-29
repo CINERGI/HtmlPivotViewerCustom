@@ -49,7 +49,7 @@ a { font-weight:normal; }
 	opacity:0;
 	pointer-events: none;
 }
-.pv-modal-dialog:target { 
+.pv-modal-dialog:target {
 	opacity:1;
 	-webkit-transition: opacity 400ms ease-in;
 	-moz-transition: opacity 400ms ease-in;
@@ -109,7 +109,7 @@ a { font-weight:normal; }
 .detail-dark { background-color: #E0E1E2; }
 .detail-light { background-color: #EEEFF0; }
 .detail-item-title { color: #05314A; margin-bottom	:5px; }
-.detail-item-value { color: #484848; padding:2px 0 2px 0; } 
+.detail-item-value { color: #484848; padding:2px 0 2px 0; }
 .detail-item-value-filter { color:#36A3D8; cursor:default; }
 .detail-item-value-filter:hover { background-color:#C9DFEA; }
 .detail-item-link { color:#36A3D8; text-decoration:none; }

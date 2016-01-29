@@ -20,7 +20,7 @@ PivotViewer.Models.Loaders.LocalCSVLoader = PivotViewer.Models.Loaders.CSVLoader
         this.project = "";
         this.data = [];
     },
-    loadCollection: function (collection) {
+    LoadCollection: function (collection) {
         //this._super(collection);
 
         var that = this;
