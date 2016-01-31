@@ -288,7 +288,151 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 
     PV.getCurrentView = function () { return _views[_currentView]; }
 
-    PV.filterViews = function () { for (var i = 0; i < _views.length; i++) { _views[i].handleFilter(_tiles, _filterList, _sortCategory); }}
+
+    PV.filterViews = function () {
+      console.log(_stringFilters);
+      console.log(_numericFilters);
+      getRuleFilters();
+      for (var i = 0; i < _views.length; i++) { _views[i].handleFilter(_tiles, _filterList, _sortCategory); }
+      console.log(PivotCollection.items);
+      console.log(_sortCategory);
+
+    }
+
+
+
+    var bucketRules = [];
+    function getBucketFilters(){
+      var type;
+      if(PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String){
+        type = "string";
+      }else{
+        type = "nonstring";
+      }
+      var buckets = _views[1].buckets;
+      for(var i = 0; i < buckets.length; i++){
+        if(type == "string"){
+          var value = buckets[i].startLabel;
+          bucketRules.push({name:_sortCategory, type:type, value:[value]});
+        }else{
+          var value = [buckets[i].startLabel, buckets[i].endLabel];
+          bucketRules.push({name:_sortCategory, type:type, value:[value]});
+        }
+      }
+    }
+
+    function getBucketsCount(){
+      for(var j = 0; j < bucketsRules.length; j++){
+        for (var i = 0; i < PivotCollection.items.length; i++) {
+          if(bucketsRules[j].type == "string"){
+            var facet = PivotCollection.items[i].getFacetByName(bucketsRules[j].name);
+            if(facet != undefined && bucketsRules[j].value[0] == facet.values[0].value){
+              Cs[j].push(PivotCollection.items[i]);
+            }
+          }else if(bucketsRules[j].type = "nonstring"){
+            var facet = PivotCollection.items[i].getFacetByName(bucketsRules[j].name);
+            if(facet != undefined && bucketsRules[j].value[0] <= facet.values[0].value
+             && bucketsRules[j].value[1] >= facet.values[0].value){
+               Cs[j].push(PivotCollection.items[i]);
+             }
+          }
+        }
+      }
+    }
+
+
+    var A = [];
+    var B = [];
+    var AB = [];
+    var Cs = [];
+
+    //set up rule filters
+    var ruleFilters = [];
+    var ruleNums = 0;
+
+    function getRuleFilters(){
+      ruleFilters = [];
+      ruleNums = 0;
+      for (var i = 0; i < _stringFilters.length; i++) {
+          ruleNums++;
+          var name = _stringFilters[i].facet;
+          var type = "string";
+          var value = _stringFilters[i].value.join(', ');
+          ruleFilters.push({name: name, type: type, value: [value]});
+      }
+      for (var i = 0; i < _numericFilters.length; i++) {
+          ruleNums++;
+          var name = _numericFilters[i].facet;
+          var type = "nonstring"
+          var selectedMax = _numericFilters[i].selectedMax;
+          var selectedMin = _numericFilters[i].selectedMin;
+          ruleFilters.push({name:name, type: type, value:[selectedMin, selectedMax]});
+      }
+      console.log(ruleFilters);
+      ruleCount();
+    }
+
+
+    function ruleCount(){
+      if(ruleNums == 0 || ruleNums > 2){
+        return;
+      }
+      A = [];
+      B = [];
+      AB = [];
+
+      //Count A filter
+      for (var i = 0; i < PivotCollection.items.length; i++) {
+        if(ruleFilters[0].type == "string"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[0].name);
+          if(facet != undefined && ruleFilters[0].value[0] == facet.values[0].value){
+            A.push(PivotCollection.items[i]);
+          }
+        }else if(ruleFilters[0].type = "nonstring"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[0].name);
+          if(facet != undefined && ruleFilters[0].value[0] <= facet.values[0].value
+           && ruleFilters[0].value[1] >= facet.values[0].value){
+             A.push(PivotCollection.items[i]);
+           }
+        }
+        if(ruleNums == 1){
+          continue;
+        }
+        if(ruleFilters[1].type == "string"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[1].name);
+          if(facet != undefined && ruleFilters[1].value[0] == facet.values[0].value){
+            B.push(PivotCollection.items[i]);
+          }
+        }else if(ruleFilters[1].type = "nonstring"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[1].name);
+          if(facet != undefined && ruleFilters[1].value[0] <= facet.values[0].value
+           && ruleFilters[1].value[1] >= facet.values[0].value){
+             B.push(PivotCollection.items[i]);
+           }
+        }
+      }
+      if(ruleNums == 1){
+        return;
+      }
+      //Count B filter
+      for(var i = 0; i < A.length; i++){
+        var facet = A[i].getFacetByName(ruleFilters[1].name);
+        if(facet == undefined){
+          continue;
+        }
+        if(ruleFilters[1].type == "string"){
+          if(facet.values[0].value == ruleFilters[1].value[0]){
+            AB.push(A[i]);
+          }
+        }else if(ruleFilters[1].type = "nonstring"){
+          if(ruleFilters[1].value[0] <= facet.values[0].value
+           && ruleFilters[1].value[1] >= facet.values[0].value){
+            AB.push(A[i]);
+          }
+        }
+      }
+    }
+
 
     //Sorts the facet values based on a specific sort type
     var _sortStringValues = function (facetName) {
@@ -629,7 +773,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
             filterList.push(tile);
         }
 
-        _filterList = filterList;
+      _filterList = filterList;
 	    _numericFilters = numericFilters;
 	    _stringFilters = stringFilters;
 	    _datetimeFilters = datetimeFilters;
@@ -737,6 +881,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                     uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort' customSort='" + category.customSort.name + "'>Sort: " + category.customSort.name + "</span>");
                 else uiFacet.append("<span class='pv-filterpanel-accordion-facet-sort'>Sort: A-Z</span>");
                 uiFacet.append(_createStringFilters(category.name));
+
                 var item = _itemTotals[category.name];
                 for (value in item.values) {
                     total = item.values[value];
@@ -1496,7 +1641,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
                       _filterList.push(_tiles[i]);
 
                 }
-                console.log(_stringFilters);
+
                 PV.filterViews();
                 release();
             });

@@ -95,7 +95,11 @@ function getModel(model, formulaStr){
         "data": mySession
         },function(result){
           ocpu.seturl("//52.34.214.93/ocpu/library/base/R")
-
+          result.getConsole(function(outtext){
+            var div = document.getElementById('pv-model-result');
+            div.innerHTML = outtext;
+              });
+          /*
           var a = ocpu.call("summary", {
             object: result,
           }, function(output){
@@ -104,6 +108,7 @@ function getModel(model, formulaStr){
               div.innerHTML = outtext;
             });
           });
+          */
         });
       }
       //if R returns an error, alert the error message

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>SuAVE: Survey Analysis via Visual Exploration</title>
+	<link href="style/headerstyle.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<header id="earthcube-header">
+ 				<h1><a href="http://besuave.azurewebsites.net/" target="_blank" class="logo"><img src="./carnivora_files/suavelogo3-small-copy-e1438196105588.png"></a></h1>
+                <h2 class="tagline"></h2>
+				<a href="https://youtu.be/IqiSf0eWtxQ?list=PLvVijDnlg_tXJJRJlEbRld0IOJCi5-vTD" target="_blank" id="video">Tutorial Videos</a>
+				<a href="projects/survey1544about.html" target="_blank" id="help">About Survey</a>
+
+ </header>
+<!--
+ <iframe src="http://maxim.ucsd.edu/suave/index.html?file=survey1544.zip" frameborder="0" style="width:100%;height:95%;margin:0;padding:0;border:0">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+-->
+<script>
+				var suave_ifr = document.createElement('iframe')
+				suave_ifr.src = '/index.html?file=gss2010.csv'
+				suave_ifr.style.width="100%"
+				suave_ifr.style.height="95%"
+				suave_ifr.style.margin="0"
+				suave_ifr.style.padding="0"
+				suave_ifr.style.border="0"
+				suave_ifr.frameborder ='0'
+				document.body.appendChild(suave_ifr)
+</script>
+
+</body>
+</html>

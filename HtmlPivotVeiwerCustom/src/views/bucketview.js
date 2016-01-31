@@ -16,6 +16,24 @@ PivotViewer.Utils.loadScript("src/views/definebuckets.js");
 var oldBuckets;
 var oldSortCategory;
 var oldFilterList;
+var ruleFilters = [];
+
+function getFilters(){
+  for (var i = 0; i < PV.stringFilters.length; i++) {
+      var name = PV.stringFilters[i].facet;
+      var type = "string";
+      var value = PV.stringFilters[i].value.join(', ');
+      ruleFilters.push({name: name, type: type, value: [value]});
+  }
+  for (var i = 0; i < numericFilters.length; i++) {
+      var name = PV.stringFilters[i].facet;
+      var type = "nonstring"
+      var selectedMax = PV.numericFilters[i].selectedMax;
+      var selectedMin = PV.numericFilters[i].selectedMin;
+      ruleFilters.push({name:name, type: type, value:[selectedMin, selectedMax]});
+  }
+
+}
 
 PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     init: function () {
@@ -106,6 +124,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if(oldSortCategory == undefined) oldSortCategory = this.sortCategory;
         this.filtered = true;
         if (this.isActive) this.activate();
+        console.log("Debug");
     },
     setup: function (width, height, offsetX, offsetY, tileMaxRatio) {
         this.width = width;
