@@ -154,6 +154,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if(oldBuckets == undefined || oldSortCategory != this.sortCategory)
           oldBuckets = this.buckets;
           oldSortCategory = this.sortCategory;
+
     },
     createUI: function () {
         this.columnWidth = this.origColumnWidth = (this.width - this.offsetX) / this.buckets.length;

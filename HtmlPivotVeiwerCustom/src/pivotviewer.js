@@ -297,14 +297,16 @@ var Settings = { showMissing: false, visibleCategories: undefined };
       console.log(PivotCollection.items);
       console.log(_sortCategory);
 
+
     }
 
 
-
+    //get C intervals
     var bucketRules = [];
     function getBucketFilters(){
+      bucketRules = []
       var type;
-      if(PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String){
+      if(PivotCollection.getCategoryByName(_sortCategory).type == PivotViewer.Models.FacetType.String){
         type = "string";
       }else{
         type = "nonstring";
@@ -312,32 +314,107 @@ var Settings = { showMissing: false, visibleCategories: undefined };
       var buckets = _views[1].buckets;
       for(var i = 0; i < buckets.length; i++){
         if(type == "string"){
-          var value = buckets[i].startLabel;
+          var value = buckets[i].startRange;
           bucketRules.push({name:_sortCategory, type:type, value:[value]});
         }else{
-          var value = [buckets[i].startLabel, buckets[i].endLabel];
-          bucketRules.push({name:_sortCategory, type:type, value:[value]});
+          var value = [buckets[i].startRange, buckets[i].endRange];
+          bucketRules.push({name:_sortCategory, type:type, value:value});
         }
       }
+      console.log(bucketRules);
+      if(bucketRules != undefined) getBucketsCount();
     }
 
+    //get C
     function getBucketsCount(){
-      for(var j = 0; j < bucketsRules.length; j++){
+      Cs = [];
+      for(var j = 0; j < bucketRules.length; j++){
+        Cs[j] = [];
         for (var i = 0; i < PivotCollection.items.length; i++) {
-          if(bucketsRules[j].type == "string"){
-            var facet = PivotCollection.items[i].getFacetByName(bucketsRules[j].name);
-            if(facet != undefined && bucketsRules[j].value[0] == facet.values[0].value){
+          var facet = PivotCollection.items[i].getFacetByName(bucketRules[j].name);
+          if(bucketRules[j].type == "string"){
+            if(facet != undefined && bucketRules[j].value[0] == facet.values[0].value){
               Cs[j].push(PivotCollection.items[i]);
             }
-          }else if(bucketsRules[j].type = "nonstring"){
-            var facet = PivotCollection.items[i].getFacetByName(bucketsRules[j].name);
-            if(facet != undefined && bucketsRules[j].value[0] <= facet.values[0].value
-             && bucketsRules[j].value[1] >= facet.values[0].value){
+          }else if(bucketRules[j].type = "nonstring"){
+            if(facet != undefined && bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
                Cs[j].push(PivotCollection.items[i]);
              }
           }
         }
       }
+      console.log(Cs);
+      getAllTable();
+    }
+
+    //get ACs BCs ABCs
+    function getAllTable(){
+      console.log(A);
+      console.log(B);
+      //Count B filter
+      for(var j = 0; j < Cs.length; j++){
+        ACs[j] = [];
+        BCs[j] = [];
+        ABCs[j] = [];
+        //AC
+        for(var i = 0; i < A.length; i++){
+          var facet = A[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(facet.values[0].value == bucketRules[j].value[0]){
+              ACs[j].push(A[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ACs[j].push(A[i]);
+            }
+          }
+        }
+
+        //AB
+        for(var i = 0; i < B.length; i++){
+          var facet = B[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(facet.values[0].value == bucketRules[j].value[0]){
+              BCs[j].push(B[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              BCs[j].push(B[i]);
+            }
+          }
+        }
+
+        //ABCs
+        for(var i = 0; i < AB.length; i++){
+          var facet = AB[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(facet.values[0].value == bucketRules[j].value[0]){
+              ABCs[j].push(AB[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ABCs[j].push(AB[i]);
+            }
+          }
+        }
+
+      }
+      console.log(ACs);
+      console.log(BCs);
+      console.log(ABCs);
     }
 
 
@@ -345,6 +422,9 @@ var Settings = { showMissing: false, visibleCategories: undefined };
     var B = [];
     var AB = [];
     var Cs = [];
+    var ACs = [];
+    var BCs = [];
+    var ABCs = [];
 
     //set up rule filters
     var ruleFilters = [];
@@ -412,6 +492,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
       }
       if(ruleNums == 1){
+        getBucketFilters();
         return;
       }
       //Count B filter
@@ -431,6 +512,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
           }
         }
       }
+      getBucketFilters();
     }
 
 
