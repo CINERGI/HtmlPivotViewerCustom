@@ -20,6 +20,18 @@ var Loader = null;
 var LoadSem = new Semaphore(1);
 var Settings = { showMissing: false, visibleCategories: undefined };
 
+//set up rule filters
+var A = [];
+var B = [];
+var AB = [];
+var Cs = [];
+var ACs = [];
+var BCs = [];
+var ABCs = [];
+var ruleFilters = [];
+var bucketRules = [];
+var ruleNums = 0;
+
 (function ($) {
     var _views = [],
         _itemTotals = [], //used to store the counts of all the string facets - used when resetting the filters
@@ -284,25 +296,19 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         _views[number].activate();
 
         _currentView = number;
+        if(_currentView == 1) getBucketFilters();
     };
 
     PV.getCurrentView = function () { return _views[_currentView]; }
 
-
     PV.filterViews = function () {
-      console.log(_stringFilters);
-      console.log(_numericFilters);
-      getRuleFilters();
       for (var i = 0; i < _views.length; i++) { _views[i].handleFilter(_tiles, _filterList, _sortCategory); }
-      console.log(PivotCollection.items);
+      getRuleFilters();
       console.log(_sortCategory);
-
-
     }
 
 
     //get C intervals
-    var bucketRules = [];
     function getBucketFilters(){
       bucketRules = []
       var type;
@@ -345,13 +351,10 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
       }
       console.log(Cs);
-      getAllTable();
     }
 
     //get ACs BCs ABCs
     function getAllTable(){
-      console.log(A);
-      console.log(B);
       //Count B filter
       for(var j = 0; j < Cs.length; j++){
         ACs[j] = [];
@@ -417,19 +420,6 @@ var Settings = { showMissing: false, visibleCategories: undefined };
       console.log(ABCs);
     }
 
-
-    var A = [];
-    var B = [];
-    var AB = [];
-    var Cs = [];
-    var ACs = [];
-    var BCs = [];
-    var ABCs = [];
-
-    //set up rule filters
-    var ruleFilters = [];
-    var ruleNums = 0;
-
     function getRuleFilters(){
       ruleFilters = [];
       ruleNums = 0;
@@ -451,7 +441,6 @@ var Settings = { showMissing: false, visibleCategories: undefined };
       console.log(ruleFilters);
       ruleCount();
     }
-
 
     function ruleCount(){
       if(ruleNums == 0 || ruleNums > 2){
@@ -492,7 +481,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
         }
       }
       if(ruleNums == 1){
-        getBucketFilters();
+        getAllTable();
         return;
       }
       //Count B filter
@@ -512,7 +501,7 @@ var Settings = { showMissing: false, visibleCategories: undefined };
           }
         }
       }
-      getBucketFilters();
+      getAllTable();
     }
 
 
