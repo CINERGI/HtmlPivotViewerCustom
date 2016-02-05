@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+<script src="lib/URI.js" type="text/javascript"></script>
 <html>
 <head>
     <title>SuAVE: Survey Analysis via Visual Exploration</title>
@@ -18,8 +19,10 @@
 </iframe>
 -->
 <script>
+        var url = URI.parse(window.location.href);
+        var query = URI.parseQuery(url.query);
 				var suave_ifr = document.createElement('iframe')
-				suave_ifr.src = '/index.html?file=gss2010.csv'
+				suave_ifr.src = '/index.html?file='+query.file;
 				suave_ifr.style.width="100%"
 				suave_ifr.style.height="95%"
 				suave_ifr.style.margin="0"

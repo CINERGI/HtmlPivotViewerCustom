@@ -303,6 +303,7 @@ var ruleNums = 0;
 
     PV.filterViews = function () {
       for (var i = 0; i < _views.length; i++) { _views[i].handleFilter(_tiles, _filterList, _sortCategory); }
+      getBucketFilters();
       getRuleFilters();
       console.log(_sortCategory);
     }
@@ -356,6 +357,9 @@ var ruleNums = 0;
     //get ACs BCs ABCs
     function getAllTable(){
       //Count B filter
+      console.log(Cs.length);
+      console.log(A.length);
+      console.log(B.length);
       for(var j = 0; j < Cs.length; j++){
         ACs[j] = [];
         BCs[j] = [];
@@ -378,7 +382,7 @@ var ruleNums = 0;
           }
         }
 
-        //AB
+        //BC
         for(var i = 0; i < B.length; i++){
           var facet = B[i].getFacetByName(bucketRules[j].name);
           if(facet == undefined){
@@ -443,7 +447,7 @@ var ruleNums = 0;
     }
 
     function ruleCount(){
-      if(ruleNums == 0 || ruleNums > 2){
+      if(ruleNums == 0){
         return;
       }
       A = [];
@@ -479,6 +483,9 @@ var ruleNums = 0;
              B.push(PivotCollection.items[i]);
            }
         }
+      }
+      if(ruleNums > 2){
+        return;
       }
       if(ruleNums == 1){
         getAllTable();
@@ -901,7 +908,13 @@ var ruleNums = 0;
 	        //Filter view
 	        TileController.setCircularEasingBoth();
 	    }
-
+      A = [];
+      B = [];
+      AB = [];
+      Cs = [];
+      ACs = [];
+      BCs = [];
+      ABCs = [];
 	    PV.filterViews();
     };
 
@@ -2389,4 +2402,7 @@ var ruleNums = 0;
         else if (typeof method === 'object' || !method) return methods.init.apply(this, arguments);
         else $.error('Method ' + method + ' does not exist on jQuery.PivotViewer');
     };
+
+
+
 })(jQuery);

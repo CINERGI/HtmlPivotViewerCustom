@@ -8,14 +8,71 @@
 //  Enhancements:
 //    Copyright (C) 2012-2014 OpenLink Software - http://www.openlinksw.com/
 //
-//  This software is licensed under the terms of the
+//  This software is licensepvd under the terms of the
 //  GNU General Public License v2 (see COPYING)
 //
 
 PivotViewer.Utils.loadScript("src/views/definebuckets.js");
-var oldBuckets;
-var oldSortCategory;
-var oldFilterList;
+
+var cIndex;
+
+$(document).on("click", "#pv-rule-info", function(){
+  $("#ruleModal").modal('toggle');
+  $("#table_header").html("Value to be explained: "+bucketRules[cIndex].name);
+  var filterOne, filterTwo;
+  var valueOne, valueTwo;
+  filterOne = ruleFilters[0].name;
+  if(ruleFilters[0].type == "string"){
+    valueOne = ruleFilters[0].value[0];
+  }else{
+    valueOne = "From "+ruleFilters[0].value[0]+" to "+ruleFilters[0].value[1];
+  }
+  $("#filter_one").html(filterOne);
+  $("#value_one").html(valueOne);
+  console.log(ACs[cIndex]);
+  $("#contrb_one").html(ACs[cIndex].length/A.length);
+
+  if(ruleFilters[1]!=undefined){
+    filterTwo = ruleFilters[1].name;
+    if(ruleFilters[1].type == "string"){
+      valueTwo = ruleFilters[1].value[0];
+    }else{
+      valueTwo = "From "+ruleFilters[1].value[0]+" to "+ruleFilters[1].value[1];
+    }
+    $("#filter_two").html(filterTwo);
+    $("#value_two").html(valueTwo);
+    $("#contrb_two").html(BCs[cIndex].length/B.length);
+  }
+
+  if(ruleFilters[1]!=undefined){
+    $("#accuracy").html(ABCs[cIndex].length/AB.length);
+    $("#numApp").html(AB.length);
+    $("#numConfirm").html(ABCs[cIndex].length);
+  }else{
+    $("#accuracy").html(ACs[cIndex].length/A.length);
+    $("#numApp").html(A.length);
+    $("#numConfirm").html(ACs[cIndex].length);
+  }
+
+  $("#totalAcc").html(Cs[cIndex].length/PivotCollection.items.length);
+  $("#totalApp").html(PivotCollection.items.length);
+  $("#totalConfirm").html(Cs[cIndex].length);
+
+
+  //$("#pv-rule-result").append("<p>"+filterOne+(filterTwo!=undefined?" "+));
+  /*$("#pv-rule-result").html("A: "+A.length+"<br>B: "+B.length+"<br>C: " + Cs[cIndex].length+
+  (ACs[cIndex]!=undefined ? "<br>AC: "+ACs[cIndex].length : "")+
+  (BCs[cIndex]!=undefined ? "<br>BC: "+BCs[cIndex].length : "")+"<br>AB: "+AB.length);
+  */
+});
+
+function locateBucket(startRange){
+  //console.log("test");
+  //console.log(bucketRules);
+  for(var i = 0; i < bucketRules.length; i++){
+    if(bucketRules[i].value[0] == startRange) return i;
+  }
+}
 
 PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     init: function () {
@@ -102,8 +159,6 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (filterList != undefined) this.filterList = filterList;
         if(sortCategory != undefined) this.sortCategory = sortCategory;
         //add old info
-        if(oldFilterList == undefined) oldFilterList = this.filterList;
-        if(oldSortCategory == undefined) oldSortCategory = this.sortCategory;
         this.filtered = true;
         if (this.isActive) this.activate();
     },
@@ -132,9 +187,6 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         else{
            this.buckets = this.bucketize(this.filterList, this.sortCategory);
         }
-        if(oldBuckets == undefined || oldSortCategory != this.sortCategory)
-          oldBuckets = this.buckets;
-          oldSortCategory = this.sortCategory;
 
     },
     createUI: function () {
@@ -155,7 +207,20 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 this.buckets[i].tiles.length + "<br>" + Math.round(this.buckets[i].tiles.length / this.filterList.length * 100) + "%</div>" + label + "</div></div>";
             if (this.bigCount < bkt.tiles.length) this.bigCount = bkt.tiles.length;
         }
-
+        $(".pv-viewpanel-view").append(
+        '<div class="modal fade" id="ruleModal" role="dialog" style="z-index:100000;"><div class="modal-dialog" id="rule-modal"><div class="modal-content"><div class="modal-header">'+
+        '<h4 class="modal-title">Rule Table</h4></div>'+
+        '<div class="modal-body" ><code><pre id="pv-rule-result" style="position: relative; \
+        ">'+
+        '<h3 id="table_header"></h3><div class="table-responsive">'+
+        '<table class="table" border="1"><tr><th rowspan="2" colspan="2"></th><th colspan="6">Explainatory variables</th></tr>'+
+        '<tr><th id="filter_one" colspan="3"></th><th id="filter_two" colspan="3"></th></tr>'+
+        '<tr><th colspan="2">Values</th><td id="value_one" colspan="3"></td><td id="value_two" colspan="3"></td></tr>'+
+        '<tr><th colspan="2">Contribution to accuracy</th><td id="contrb_one" colspan="3"></td><td id="contrb_two" colspan="3"></td></tr>'+
+        '<tr><th colspan="8">Properties of rules</th></tr><tr><th colspan="2"></th><th colspan="2">Accuracy</th><th colspan="2">Num of application</th><th colspan="2">Num of confirmation</th></tr>'+
+        '<tr><th colspan="2">With filters</th><td colspan="2" id="accuracy"></td><td colspan="2" id="numApp"></td><td colspan="2" id="numConfirm"></td></tr>'+
+        '<tr><th colspan="2">Original</th><td colspan="2" id="totalAcc"></td><td colspan="2" id="totalApp"></td><td colspan="2" id="totalConfirm"></td></tr></table></div>'+
+        '</pre></code></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>');
         $(".pv-viewpanel-view").append("<div class='pv-bucketview-overlay'></div>");
         $('.pv-bucketview-overlay').css('left', this.offsetX + 'px').append(uiElements);
         $('.pv-bucketview-overlay div').fadeIn('slow');
@@ -396,7 +461,6 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
     },
     handleHover: function (evt) {
         this.super_handleHover(evt);
-
         $(".pv-tooltip").remove();
         $(".pv-bucketview-overlay-bucket").removeClass("bucketview-bucket-hover");
         var bktNum = this.getBucket(evt.x);
@@ -411,16 +475,24 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (evt.x >= offset.left && evt.x <= (offset.left + box.width()) &&
             evt.y <= offset.top && evt.y >= (offset.top - box.height())) {
             var bkt = this.buckets[bktNum], string = PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String;
-            var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>" + (bkt.startLabel == bkt.endLabel ? " Value: " +
+            var infoButton = (ruleNums == 1 || ruleNums == 2);
+            cIndex = locateBucket(bkt.startRange);
+            var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>"+
+                (bkt.startLabel == bkt.endLabel ? " Value: " +
                 (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
                 "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") + "  to " + (string ? "\"" : "") + bkt.endLabel +
                 (string ? "\"" : "") + "<br>") + bkt.tiles.length + " of " + this.filterList.length +
-                " items (" + Math.round(bkt.tiles.length / this.filterList.length * 100) + "%)" + (Settings.showMissing ? "</div>" :
-                "<br><i>(Some items may be missing values for this variable.)</i>")+
-                "<br><i>"+ oldBuckets[bktNum].tiles.length +" of "+oldFilterList.length+" item</i></div>";
-            $(".pv-bucketview-overlay").append(tooltip);
+                " items (" + Math.round(bkt.tiles.length / this.filterList.length * 100) + "%)           " +
+                (infoButton ? "<button type = 'button' id='pv-rule-info' >more info</button>" : "") +
+                (A[0]!=undefined ? "<br><i>Without filter(s): "+Cs[cIndex].length+" of "+ PivotCollection.items.length+
+                " items (" + Math.round(Cs[cIndex].length / PivotCollection.items.length * 100) + "%)</i> " : "")+
+                (Settings.showMissing ? "</div>" : "<br><i>(Some items may be missing values for this variable.)</i>")+
+                "</div>";
+                //"<br><i>"+ oldBuckets[bktNum].tiles.length +" of "+oldFilterList.length+" item</i>"+
+            $(".pv-viewpanel").append(tooltip);
             $(".pv-tooltip").offset({ left: offset.left, top: offset.top - box.height() + $(".pv-canvas").offset().top + 10})
         }
+
     },
     handleClick: function (evt) {
         if (this.hasSubsets() && !PV.subsets.finalized) { PV.subsets.finalized = true; PV.filterViews(); return; }

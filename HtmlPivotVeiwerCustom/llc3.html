@@ -62,8 +62,10 @@
             $('#pivotviewer').PivotViewer({
                 Loader: new PivotViewer.Models.Loaders.CSVLoader("projects/LLC3.zip")
             });
-            initRSession("projects/llc3.csv")
         });
+
+        initRSession("http://sideli.net/"+query.file);
+        $(document).ready(function () { $('#pivotviewer').PivotViewer(options); });
     </script>
 </body>
 </html>
