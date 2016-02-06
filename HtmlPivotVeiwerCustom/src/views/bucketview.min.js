@@ -544,15 +544,23 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>"+
                 (bkt.startLabel == bkt.endLabel ? " Value: " +
                 (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") +
-                "<br>" : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") + "  to " + (string ? "\"" : "") + bkt.endLabel +
-                (string ? "\"" : "") + "<br>") + bkt.tiles.length + " of " + this.filterList.length +
+                "; " : "Values: from " + (string ? "\"" : "") + bkt.startLabel + (string ? "\"" : "") + "  to " + (string ? "\"" : "") + bkt.endLabel +
+                (string ? "\"" : "") + "; ") + bkt.tiles.length + " of " + this.filterList.length +
                 " items (" + Math.round(bkt.tiles.length / this.filterList.length * 100) + "%)           " +
-                (infoButton ? "<button type = 'button' id='pv-rule-info' >more info</button>" : "") +
                 (A[0]!=undefined ? "<br><i>Without filter(s): "+Cs[cIndex].length+" of "+ PivotCollection.items.length+
-                " items (" + Math.round(Cs[cIndex].length / PivotCollection.items.length * 100) + "%)</i> " : "")+
-                (Settings.showMissing ? "</div>" : "<br><i>(Some items may be missing values for this variable.)</i>")+
-                "</div>";
-                //"<br><i>"+ oldBuckets[bktNum].tiles.length +" of "+oldFilterList.length+" item</i>"+
+                " items (" + Math.round(Cs[cIndex].length / PivotCollection.items.length * 100) + "%)</i> " : "");
+            if(A[0]!=undefined){
+              var ratioDiff = Math.round(Cs[cIndex].length / PivotCollection.items.length * 100)-Math.round(bkt.tiles.length / this.filterList.length * 100);
+              if(ratioDiff > 10){
+                tooltip += '<br><i><font color="red">Contribution of filter(s): '+ratioDiff+'%</font></i>';
+              }else if(ratioDiff < -10){
+                tooltip += '<br><i><font color="blue">Contribution of filter(s): '+ratioDiff+'%</font></i>';
+              }else{
+                tooltip += '<br><i><font color="green">Contribution of filter(s): '+ratioDiff+'%</font></i>';
+              }
+            }
+            tooltip += (infoButton ? "<button type = 'button' id='pv-rule-info' >more info</button>" : "");
+            tooltip = tooltip + (Settings.showMissing ? "</div>" : "<br><i>(Some items may be missing values for this variable.)</i></div>");
             $(".pv-viewpanel").append(tooltip);
             $(".pv-tooltip").offset({ left: offset.left, top: offset.top - box.height() + $(".pv-canvas").offset().top + 10})
         }
