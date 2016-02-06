@@ -319,10 +319,11 @@ var ruleNums = 0;
         type = "nonstring";
       }
       var buckets = _views[1].buckets;
+      console.log(buckets);
       for(var i = 0; i < buckets.length; i++){
         if(type == "string"){
-          var value = buckets[i].startRange;
-          bucketRules.push({name:_sortCategory, type:type, value:[value]});
+          var value = [buckets[i].startRange, buckets[i].endRange];
+          bucketRules.push({name:_sortCategory, type:type, value:value});
         }else{
           var value = [buckets[i].startRange, buckets[i].endRange];
           bucketRules.push({name:_sortCategory, type:type, value:value});
@@ -338,18 +339,22 @@ var ruleNums = 0;
       for(var j = 0; j < bucketRules.length; j++){
         Cs[j] = [];
         for (var i = 0; i < PivotCollection.items.length; i++) {
-          var facet = PivotCollection.items[i].getFacetByName(bucketRules[j].name);
           if(bucketRules[j].type == "string"){
-            if(facet != undefined && bucketRules[j].value[0] == facet.values[0].value){
+            var facet = PivotCollection.items[i].getFacetByName(bucketRules[j].name);
+            if(facet != undefined && bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
               Cs[j].push(PivotCollection.items[i]);
             }
           }else if(bucketRules[j].type = "nonstring"){
+            var facet = PivotCollection.items[i].getFacetByName(bucketRules[j].name);
             if(facet != undefined && bucketRules[j].value[0] <= facet.values[0].value
              && bucketRules[j].value[1] >= facet.values[0].value){
                Cs[j].push(PivotCollection.items[i]);
              }
           }
         }
+        console.log(Cs[j]);
+        console.log(Cs[j].length);
       }
       console.log(Cs);
     }
@@ -370,9 +375,10 @@ var ruleNums = 0;
           if(facet == undefined){
             continue;
           }
-        
+
           if(bucketRules[j].type == "string"){
-            if(facet.values[0].value == bucketRules[j].value[0]){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
               ACs[j].push(A[i]);
             }
           }else if(bucketRules[j].type = "nonstring"){
@@ -390,7 +396,8 @@ var ruleNums = 0;
             continue;
           }
           if(bucketRules[j].type == "string"){
-            if(facet.values[0].value == bucketRules[j].value[0]){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
               BCs[j].push(B[i]);
             }
           }else if(bucketRules[j].type = "nonstring"){
@@ -408,7 +415,8 @@ var ruleNums = 0;
             continue;
           }
           if(bucketRules[j].type == "string"){
-            if(facet.values[0].value == bucketRules[j].value[0]){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
               ABCs[j].push(AB[i]);
             }
           }else if(bucketRules[j].type = "nonstring"){
