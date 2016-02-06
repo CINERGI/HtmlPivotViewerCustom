@@ -370,6 +370,7 @@ var ruleNums = 0;
           if(facet == undefined){
             continue;
           }
+        
           if(bucketRules[j].type == "string"){
             if(facet.values[0].value == bucketRules[j].value[0]){
               ACs[j].push(A[i]);
@@ -427,12 +428,16 @@ var ruleNums = 0;
     function getRuleFilters(){
       ruleFilters = [];
       ruleNums = 0;
+      console.log(_stringFilters);
       for (var i = 0; i < _stringFilters.length; i++) {
           ruleNums++;
           var name = _stringFilters[i].facet;
           var type = "string";
-          var value = _stringFilters[i].value.join(', ');
-          ruleFilters.push({name: name, type: type, value: [value]});
+          var value = [];
+          for(var j = 0; j < _stringFilters[i].value.length; j++){
+            value.push(_stringFilters[i].value[j]);
+          }
+          ruleFilters.push({name: name, type: type, value: value});
       }
       for (var i = 0; i < _numericFilters.length; i++) {
           ruleNums++;
@@ -458,7 +463,9 @@ var ruleNums = 0;
       for (var i = 0; i < PivotCollection.items.length; i++) {
         if(ruleFilters[0].type == "string"){
           var facet = PivotCollection.items[i].getFacetByName(ruleFilters[0].name);
-          if(facet != undefined && ruleFilters[0].value[0] == facet.values[0].value){
+          //console.log(facet.values[0].value);
+          //console.log(ruleFilters[0].value);
+          if(facet != undefined && $.inArray(facet.values[0].value, ruleFilters[0].value)>-1){
             A.push(PivotCollection.items[i]);
           }
         }else if(ruleFilters[0].type = "nonstring"){
@@ -473,7 +480,7 @@ var ruleNums = 0;
         }
         if(ruleFilters[1].type == "string"){
           var facet = PivotCollection.items[i].getFacetByName(ruleFilters[1].name);
-          if(facet != undefined && ruleFilters[1].value[0] == facet.values[0].value){
+          if(facet != undefined && $.inArray(facet.values[0].value, ruleFilters[1].value)>-1){
             B.push(PivotCollection.items[i]);
           }
         }else if(ruleFilters[1].type = "nonstring"){
@@ -498,7 +505,7 @@ var ruleNums = 0;
           continue;
         }
         if(ruleFilters[1].type == "string"){
-          if(facet.values[0].value == ruleFilters[1].value[0]){
+          if($.inArray(facet.values[0].value, ruleFilters[1].value)>-1){
             AB.push(A[i]);
           }
         }else if(ruleFilters[1].type = "nonstring"){

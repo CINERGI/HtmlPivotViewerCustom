@@ -133,6 +133,7 @@ template {
   .modal-dialog {
     display: table;
     width: auto;
+    max-width: 1000px;
     margin: 20px auto;
   }
   .modal-content {
@@ -442,4 +443,11 @@ table th[class*="col-"] {
   .table-responsive > .table-bordered > tfoot > tr:last-child > td {
     border-bottom: 0;
   }
+}
+
+.rules{
+  min-width: 100px;
+  max-width: 100px;
+  white-space:normal;
+  overflow-wrap: break-all;
 }

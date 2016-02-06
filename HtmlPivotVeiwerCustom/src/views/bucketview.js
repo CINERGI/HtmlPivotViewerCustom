@@ -17,53 +17,116 @@ PivotViewer.Utils.loadScript("src/views/definebuckets.js");
 var cIndex;
 
 $(document).on("click", "#pv-rule-info", function(){
+  var totalLength=PivotCollection.items.length;
   $("#ruleModal").modal('toggle');
-  $("#table_header").html("Value to be explained: "+bucketRules[cIndex].name);
+  if(bucketRules[cIndex].value[1]!=undefined){
+    $("#table_header").html("Value to be explained(X): "
+    +bucketRules[cIndex].name+"; Values: "+bucketRules[cIndex].value[0]+" to "
+    +bucketRules[cIndex].value[1]);
+  }else{
+    $("#table_header").html("Value to be explained(X): "
+    +bucketRules[cIndex].name+"; Values: "+bucketRules[cIndex].value[0]);
+  }
+
+  $("#header_info").html("Total items with value X: "+Cs[cIndex].length
+  +" out of "+totalLength+" ("+
+  Math.round(Cs[cIndex].length/totalLength*100)+"%)");
+
+
   var filterOne, filterTwo;
   var valueOne, valueTwo;
   filterOne = ruleFilters[0].name;
+  console.log(ruleFilters);
   if(ruleFilters[0].type == "string"){
-    valueOne = ruleFilters[0].value[0];
+    valueOne = ruleFilters[0].value.join(', ');
   }else{
-    valueOne = "From "+ruleFilters[0].value[0]+" to "+ruleFilters[0].value[1];
+    valueOne = "from "+ruleFilters[0].value[0]+" to "+ruleFilters[0].value[1];
   }
-  $("#filter_one").html(filterOne);
-  $("#value_one").html(valueOne);
-  console.log(ACs[cIndex]);
-  $("#contrb_one").html(ACs[cIndex].length/A.length);
+
+  $("#filter_values").html("A: "+filterOne+": "+valueOne+" ("+A.length
+  +" out of "+totalLength+", or "+Math.round(A.length/totalLength*100)+"%)");
+
 
   if(ruleFilters[1]!=undefined){
     filterTwo = ruleFilters[1].name;
     if(ruleFilters[1].type == "string"){
-      valueTwo = ruleFilters[1].value[0];
+      valueTwo = ruleFilters[1].value.join(", ");
     }else{
-      valueTwo = "From "+ruleFilters[1].value[0]+" to "+ruleFilters[1].value[1];
+      valueTwo = "from "+ruleFilters[1].value[0]+" to "+ruleFilters[1].value[1];
     }
-    $("#filter_two").html(filterTwo);
-    $("#value_two").html(valueTwo);
-    $("#contrb_two").html(BCs[cIndex].length/B.length);
+    $("#filter_values").append("<br>B: "+filterTwo+": "+valueTwo+" ("+B.length
+    +" out of "+totalLength+", or "+Math.round(B.length/totalLength*100)+"%)");
   }
 
   if(ruleFilters[1]!=undefined){
-    $("#accuracy").html(ABCs[cIndex].length/AB.length);
-    $("#numApp").html(AB.length);
-    $("#numConfirm").html(ABCs[cIndex].length);
+    $("#rule_explain").html("Explainatory rule: if A and B then X");
   }else{
-    $("#accuracy").html(ACs[cIndex].length/A.length);
-    $("#numApp").html(A.length);
-    $("#numConfirm").html(ACs[cIndex].length);
+    $("#rule_explain").html("Explainatory rule: if A then X");
   }
 
-  $("#totalAcc").html(Cs[cIndex].length/PivotCollection.items.length);
-  $("#totalApp").html(PivotCollection.items.length);
-  $("#totalConfirm").html(Cs[cIndex].length);
+  $("#explain_values").html('<td id="explain" class="rules" style="white-space:normal;"></td><td id="total_ax" class="rules" style="white-space:normal;">'+
+  '</td><td id="total_a_items" class="rules" style="white-space:normal;"></td><td id="total_acc" class="rules" style="white-space:normal;"></td><td id="total_cpl" class="rules" style="white-space:normal;"></td>');
+  $("#explanation").html('<th class="rules" style="white-space:normal;">Explanation</th>'+
+  '<th id="rule_one" class="rules" style="white-space:normal;"></th><th id="rule_two" class="rules" style="white-space:normal;"></th>'+
+  '<th id="rule_three" class="rules" style="white-space:normal;"></th><th id="rule_four" class="rules" style="white-space:normal;"></th><th id="rule_five" class="rules" style="white-space:normal;"></th>');
+  if(ruleFilters[1]!=undefined){
+    $("#rule_one").html("Total items that have A, B and X");
+    $("#rule_two").html("Total items that have A and B");
+    $("#rule_three").html("Accuracy of explanation,  N(ABX)/N(AB)");
+    $("#rule_four").html("Completeness of explanation, N(ABX)/N(X)");
+    $("#rule_five").html("Contribution of A into accuracy of explanation");
+    $("#explanation").append('<th class="rules" style="white-space:normal;">Contribution of B into accuracy of explanation</th>');
 
+    $("#explain").html("AB->X");
+    $("#total_ax").html(ABCs[cIndex].length);
+    $("#total_a_items").html(AB.length);
+    $("#total_acc").html(ABCs[cIndex].length+" out of "+AB.length+" or "+Math.round(ABCs[cIndex].length/AB.length*100)+"%");
+    $("#total_cpl").html(ABCs[cIndex].length+" out of "+Cs[cIndex].length+" or "+Math.round(ABCs[cIndex].length/Cs[cIndex].length*100)+"%");
 
-  //$("#pv-rule-result").append("<p>"+filterOne+(filterTwo!=undefined?" "+));
-  /*$("#pv-rule-result").html("A: "+A.length+"<br>B: "+B.length+"<br>C: " + Cs[cIndex].length+
-  (ACs[cIndex]!=undefined ? "<br>AC: "+ACs[cIndex].length : "")+
-  (BCs[cIndex]!=undefined ? "<br>BC: "+BCs[cIndex].length : "")+"<br>AB: "+AB.length);
-  */
+    var contrb_A = Math.round(ABCs[cIndex].length/AB.length*100)-Math.round(BCs[cIndex].length/B.length*100);
+    var contrb_B = Math.round(ABCs[cIndex].length/AB.length*100)-Math.round(ACs[cIndex].length/A.length*100);
+    if(contrb_A > 10){
+      $("#explain_values").append("<td class='danger'>"+contrb_A+"%" +"</td>");
+    }else if(contrb_A < -10){
+      $("#explain_values").append("<td class='info'>"+contrb_A+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_A+"%" +"</td>");
+    }
+    if(contrb_B > 10){
+      $("#explain_values").append("<td class='danger rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }else if(contrb_B < -10){
+      $("#explain_values").append("<td class='info rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }
+  }else{
+    $("#rule_one").html("Total items that have A and X");
+    $("#rule_two").html("Total items that have A");
+    $("#rule_three").html("Accuracy of explanation,  N(AX)/N(A)");
+    $("#rule_four").html("Completeness of explanation, N(AX)/N(X)");
+    $("#rule_five").html("Contribution of A into accuracy of explanation");
+    $("#explain").html("A->X");
+    $("#total_ax").html(ACs[cIndex].length);
+    $("#total_a_items").html(A.length);
+    var contrb_A = Math.round(ACs[cIndex].length/A.length*100)-Math.round(Cs[cIndex].length/totalLength*100);
+    $("#total_acc").html(ACs[cIndex].length+" out of "+A.length+" or "+Math.round(ACs[cIndex].length/A.length*100)+"%");
+    $("#total_cpl").html(ACs[cIndex].length+" out of "+Cs[cIndex].length+" or "+Math.round(ACs[cIndex].length/Cs[cIndex].length*100)+"%");
+    if(contrb_A > 10){
+      $("#explain_values").append("<td class='danger'>"+contrb_A+"%" +"</td>");
+    }else if(contrb_A < -10){
+      $("#explain_values").append("<td class='info'>"+contrb_A+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_A+"%" +"</td>");
+    }
+  }
+  $("#accum_explain").html("");
+  if(ruleFilters[1]!=undefined){
+    $("#accum_explain").append("Accuracy of explanatory rule “if A then X” is N(AX)/N(A) = "+
+    Math.round(ACs[cIndex].length/A.length*100)+"% ("+ACs[cIndex].length+" out of "+A.length+")");
+    $("#accum_explain").append("<br>Accuracy of explanatory rule “if B then X” is N(BX)/N(B) = "+
+    Math.round(BCs[cIndex].length/B.length*100)+"% ("+BCs[cIndex].length+" out of "+B.length+")");
+  }
+
 });
 
 function locateBucket(startRange){
@@ -213,13 +276,14 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         '<div class="modal-body" ><code><pre id="pv-rule-result" style="position: relative; \
         ">'+
         '<h3 id="table_header"></h3><div class="table-responsive">'+
-        '<table class="table" border="1"><tr><th rowspan="2" colspan="2"></th><th colspan="6">Explainatory variables</th></tr>'+
-        '<tr><th id="filter_one" colspan="3"></th><th id="filter_two" colspan="3"></th></tr>'+
-        '<tr><th colspan="2">Values</th><td id="value_one" colspan="3"></td><td id="value_two" colspan="3"></td></tr>'+
-        '<tr><th colspan="2">Contribution to accuracy</th><td id="contrb_one" colspan="3"></td><td id="contrb_two" colspan="3"></td></tr>'+
-        '<tr><th colspan="8">Properties of rules</th></tr><tr><th colspan="2"></th><th colspan="2">Accuracy</th><th colspan="2">Num of application</th><th colspan="2">Num of confirmation</th></tr>'+
-        '<tr><th colspan="2">With filters</th><td colspan="2" id="accuracy"></td><td colspan="2" id="numApp"></td><td colspan="2" id="numConfirm"></td></tr>'+
-        '<tr><th colspan="2">Original</th><td colspan="2" id="totalAcc"></td><td colspan="2" id="totalApp"></td><td colspan="2" id="totalConfirm"></td></tr></table></div>'+
+        '<h3 id="table_header"></h3><h3 id="header_info"></h3><div class="table-responsive" ><table class="table" >'+
+        '<tr><th>Values in filter:</th></tr><tr><td id="filter_values"></td></tr>'+
+        '<tr><td id="rule_explain">explainary rule</td></tr></table></div><div class="table-responsive" ><table class="table" ><tr id="explanation"><th class="rules" style="white-space:normal;">Explanation</th>'+
+        '<th id="rule_one" class="rules" style="white-space:normal;"></th><th id="rule_two" class="rules" style="white-space:normal;"></th>'+
+        '<th id="rule_three" class="rules" style="white-space:normal;"></th><th id="rule_four" class="rules" style="white-space:normal;"></th><th id="rule_five" class="rules" style="white-space:normal;"></th></tr>'+
+        '<tr id="explain_values"><td id="explain" class="rules" style="white-space:normal;"></td><td id="total_ax" class="rules" style="white-space:normal;">'+
+        '</td><td id="total_a_items" class="rules" style="white-space:normal;"></td><td id="total_acc" class="rules" style="white-space:normal;"></td><td id="total_cpl" class="rules" style="white-space:normal;"></td>'+
+        '</tr></table></div><div class="table-responsive" ><table class="table" ><tr ><td id="accum_explain"></td></tr></table></div>'+
         '</pre></code></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>');
         $(".pv-viewpanel-view").append("<div class='pv-bucketview-overlay'></div>");
         $('.pv-bucketview-overlay').css('left', this.offsetX + 'px').append(uiElements);

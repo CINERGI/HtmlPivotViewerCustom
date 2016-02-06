@@ -1,0 +1,132 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href="style/bootstrap.css" rel="stylesheet" type="text/css" />  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+
+<table border="1">
+<tr>
+  <th rowspan="2" colspan="2"></th>
+  <th colspan="6">Explainatory variables</th>
+  <th colspan="6">Properties of rules</th>
+</tr>
+<tr>
+  <th id="filter_one" colspan="3"></th>
+  <th id="filter_two" colspan="3"></th>
+  <th colspan="2">Accuracy</th>
+  <th colspan="2">Num of application</th>
+  <th colspan="2">Num of confirmation</th>
+</tr>
+<tr>
+  <td colspan="2">Values</td>
+  <td id="value_one" colspan="3"></td>
+  <td id="value_two" colspan="3"></td>
+  <td colspan="2" rowspan="2" id="accuracy"></td>
+  <td colspan="2" rowspan="2" id="numApp"></td>
+  <td colspan="2" rowspan="2" id="numConfirm"></td>
+</tr>
+<tr>
+  <td colspan="2">Contribution to accuracy</td>
+  <td id="contrb_one" colspan="3"></td>
+  <td id="contrb_two" colspan="3"></td>
+</tr>
+<tr>
+  <td colspan="8">Summary characteristics of the set of rules</td>
+  <th colspan="2" id="totalAcc"></th>
+  <th colspan="2" id="totalApp"></th>
+  <th colspan="2" id="totalConfirm"></th>
+</tr>
+
+
+</table>
+
+
+<table border="1">
+<tr>
+  <th rowspan="2" colspan="2"></th>
+  <th colspan="6">Explainatory variables</th> 
+</tr>
+<tr>
+  <th id="filter_one" colspan="3">filter one</th>
+  <th id="filter_two" colspan="3">fitler two</th>
+</tr>
+<tr>
+  <th colspan="2">Values</th>
+  <td id="value_one" colspan="3"></td>
+  <td id="value_two" colspan="3"></td>
+</tr>
+<tr>
+  <th colspan="2">Contribution to accuracy</th>
+  <td id="contrb_one" colspan="3"></td>
+  <td id="contrb_two" colspan="3"></td>
+</tr>
+<tr>
+  <th colspan="8">Properties of rules</th>
+</tr>
+<tr>
+  <th colspan="2"></th>
+  <th colspan="2">Accuracy</th>
+  <th colspan="2">Num of application</th>
+  <th colspan="2">Num of confirmation</th>
+</tr>
+<tr>
+  <th colspan="2">With filters</th>
+  <td colspan="2" id="accuracy"></td>
+  <td colspan="2" id="numApp"></td>
+  <td colspan="2" id="numConfirm"></td>
+</tr>
+
+<tr>
+  <th colspan="2">Summary</th>
+  <td colspan="2" id="totalAcc"></td>
+  <td colspan="2" id="totalApp"></td>
+  <td colspan="2" id="totalConfirm"></td>
+</tr>
+</table>
+
+
+<div class="table-responsive" >
+  <h3 id="table_header">header</h3>
+  <h3 id="header_info">header info</h3>
+  <table class="table" >
+    <tr >
+      <th rowspan="2"></th>
+      <th>Values in filter:</th> 
+    </tr>
+    <tr>
+      <th id="filter_values">filter values</th>
+    </tr>
+    
+    <tr>
+      <th id="rule_explain">explainary rule</th>
+    </tr>
+    <tr id="explanation">
+      <th class="rules" style="white-space:normal;">Explanation</th>
+      <th class="rules" style="white-space:normal;">Total items that have A and X</th>
+      <th class="rules" style="white-space:normal;">Total items that have A</th>
+      <th class="rules" style="white-space:normal;">Accuracy of explanation,  N(AX)/N(A)</th>
+      <th class="rules" style="white-space:normal;">Completeness of explanation, N(AX)/N(X)</th>
+      <th class="rules" style="white-space:normal;">Contribution of A into accuracy of explanation</th>
+    </tr>
+    <tr id="explain_values">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr id="accum_explain">
+    </tr>
+  </table>
+</div>
+
+'<div class="table-responsive" ><h3 id="table_header"></h3><h3 id="header_info"></h3><table class="table" >'+
+'<tr><th rowspan="2"></th><th>Values in filter:</th></tr><tr><th id="filter_values">filter values</th></tr>'+
+'<tr><th id="rule_explain">explainary rule</th></tr><tr id="explanation"><th class="rules" style="white-space:normal;">Explanation</th>'+
+'<th id="rule_one" class="rules" style="white-space:normal;"></th><th id="rule_two" class="rules" style="white-space:normal;"></th>'+
+'<th id="rule_three" class="rules" style="white-space:normal;"></th><th id="rule_four" class="rules" style="white-space:normal;"></th><th id="rule_five" class="rules" style="white-space:normal;"></th></tr>'+
+'<tr id="explain_values"><td id="explain"></td><td id="total_ax"></td><td id="total_a_items"></td><td id="total_acc"></td><td id="total_cpl"></td>'+
+'<td id="contrb_a"></td></tr><tr id="accum_explain"></tr></table></div>'
+
