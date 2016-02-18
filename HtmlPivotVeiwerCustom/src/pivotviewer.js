@@ -603,10 +603,13 @@ var ruleNums = 0;
                 if (!category.doFilter) continue;
                 if (category.isString()) {
                     var stringFilter = stringFilters[name];
+                    console.log("bugs here");
+                    console.log(_stringFilters);
                     if (stringFilter != undefined) stringFilter.value[value + "a"] = true;
                     else {
                         stringFilter = { facet: name, value: [], index: i };
-                        stringFilter.value[value + "a"] = true;
+                        //stringFilter.value[value + "a"]= true;
+                        stringFilter.value = _stringFilters[name].value;
                         stringFilters.push(stringFilter);
                         stringFilters[name] = stringFilter;
                         selectedFilters[name] = true;
@@ -1095,8 +1098,7 @@ var ruleNums = 0;
                 }
             }
 
-            console.log("filterCategory");
-            console.log(checkList);
+
             if (category.isString()) {
                 var filterList = [];
 
@@ -2245,14 +2247,15 @@ var ruleNums = 0;
             if ($("input[itemfacet|='" + $(checkbox).attr("itemfacet") + "']:checked").length == 0) {
                 enlarge = true;
                 $(checkbox).parent().parent().parent().prev().find('.pv-filterpanel-accordion-heading-clear').trigger("click");
+                clear = true;
                 return;
             }
             else{
                 enlarge = false;
                 clear = false;
             }
-            clear = true;
         }
+
         if (category.isString()) PV.filterCollection({ category: category, enlarge: enlarge, clear: clear, value: value });
         else {
             start = $(checkbox).attr('startdate');
