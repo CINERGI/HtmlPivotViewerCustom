@@ -550,7 +550,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
                 (A[0]!=undefined ? "<br><i>Without filter(s): "+Cs[cIndex].length+" of "+ PivotCollection.items.length+
                 " items (" + Math.round(Cs[cIndex].length / PivotCollection.items.length * 100) + "%)</i> " : "");
             if(A[0]!=undefined){
-              var ratioDiff = Math.round(Cs[cIndex].length / PivotCollection.items.length * 100)-Math.round(bkt.tiles.length / this.filterList.length * 100);
+              var ratioDiff = Math.round(bkt.tiles.length / this.filterList.length * 100)-Math.round(Cs[cIndex].length / PivotCollection.items.length * 100);
               if(ratioDiff > 10){
                 tooltip += '<br><i><font color="red">Contribution of filter(s): '+ratioDiff+'%</font></i>';
               }else if(ratioDiff < -10){

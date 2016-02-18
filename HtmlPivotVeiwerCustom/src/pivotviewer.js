@@ -288,7 +288,7 @@ var ruleNums = 0;
         else number = view;
 
         //keep info panel selected
-        //PV.deselectInfoPanel();
+        PV.deselectInfoPanel();
         $('#pv-viewpanel-view-' + _currentView + '-image').attr('src', _views[_currentView].getButtonImage());
         _views[_currentView].deactivate();
 
@@ -455,6 +455,7 @@ var ruleNums = 0;
           var selectedMin = _numericFilters[i].selectedMin;
           ruleFilters.push({name:name, type: type, value:[selectedMin, selectedMax]});
       }
+      if(_stringFilters[0] != undefined) console.log(_stringFilters[0].value);
       console.log(ruleFilters);
       ruleCount();
     }
@@ -571,7 +572,6 @@ var ruleNums = 0;
 
         PV.deselectInfoPanel();
         _selectedItem = null;
-
         var filterList = [], longStringFiltered = null, stringFilters, datetimeFilters, numericFilters, selectedFilters;
         if (filterChange == undefined) {
             if (_longstringFilters != null) {
@@ -656,6 +656,7 @@ var ruleNums = 0;
             filterList = [];
             stringFilters = _stringFilters; datetimeFilters = _datetimeFilters;
             numericFilters = _numericFilters; selectedFilters = _selectedFilters;
+
             var category = filterChange.category;
             if (!category.doFilter) return;
             if (category.isNumber() || category.isOrdinal()) {
@@ -878,7 +879,7 @@ var ruleNums = 0;
 	    for (var i = 0; i < PivotCollection.categories.length; i++)
 	        PivotCollection.categories[i].recount = true;
 
-        //Filter the facet counts and remove empty facets
+      //Filter the facet counts and remove empty facets
 	    _filterCategory($(".pv-facet").eq($(".pv-filterpanel-accordion").accordion("option", "active")));
 
 	    $("#pv-toolbarpanel-countbox").html(_filterList.length);
@@ -1094,8 +1095,11 @@ var ruleNums = 0;
                 }
             }
 
+            console.log("filterCategory");
+            console.log(checkList);
             if (category.isString()) {
                 var filterList = [];
+
                 var emptyItem = PivotViewer.Utils.escapeMetaChars('pv-facet-value-' + PV.cleanName(category.name) + '__' + PV.cleanName("(no info)"));
                 for (var j = 0; j < checkList.length; j++) {
                     var facet = checkList[j].item.getFacetByName(category.name);
@@ -1646,13 +1650,14 @@ var ruleNums = 0;
               if(i != 0){
                 formulaStr = formulaStr + "+";
               }
-              formulaStr = formulaStr + "V" + iv[i];
+              formulaStr = formulaStr + "V" + (parseInt(iv[i])+1);
           }
           var model = $('#pv-select-model').val();
           if(model == "Select Model"){
             alert("Please select a statistical model");
+          }else{
+            getModel(model, formulaStr);
           }
-          getModel(model, formulaStr);
         });
 
         $("#pv-model-cancel").click(function (e) {
@@ -2220,25 +2225,32 @@ var ruleNums = 0;
         if (filters.length > 1) PV.filterCollection();
     });
 
+
     PV.clickValue = function (checkbox) {
         var category = PivotCollection.getCategoryByName(_nameMapping[$(checkbox).attr('itemfacet')]);
         var value = _nameMapping[$(checkbox).attr('itemvalue')], enlarge, clear;
         if ($(checkbox).prop('checked')) {
             $(checkbox).parent().parent().parent().prev().find('.pv-filterpanel-accordion-heading-clear').css('visibility', 'visible');
             if ($(checkbox).attr('itemvalue') == "CustomRange"){
-                _getCustomDateRange($(checkbox).attr('itemfacet'));
+                PV._getCustomDateRange($(checkbox).attr('itemfacet'));
                 return;
             }
             enlarge = ($("input[itemfacet|='" + $(checkbox).attr("itemfacet") + "']:checked").length > 1);
             clear = false;
         }
         else if (!$(checkbox).prop('checked')) {
-            if ($(checkbox).attr('itemvalue') == "CustomRange") _hideCustomDateRange($(checkbox).attr('itemfacet'));
+            console.log("debug");
+            console.log(_stringFilters);
+            if ($(checkbox).attr('itemvalue') == "CustomRange") PV._hideCustomDateRange($(checkbox).attr('itemfacet'));
             if ($("input[itemfacet|='" + $(checkbox).attr("itemfacet") + "']:checked").length == 0) {
                 enlarge = true;
-                $(checkbox).parent().parent().parent().prev().find('.pv-filterpanel-accordion-heading-clear').css('visibility', 'hidden');
+                $(checkbox).parent().parent().parent().prev().find('.pv-filterpanel-accordion-heading-clear').trigger("click");
+                return;
             }
-            else enlarge = false;
+            else{
+                enlarge = false;
+                clear = false;
+            }
             clear = true;
         }
         if (category.isString()) PV.filterCollection({ category: category, enlarge: enlarge, clear: clear, value: value });

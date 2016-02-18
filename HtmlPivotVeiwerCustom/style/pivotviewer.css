@@ -33,7 +33,7 @@ a { font-weight:normal; }
 .pv-facet-customrange-label { font-size:8pt; margin-top:3px; position:absolute; left:20px; cursor:default; }
 .pv-facet-customrange { width:70px;height:12px;margin:0 3px 3px 0; }
 .pv-filterpanel-accordion-heading-clear { width:11px; position:absolute; top:6px; right:5px; background-image: url('../images/FilterPanelClear.png'); background-position: center center; background-repeat: no-repeat; cursor:pointer; visibility:hidden; }
-.pv-filterpanel-accordion-facet-list { margin: 0 0 0 0; padding: 0 0 0 0; list-style:none; }
+.pv-filterpanel-accordion-facet-list { margin: 0 0 0 0; padding: 0 0 0 0; list-style:none;}
 .pv-filterpanel-accordion-facet-list-item { clear: both; white-space: nowrap; }
 .pv-search-clear { width:11px; float:right; background-image: url('../images/FilterPanelClear.png'); background-position: center center; background-repeat: no-repeat; cursor:pointer; visibility:hidden; }
 .pv-subset-clear { width:56px; margin-top: 3px; padding: 4px 4px 4px 4px; float:right; cursor:pointer; color:#97A8B2; background-image: url('../images/FilterPanelClear.png'); background-position	: right center; background-repeat: no-repeat; visibility:hidden; }
