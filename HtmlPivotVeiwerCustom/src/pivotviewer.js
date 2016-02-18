@@ -23,10 +23,19 @@ var Settings = { showMissing: false, visibleCategories: undefined };
 //set up rule filters
 var A = [];
 var B = [];
+var D = [];
 var AB = [];
+var AD = [];
+var BD = [];
+var ABD = [];
 var Cs = [];
 var ACs = [];
 var BCs = [];
+var ABCs = [];
+var ADCs = [];
+var BDCs = [];
+var ABDCs = [];
+
 var ABCs = [];
 var ruleFilters = [];
 var bucketRules = [];
@@ -369,6 +378,9 @@ var ruleNums = 0;
         ACs[j] = [];
         BCs[j] = [];
         ABCs[j] = [];
+        ADCs[j] = [];
+        BDCs[j] = [];
+        ABDCs[j] = [];
         //AC
         for(var i = 0; i < A.length; i++){
           var facet = A[i].getFacetByName(bucketRules[j].name);
@@ -427,6 +439,62 @@ var ruleNums = 0;
           }
         }
 
+        //ADCs
+        for(var i = 0; i < AD.length; i++){
+          var facet = AD[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ADCs[j].push(AD[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ADCs[j].push(AD[i]);
+            }
+          }
+        }
+
+        //BDCs
+        for(var i = 0; i < BD.length; i++){
+          var facet = BD[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              BDCs[j].push(BD[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              BDCs[j].push(BD[i]);
+            }
+          }
+        }
+
+        //ABDCs
+        for(var i = 0; i < ABD.length; i++){
+          var facet = ABD[i].getFacetByName(bucketRules[j].name);
+          if(facet == undefined){
+            continue;
+          }
+          if(bucketRules[j].type == "string"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ABDCs[j].push(ABD[i]);
+            }
+          }else if(bucketRules[j].type = "nonstring"){
+            if(bucketRules[j].value[0] <= facet.values[0].value
+             && bucketRules[j].value[1] >= facet.values[0].value){
+              ABDCs[j].push(ABD[i]);
+            }
+          }
+        }
       }
       console.log(ACs);
       console.log(BCs);
@@ -461,13 +529,15 @@ var ruleNums = 0;
     }
 
     function ruleCount(){
-      if(ruleNums == 0){
+      if(ruleNums == 0 || ruleNums > 3){
         return;
       }
       A = [];
       B = [];
+      D = [];
       AB = [];
-
+      AD = [];
+      BD = [];
       //Count A filter
       for (var i = 0; i < PivotCollection.items.length; i++) {
         if(ruleFilters[0].type == "string"){
@@ -499,15 +569,27 @@ var ruleNums = 0;
              B.push(PivotCollection.items[i]);
            }
         }
-      }
-      if(ruleNums > 2){
-        return;
+        if(ruleNums == 2){
+          continue;
+        }
+        if(ruleFilters[2].type == "string"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[2].name);
+          if(facet != undefined && $.inArray(facet.values[0].value, ruleFilters[2].value)>-1){
+            D.push(PivotCollection.items[i]);
+          }
+        }else if(ruleFilters[2].type = "nonstring"){
+          var facet = PivotCollection.items[i].getFacetByName(ruleFilters[2].name);
+          if(facet != undefined && ruleFilters[2].value[0] <= facet.values[0].value
+           && ruleFilters[2].value[1] >= facet.values[0].value){
+             D.push(PivotCollection.items[i]);
+           }
+        }
       }
       if(ruleNums == 1){
         getAllTable();
         return;
       }
-      //Count B filter
+      //Count AB filter
       for(var i = 0; i < A.length; i++){
         var facet = A[i].getFacetByName(ruleFilters[1].name);
         if(facet == undefined){
@@ -524,6 +606,64 @@ var ruleNums = 0;
           }
         }
       }
+      if(ruleNums == 2){
+        getAllTable();
+        return;
+      }
+      //Count AD filter
+      for(var i = 0; i < A.length; i++){
+        var facet = A[i].getFacetByName(ruleFilters[2].name);
+        if(facet == undefined){
+          continue;
+        }
+        if(ruleFilters[2].type == "string"){
+          if($.inArray(facet.values[0].value, ruleFilters[2].value)>-1){
+            AD.push(A[i]);
+          }
+        }else if(ruleFilters[2].type = "nonstring"){
+          if(ruleFilters[2].value[0] <= facet.values[0].value
+           && ruleFilters[2].value[1] >= facet.values[0].value){
+            AD.push(A[i]);
+          }
+        }
+      }
+
+      //Count BD filter
+      for(var i = 0; i < B.length; i++){
+        var facet = B[i].getFacetByName(ruleFilters[2].name);
+        if(facet == undefined){
+          continue;
+        }
+        if(ruleFilters[2].type == "string"){
+          if($.inArray(facet.values[0].value, ruleFilters[2].value)>-1){
+            BD.push(B[i]);
+          }
+        }else if(ruleFilters[2].type = "nonstring"){
+          if(ruleFilters[2].value[0] <= facet.values[0].value
+           && ruleFilters[2].value[1] >= facet.values[0].value){
+            BD.push(B[i]);
+          }
+        }
+      }
+
+      //Count ABD filter
+      for(var i = 0; i < BD.length; i++){
+        var facet = BD[i].getFacetByName(ruleFilters[0].name);
+        if(facet == undefined){
+          continue;
+        }
+        if(ruleFilters[0].type == "string"){
+          if($.inArray(facet.values[0].value, ruleFilters[0].value)>-1){
+            ABD.push(A[i]);
+          }
+        }else if(ruleFilters[0].type = "nonstring"){
+          if(ruleFilters[0].value[0] <= facet.values[0].value
+           && ruleFilters[0].value[1] >= facet.values[0].value){
+            ABD.push(A[i]);
+          }
+        }
+      }
+
       getAllTable();
     }
 
@@ -603,8 +743,6 @@ var ruleNums = 0;
                 if (!category.doFilter) continue;
                 if (category.isString()) {
                     var stringFilter = stringFilters[name];
-                    console.log("bugs here");
-                    console.log(_stringFilters);
                     if (stringFilter != undefined) stringFilter.value[value + "a"] = true;
                     else {
                         stringFilter = { facet: name, value: [], index: i };

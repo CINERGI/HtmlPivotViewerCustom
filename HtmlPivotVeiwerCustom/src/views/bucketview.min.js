@@ -16,6 +16,14 @@ PivotViewer.Utils.loadScript("src/views/definebuckets.js");
 
 var cIndex;
 
+$(document).on("click", "#new-page", function(){
+  var resultWindow = window.open();
+  resultWindow.document.write('<link href="style/bootstrap.css" rel="stylesheet" type="text/css" />'+
+  '<title>Rules Table</title><code><pre id="new-rule-result" style="position: relative;">'+
+  $("#pv-rule-result").html() +
+  '</pre></code>');
+});
+
 $(document).on("click", "#pv-rule-info", function(){
   var totalLength=PivotCollection.items.length;
   $("#ruleModal").modal('toggle');
@@ -33,10 +41,9 @@ $(document).on("click", "#pv-rule-info", function(){
   Math.round(Cs[cIndex].length/totalLength*100)+"%)");
 
 
-  var filterOne, filterTwo;
-  var valueOne, valueTwo;
+  var filterOne, filterTwo, filterThree;
+  var valueOne, valueTwo, valueThree;
   filterOne = ruleFilters[0].name;
-  console.log(ruleFilters);
   if(ruleFilters[0].type == "string"){
     valueOne = ruleFilters[0].value.join(', ');
   }else{
@@ -58,7 +65,21 @@ $(document).on("click", "#pv-rule-info", function(){
     +" out of "+totalLength+", or "+Math.round(B.length/totalLength*100)+"%)");
   }
 
-  if(ruleFilters[1]!=undefined){
+  if(ruleFilters[2]!=undefined){
+    filterThree = ruleFilters[2].name;
+    if(ruleFilters[2].type == "string"){
+      valueThree = ruleFilters[2].value.join(", ");
+    }else{
+      valueThree = "from "+ruleFilters[2].value[0]+" to "+ruleFilters[2].value[1];
+    }
+    $("#filter_values").append("<br>C: "+filterThree+": "+valueThree+" ("+D.length
+    +" out of "+totalLength+", or "+Math.round(D.length/totalLength*100)+"%)");
+  }
+
+  if(ruleFilters[2]!=undefined){
+    $("#rule_explain").html("Explainatory rule: if A and B and C then X");
+  }
+  else if(ruleFilters[1]!=undefined){
     $("#rule_explain").html("Explainatory rule: if A and B then X");
   }else{
     $("#rule_explain").html("Explainatory rule: if A then X");
@@ -69,7 +90,45 @@ $(document).on("click", "#pv-rule-info", function(){
   $("#explanation").html('<th class="rules" style="white-space:normal;">Explanation</th>'+
   '<th id="rule_one" class="rules" style="white-space:normal;"></th><th id="rule_two" class="rules" style="white-space:normal;"></th>'+
   '<th id="rule_three" class="rules" style="white-space:normal;"></th><th id="rule_four" class="rules" style="white-space:normal;"></th><th id="rule_five" class="rules" style="white-space:normal;"></th>');
-  if(ruleFilters[1]!=undefined){
+  if(ruleFilters[2]!=undefined){
+    $("#rule_one").html("Total items that have A, B, C and X");
+    $("#rule_two").html("Total items that have A, B and C");
+    $("#rule_three").html("Accuracy of explanation,  N(ABCX)/N(ABC)");
+    $("#rule_four").html("Completeness of explanation, N(ABCX)/N(X)");
+    $("#rule_five").html("Contribution of A into accuracy of explanation");
+    $("#explanation").append('<th class="rules_six" style="white-space:normal;">Contribution of B into accuracy of explanation</th>');
+    $("#explanation").append('<th class="rules_seven" style="white-space:normal;">Contribution of B into accuracy of explanation</th>');
+    $("#explain").html("ABC->X");
+    $("#total_ax").html(ABDCs[cIndex].length);
+    $("#total_a_items").html(ABD.length);
+    $("#total_acc").html(ABDCs[cIndex].length+" out of "+ABD.length+" or "+Math.round(ABDCs[cIndex].length/ABD.length*100)+"%");
+    $("#total_cpl").html(ABDCs[cIndex].length+" out of "+Cs[cIndex].length+" or "+Math.round(ABDCs[cIndex].length/Cs[cIndex].length*100)+"%");
+    var contrb_A = Math.round(ABDCs[cIndex].length/ABD.length*100)-Math.round(BDCs[cIndex].length/BD.length*100);
+    var contrb_B = Math.round(ABDCs[cIndex].length/ABD.length*100)-Math.round(ADCs[cIndex].length/AD.length*100);
+    var contrb_C = Math.round(ABDCs[cIndex].length/ABD.length*100)-Math.round(ABCs[cIndex].length/AB.length*100);
+    if(contrb_A > 10){
+      $("#explain_values").append("<td class='danger'>"+contrb_A+"%" +"</td>");
+    }else if(contrb_A < -10){
+      $("#explain_values").append("<td class='info'>"+contrb_A+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_A+"%" +"</td>");
+    }
+    if(contrb_B > 10){
+      $("#explain_values").append("<td class='danger rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }else if(contrb_B < -10){
+      $("#explain_values").append("<td class='info rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_B+"%" +"</td>");
+    }
+    if(contrb_C > 10){
+      $("#explain_values").append("<td class='danger rules' style='white-space:normal;'>"+contrb_C+"%" +"</td>");
+    }else if(contrb_C < -10){
+      $("#explain_values").append("<td class='info rules' style='white-space:normal;'>"+contrb_C+"%" +"</td>");
+    }else{
+      $("#explain_values").append("<td class='success rules' style='white-space:normal;'>"+contrb_C+"%" +"</td>");
+    }
+  }
+  else if(ruleFilters[1]!=undefined){
     $("#rule_one").html("Total items that have A, B and X");
     $("#rule_two").html("Total items that have A and B");
     $("#rule_three").html("Accuracy of explanation,  N(ABX)/N(AB)");
@@ -120,7 +179,15 @@ $(document).on("click", "#pv-rule-info", function(){
     }
   }
   $("#accum_explain").html("");
-  if(ruleFilters[1]!=undefined){
+  if(ruleFilters[2]!=undefined){
+    $("#accum_explain").append("Accuracy of explanatory rule “if A and B then X” is N(ABX)/N(AB) = "+
+    Math.round(ABCs[cIndex].length/AB.length*100)+"% ("+ABCs[cIndex].length+" out of "+AB.length+")");
+    $("#accum_explain").append("<br>Accuracy of explanatory rule “if B and C then X” is N(BCX)/N(BC) = "+
+    Math.round(BDCs[cIndex].length/BD.length*100)+"% ("+BDCs[cIndex].length+" out of "+BD.length+")");
+    $("#accum_explain").append("<br>Accuracy of explanatory rule “if A and C then X” is N(ACX)/N(AC) = "+
+    Math.round(BDCs[cIndex].length/AD.length*100)+"% ("+ADCs[cIndex].length+" out of "+AD.length+")");
+  }
+  else if(ruleFilters[1]!=undefined){
     $("#accum_explain").append("Accuracy of explanatory rule “if A then X” is N(AX)/N(A) = "+
     Math.round(ACs[cIndex].length/A.length*100)+"% ("+ACs[cIndex].length+" out of "+A.length+")");
     $("#accum_explain").append("<br>Accuracy of explanatory rule “if B then X” is N(BX)/N(B) = "+
@@ -130,8 +197,6 @@ $(document).on("click", "#pv-rule-info", function(){
 });
 
 function locateBucket(startRange){
-  //console.log("test");
-  //console.log(bucketRules);
   for(var i = 0; i < bucketRules.length; i++){
     if(bucketRules[i].value[0] == startRange) return i;
   }
@@ -284,7 +349,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         '<tr id="explain_values"><td id="explain" class="rules" style="white-space:normal;"></td><td id="total_ax" class="rules" style="white-space:normal;">'+
         '</td><td id="total_a_items" class="rules" style="white-space:normal;"></td><td id="total_acc" class="rules" style="white-space:normal;"></td><td id="total_cpl" class="rules" style="white-space:normal;"></td>'+
         '</tr></table></div><div class="table-responsive" ><table class="table" ><tr ><td id="accum_explain"></td></tr></table></div>'+
-        '</pre></code></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>');
+        '</pre></code></div><div class="modal-footer"><button type="button" class="btn btn-default" id="new-page">Open in new window</button><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>');
         $(".pv-viewpanel-view").append("<div class='pv-bucketview-overlay'></div>");
         $('.pv-bucketview-overlay').css('left', this.offsetX + 'px').append(uiElements);
         $('.pv-bucketview-overlay div').fadeIn('slow');
@@ -539,7 +604,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         if (evt.x >= offset.left && evt.x <= (offset.left + box.width()) &&
             evt.y <= offset.top && evt.y >= (offset.top - box.height())) {
             var bkt = this.buckets[bktNum], string = PivotCollection.getCategoryByName(this.sortCategory).type == PivotViewer.Models.FacetType.String;
-            var infoButton = (ruleNums == 1 || ruleNums == 2);
+            var infoButton = (ruleNums == 1 || ruleNums == 2 || ruleNums == 3);
             cIndex = locateBucket(bkt.startRange);
             var tooltip = "<div class='pv-tooltip'>" + this.sortCategory + " Bucket " + (bktNum + 1) + ":<br>"+
                 (bkt.startLabel == bkt.endLabel ? " Value: " +
