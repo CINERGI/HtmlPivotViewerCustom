@@ -259,7 +259,7 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             bkt.addTile(filterList[0]);
             return bkt;
         }
-        var min = filterList[0].item.getFacetByName(sortCategory).values[0].value;
+        var min = filterList[0].item.getFacetByName(sortCategory).values[0].value; // need to be sure to get more than one
         for (var i = filterList.length - 1; i > 0; i--) {
             if (filterList[i].item.getFacetByName(sortCategory) != undefined) break;
         }

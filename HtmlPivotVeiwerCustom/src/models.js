@@ -148,6 +148,9 @@ PivotViewer.Models.Bucket = Object.subClass({
     equals: function (bkt) {
         return bkt != null && this.tiles.length != 0 && this.tiles.length == bkt.tiles.length && this.tiles[0].item.id == bkt.tiles[0].item.id &&
             this.tiles[this.tiles.length - 1].item.id == bkt.tiles[bkt.tiles.length - 1].item.id;
+    },
+    hasValue: function(aValue) {
+        return _.contains(this.values, aValue);
     }
 });
 

@@ -349,24 +349,59 @@ PivotViewer.Utils.getBuckets = function (filterList, category, valueFn, labelFn)
     var bkt = new PivotViewer.Models.Bucket(value1.value, label);
     bkt.addTile(filterList[0]); bkt.addValue(value);
     bkts.push(bkt);
-
+    
     var i = 1, j = 0;
     for (; i < filterList.length; i++) {
         var tile = filterList[i], facet = tile.item.getFacetByName(category);
         if (facet == undefined) break;
         if (tile.missing) continue;
-        var value2 = facet.values[0];
-        if(valueFn(value2) > value) {
-            value1 = value2;
-            var label = labelFn(value2), value = valueFn(value2);
-            bkts[++j] = new PivotViewer.Models.Bucket(value2.value, label);
-            bkts[j].addTile(tile); bkts[j].addValue(value);
+        var flattend = _.flatten(_.pluck(facet.values, 'value'));
+
+        //var value2 = facet.values[0];
+        //if (valueFn(value2) > value) {
+        //    value1 = value2;
+        //    var label = labelFn(value2), value = valueFn(value2);
+        //    bkts[++j] = new PivotViewer.Models.Bucket(value2.value, label);
+        //    bkts[j].addTile(tile); bkts[j].addValue(value);
+        //}
+        //else {
+        //    bkts[j].addTile(tile);
+        //    bkts[j].endRange = value2.value;
+        //}
+        for (v = 0; v < facet.values.length; v++) {
+            var value2 = facet.values[v];
+             label = labelFn(value2), value = valueFn(value2);
+                var namedBucket = bucketByName(bkts, value); 
+                if (!namedBucket)
+                    {
+                    namedBucket = new PivotViewer.Models.Bucket(value2.value, label);
+                        bkts[++j] = namedBucket;
+                    }
+
+                namedBucket.addTile(tile);
+                namedBucket.addValue(value);
+            //if (valueFn(value2) > value) {
+            //    value1 = value2;
+            //    var label = labelFn(value2), value = valueFn(value2);
+            //    var namedBucket = bucketByName(bkts, value); 
+            //    if (!namedBucket)
+            //        {
+            //             bkts[++j] = new PivotViewer.Models.Bucket(value2.value, label);
+            //        }
+               
+            //    //bkts[j].addTile(tile);
+            //    //bkts[j].addValue(value);
+            //    namedBucket.addTile(tile);
+            //    namedBucket.addValue(value);
+
+            //} else {
+            //    //bkts[j].addTile(tile);
+            //    //bkts[j].endRange = value2.value;
+            //    bkts[j].addTile(tile);
+            //    bkts[j].endRange = value2.value;
+            //}
         }
-        else {
-            bkts[j].addTile(tile);
-            bkts[j].endRange = value2.value;
-        }
-    }
+}
 
     //Condense buckets
     if (bkts.length > 10) {
@@ -409,6 +444,15 @@ PivotViewer.Utils.getBuckets = function (filterList, category, valueFn, labelFn)
     return bkts;
 }
 
+function bucketByName(buckets, name) {
+    // optimize with cache later
+    for (var i = 0; i < buckets.length; i++) {
+        if (buckets[i].hasValue(name)) {
+            return buckets[i];
+        } 
+    }
+    return null;
+}
 PivotViewer.Utils.loadScript = function(scriptName) {
     if ($("script[src*='" + scriptName + "']").length == 0) {
         var script = document.createElement("script");

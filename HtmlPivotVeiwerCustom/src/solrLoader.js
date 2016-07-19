@@ -2,7 +2,7 @@
 
     $(function () {
         Manager = new AjaxSolr.Manager({
-            solrUrl: 'http://cinergi.cloudapp.net/solr/collection1/'
+            solrUrl: 'http://cinergi.sdsc.edu/solr/collection1/'
            
         });
         Manager.addWidget(new AjaxSolr.ResultWidget({
