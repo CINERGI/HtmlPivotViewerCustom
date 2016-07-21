@@ -324,7 +324,7 @@ PivotViewer.Utils.fillBuckets = function (bkts, filterList, category, valueFn) {
             var value = facet.values[0];
             if (valueFn(value) >= bkts[j].endRange && j < bkts.length - 1) j++;
             bkts[j].addTile(tile);
-            bkts.ids[tile.item.id] = j;
+            bkts.ids[tile.item.id] = j; //overload. set to true in models
         }
     }
     else {
@@ -336,7 +336,7 @@ PivotViewer.Utils.fillBuckets = function (bkts, filterList, category, valueFn) {
             if (tile.missing) continue;
             var j = bkts.values[valueFn(facet.values[0])];
             bkts[j].addTile(tile);
-            bkts.ids[tile.item.id] = j;
+            bkts.ids[tile.item.id] = j; //overload. set to true in models
         }
     }
 }
@@ -433,11 +433,12 @@ PivotViewer.Utils.getBuckets = function (filterList, category, valueFn, labelFn)
     }
 
     if (i != filterList.length && Settings.showMissing) {
-        var bkt = new PivotViewer.Models.Bucket("(no info)", "(no info");
-        bkts.push(bkt);
+        var bktNo = new PivotViewer.Models.Bucket("(no info)", "(no info");
+        bkts.push(bktNo);
         var b = bkts.length - 1;
         for (; i < filterList.length; i++) {
-            bkt.addTile(filterList[i]);
+            bktNo.addTile(filterList[i]);
+            bktNo.ids[filterList[i].item.id] = true;
             bkts.ids[filterList[i].item.id] = b;
         }
     }

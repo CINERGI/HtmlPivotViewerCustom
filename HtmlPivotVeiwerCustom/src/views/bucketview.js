@@ -255,9 +255,13 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
         }
 
         if (filterList[0].item.getFacetByName(sortCategory) == undefined) {
-            var bkt = new PivotViewer.Models.Bucket("(no info)", "(no info)");
+            var bucketsNo = [];
+            bkt = new PivotViewer.Models.Bucket("(no info)", "(no info)");
             bkt.addTile(filterList[0]);
-            return bkt;
+            bucketsNo.push(bkt);
+            bucketsNo.ids = [];
+            //return bkt;
+            return bucketsNo;
         }
         var min = filterList[0].item.getFacetByName(sortCategory).values[0].value; // need to be sure to get more than one
         for (var i = filterList.length - 1; i > 0; i--) {
@@ -330,9 +334,11 @@ PivotViewer.Views.BucketView = PivotViewer.Views.TileBasedView.subClass({
             }
             if (i != filterList.length && Settings.showMissing) {
                 bkts.push(new PivotViewer.Models.Bucket("(no info)", "(no info)"));
+                bkts.ids = [];
                 var bktNum = bkts.length - 1, bkt = bkts[bktNum];
                 for (; i < filterList.length; i++) {
                     bkt.addTile(filterList[i]);
+                    bkt.ids[filterList[i].item.id] = true;
                     bkts.ids[filterList[i].item.id] = bktNum;
                 }
             }
